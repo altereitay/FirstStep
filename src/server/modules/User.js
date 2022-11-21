@@ -13,6 +13,10 @@ const UserSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    typeOfUser:{
+      type: String,
+      required: true
     }
 })
 
