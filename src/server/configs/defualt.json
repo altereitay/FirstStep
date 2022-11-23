@@ -1,0 +1,4 @@
+{
+  "mongoURL":"mongodb+srv://FirstStep:Nina69420@firststep.geo5ztk.mongodb.net/FirstStepDB?retryWrites=true&w=majority",
+  "JWT_SECRET": "NinushTheQueen"
+}
