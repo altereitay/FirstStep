@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Register from "./components/auth/Register";
+import store from "./store";
+import setAuthToken from "./utils/setAuthToken";
+import { Provider } from "react-redux";
+import { loadUser } from "./actions/auth";
+import Alert from "./components/layout/alert";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+if (localStorage.token) {
+    setAuthToken(localStorage.token);
+}
+
+function App () {
+    useEffect(() => {
+        store.dispatch(loadUser())
+    }, [])
+    return (
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <h1>Hello</h1>
+                    {/*<Alert/>*/}
+                    <Routes>
+                        <Route exact path='/register' element={<Register typeOfUser='admin'/>}/>
+                    </Routes>
+                </div>
+            </Router>
+        </Provider>
+    )
+        ;
 }
 
 export default App;
