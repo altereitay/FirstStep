@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
@@ -30,11 +30,12 @@ const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
         return <Navigate to='/dashboard'/>;
     }
     return (
-        <div>
-            <h1>Sign Up</h1>
-            <p>Create Your Account</p>
-            <form onSubmit={event => onSubmit(event)}>
-                <div>
+        <Fragment>
+            <h1 className="large text-primary">Sign Up</h1>
+            <p className="lead">
+                <i className="fas fa-user"></i> Create Your Account</p>
+            <form className='form' onSubmit={event => onSubmit(event)}>
+                <div className="form-group">
                     <input type='text'
                            placeholder='Enter Email'
                            name='email'
@@ -42,7 +43,7 @@ const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
                            onChange={event => onChange(event)}
                            required/>
                 </div>
-                <div>
+                <div className="form-group">
                     <input type='password'
                            placeholder='Enter Password'
                            name='password'
@@ -50,7 +51,7 @@ const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
                            onChange={event => onChange(event)}
                            required/>
                 </div>
-                <div>
+                <div className="form-group">
                     <input type='password'
                            placeholder='Confirm Password'
                            name='password2'
@@ -58,12 +59,12 @@ const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
                            onChange={event => onChange(event)}
                            required/>
                 </div>
-                <input type='submit' value='Register'/>
+                <input className="btn btn-primary" type='submit' value='Register'/>
             </form>
-            <p>
+            <p className='my-1'>
                 Already have an account? <Link to='/login'>Sign In</Link>
             </p>
-        </div>
+        </Fragment>
     )
 }
 Register.propTypes = {

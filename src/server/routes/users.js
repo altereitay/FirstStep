@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+const auth = require('../middleware/auth')
 const User = require('../modules/User')
 /**
  *@route    POST api/users
@@ -60,6 +60,6 @@ router.post('/', [
 
     });
 
-module.exports = router;
 
-//TODO: delete this
+
+module.exports = router;
