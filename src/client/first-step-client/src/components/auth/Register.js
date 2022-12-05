@@ -1,11 +1,13 @@
 import React, { useState, Fragment } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from 'prop-types';
 
-const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
+const Register = ({setAlert, register, isAuthenticated}) => {
+    const location = useLocation();
+    const typeOfUser = location.state?.typeOfUser
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -70,7 +72,6 @@ const Register = ({setAlert, register, isAuthenticated, typeOfUser}) => {
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
-    typeOfUser: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool
 }
 

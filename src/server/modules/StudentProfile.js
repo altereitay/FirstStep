@@ -47,26 +47,40 @@ const StudentProfile = new mongoose.Schema({
         type: String
     },
     availability: [{
-        day: {
-            type: String,
-            required: true
+        sunday:{
+            type:Boolean ,
+            default: false
         },
-        to: {
-            type: String,
-            required: true
+        monday:{
+            type:Boolean ,
+            default: false
         },
-        from: {
-            type: String,
-            required: true
+        tuesday:{
+            type:Boolean ,
+            default: false
+        },
+        wednesday:{
+            type:Boolean ,
+            default: false
+        },
+        thursday:{
+            type:Boolean ,
+            default: false
+        },
+        friday:{
+            type:Boolean ,
+            default: false
+        },
+        saturday:{
+            type:Boolean ,
+            default: false
         }
     }],
-    isApproved:{
+    isApproved: {
         type: Boolean,
         default: false
     },
-    certificateOfStudying:{
-
-    }
+    certificateOfStudying: {}
 })
 
 

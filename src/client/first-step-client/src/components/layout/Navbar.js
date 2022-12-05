@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Navbar = ({auth: {loading}}) => {
     const guestLinks = (
         <ul>
-            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/register-select">Register</Link></li>
             <li><Link to="/login">Login</Link></li>
         </ul>
     );
@@ -15,7 +15,7 @@ const Navbar = ({auth: {loading}}) => {
         <nav className="navbar bg-dark">
             <h1>
                 <Link to="/">
-                    <i className="fas fa-code"/> FirstStep</Link>
+                    <i className="fas fa-code"/>FirstStep</Link>
             </h1>
             {!loading && (
                 <Fragment>
