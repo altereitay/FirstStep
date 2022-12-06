@@ -213,11 +213,11 @@ const StudentProfile = ({ user, newStudentProfile}) => {
     )
 }
 
-//
-// StudentProfile.propTypes = {
-//     newStudentProfile: PropTypes.func.isRequired,
-//     user: PropTypes.any.isRequired
-// }
+
+StudentProfile.propTypes = {
+    newStudentProfile: PropTypes.func.isRequired,
+    user: PropTypes.string.isRequired
+}
 const mapStateToProps = state =>({
     user: state.auth.user
 })

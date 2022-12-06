@@ -3,7 +3,8 @@ import {PROFILE_ERROR, NEW_STUDENT_PROFILE} from "../actions/types";
 const initialState = {
     profile: null,
     loading: true,
-    error: {}
+    error: {},
+    profiles:null
 }
 
 export default function (state = initialState, action){
