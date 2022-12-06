@@ -1,10 +1,9 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setAlert } from "../../actions/alert";
-import { register } from "../../actions/auth";
+import {newStudentProfile} from "../../actions/profiles";
 
-const StudentProfile = () => {
+const StudentProfile = ({userId, newStudentProfile}) => {
     const [formData, setFormData] = useState({
         name: '',
         dateOfBirth: Date.now(),
@@ -21,7 +20,7 @@ const StudentProfile = () => {
         description: '',
         availability: []
     })
-    const {name, dateOfBirth, city, education: {school, degree, from, to}, skills, description} = formData
+    const {name, dateOfBirth, city, education, skills, description} = formData
     const [availabilityData, setAvailability] = useState({
         'sunday': false,
         'monday': false,
@@ -50,12 +49,14 @@ const StudentProfile = () => {
         }
     }
     const onSubmit = async (event) => {
+        console.log('formData', formData)
         event.preventDefault();
+        newStudentProfile(formData, availabilityData, userId);
     }
 
     return (
         <Fragment>
-            <form className='form'>
+            <form className='form' onSubmit={event=> onSubmit(event)}>
                 <div className='form-group'>
                     <h3 className='large text-primary'>Full Name</h3>
                     <input type='text'
@@ -89,27 +90,27 @@ const StudentProfile = () => {
                            className='my-1'
                            name='school'
                            placeholder='Enter School'
-                           value={school}
+                           value={education.school}
                            onChange={event => onChange(event)}
                            required/>
                     <input type='text'
                            className='my-1'
                            placeholder='Enter Degree'
                            name='degree'
-                           value={degree}
+                           value={education.degree}
                            onChange={event => onChange(event)}
                            required/>
                     <input type='date'
                            className='my-1'
                            name='from'
-                           value={from}
+                           value={education.from}
                            max={Date.now()}
                            onChange={event => onChange(event)}
                            required/>
                     <input type='date'
                            className='my-1'
                            name='to'
-                           value={to}
+                           value={education.to}
                            onChange={event => onChange(event)}
                            required/>
                 </div>
@@ -182,10 +183,30 @@ const StudentProfile = () => {
                         Saturday
                     </label>
                 </div>
+
+                <div className='form-group'>
+                    <h3 className='large text-primary'>Description</h3>
+                    <textarea
+                           placeholder='A Short Description About You'
+                           name='description'
+                           cols='5'
+                           rows='5'
+                           value={description}
+                           onChange={event => onChange(event)}
+                           required/>
+                </div>
+                <input type='submit' className='btn btn-primary my-1'/>
             </form>
 
         </Fragment>
     )
 }
 
-export default (StudentProfile);
+
+StudentProfile.propTypes = {
+    newStudentProfile: PropTypes.func.isRequired
+}
+const mapStateToProps = state =>({
+    userId: state.auth.user._id
+})
+export default connect(mapStateToProps, {newStudentProfile})(StudentProfile);

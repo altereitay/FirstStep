@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 
 const Register = ({setAlert, register, isAuthenticated}) => {
     const location = useLocation();
-    const typeOfUser = location.state?.typeOfUser
+    const typeOfUser = location.state?.typeOfUser || null;
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -26,10 +27,21 @@ const Register = ({setAlert, register, isAuthenticated}) => {
         } else {
             register({email, password, typeOfUser});
         }
+        if (typeOfUser === 'student'){
+            console.log('student signup')
+            return <Navigate to='/student-signup'/>
+        } else if (typeOfUser === 'employer'){
+            return <Navigate to='/employer-signup'/>
+        } else {
+            return <Navigate to='/'/>
+        }
     }
 
-    if (isAuthenticated) {
-        return <Navigate to='/dashboard'/>;
+    // if (isAuthenticated) {
+    //     return <Navigate to='/'/>;
+    // }
+    if (typeOfUser === null) {
+        return <Navigate to='/register-select'/>
     }
     return (
         <Fragment>

@@ -5,3 +5,4 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const NEW_STUDENT_PROFILE = 'NEW_STUDENT_PROFILE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';

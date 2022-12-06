@@ -29,7 +29,7 @@ function App () {
                         <Routes>
                             <Route exact path='/register-select' element={<RegistrationSelector/>}/>
                             <Route exact path='/register' element={<Register/>}/>
-                            <Route exact path='/student' element={<StudentProfile/>}/>
+                            <Route exact path='/student-signup' element={<StudentProfile/>}/>
                         </Routes>
                     </section>
                 </Fragment>
