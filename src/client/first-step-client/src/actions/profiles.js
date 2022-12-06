@@ -2,21 +2,24 @@ import axios from "axios";
 import {setAlert} from "./alert";
 import { NEW_STUDENT_PROFILE, PROFILE_ERROR } from "./types";
 
-export const newStudentProfile = (formData, availabilityData, userId) => async (dispatch) =>{
+export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
     try {
         const config = {
             headers:{
                 'Content-Type': 'application/json'
             }
         }
-        let body = {formData, availability:availabilityData, user: userId};
-        console.log(formData);
+        let body = {...formData};
+        body.education.push(educationData);
+        body.availability = {...availabilityData};
+        body.user = user;
         const res = await axios.post('/api/profiles/student', body, config);
         dispatch({
             type:NEW_STUDENT_PROFILE,
             payload: res.data
         })
         dispatch(setAlert('Profile Created', 'success'));
+        navigate('/')
     }catch (e) {
         const errors = e.response.data.errors;
         if (errors){

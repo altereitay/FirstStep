@@ -2,25 +2,31 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {newStudentProfile} from "../../actions/profiles";
+import {useNavigate} from "react-router-dom";
 
-const StudentProfile = ({userId, newStudentProfile}) => {
+const StudentProfile = ({ user, newStudentProfile}) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
-        dateOfBirth: Date.now(),
+        dateOfBirth: '',
         city: '',
-        education: [{
-            school: '',
-            degree: '',
-            from: Date.now(),
-            to: Date.now(),
-            current: true
-        }],
+        education: [],
         skills: [],
         picture: '',
         description: '',
         availability: []
     })
-    const {name, dateOfBirth, city, education, skills, description} = formData
+    const {name, dateOfBirth, city, skills, description} = formData
+
+    const [educationData, setEducation] = useState({
+        school: '',
+        degree: '',
+        from:'',
+        to: '',
+        current: true
+    })
+    const {school, degree, from, to} = educationData;
+
     const [availabilityData, setAvailability] = useState({
         'sunday': false,
         'monday': false,
@@ -30,11 +36,13 @@ const StudentProfile = ({userId, newStudentProfile}) => {
         'friday': false,
         'saturday': false
     })
-
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
     const onChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
+    }
+    const onChangeEducation = event => {
+        setEducation({...educationData, [event.target.name]: event.target.value});
     }
     const skillsOnChange = e => {
         let skill = e.target.value.split(',');
@@ -49,9 +57,8 @@ const StudentProfile = ({userId, newStudentProfile}) => {
         }
     }
     const onSubmit = async (event) => {
-        console.log('formData', formData)
         event.preventDefault();
-        newStudentProfile(formData, availabilityData, userId);
+        newStudentProfile(formData,educationData ,availabilityData, user?._id, navigate);
     }
 
     return (
@@ -90,29 +97,33 @@ const StudentProfile = ({userId, newStudentProfile}) => {
                            className='my-1'
                            name='school'
                            placeholder='Enter School'
-                           value={education.school}
-                           onChange={event => onChange(event)}
+                           value={school}
+                           onChange={event => onChangeEducation(event)}
                            required/>
+
                     <input type='text'
                            className='my-1'
                            placeholder='Enter Degree'
                            name='degree'
-                           value={education.degree}
-                           onChange={event => onChange(event)}
+                           value={degree}
+                           onChange={event => onChangeEducation(event)}
                            required/>
+
                     <input type='date'
                            className='my-1'
                            name='from'
-                           value={education.from}
+                           value={from}
                            max={Date.now()}
-                           onChange={event => onChange(event)}
+                           onChange={event => onChangeEducation(event)}
                            required/>
+
                     <input type='date'
                            className='my-1'
                            name='to'
-                           value={education.to}
-                           onChange={event => onChange(event)}
+                           value={to}
+                           onChange={event => onChangeEducation(event)}
                            required/>
+
                 </div>
                 <div className="form-group">
                     <h3 className='text-dark'>Skills</h3>
@@ -202,11 +213,12 @@ const StudentProfile = ({userId, newStudentProfile}) => {
     )
 }
 
-
-StudentProfile.propTypes = {
-    newStudentProfile: PropTypes.func.isRequired
-}
+//
+// StudentProfile.propTypes = {
+//     newStudentProfile: PropTypes.func.isRequired,
+//     user: PropTypes.any.isRequired
+// }
 const mapStateToProps = state =>({
-    userId: state.auth.user._id
+    user: state.auth.user
 })
 export default connect(mapStateToProps, {newStudentProfile})(StudentProfile);

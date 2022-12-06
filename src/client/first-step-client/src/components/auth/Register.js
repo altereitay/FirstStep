@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 const Register = ({setAlert, register, isAuthenticated}) => {
     const location = useLocation();
+    const nav = useNavigate();
     const typeOfUser = location.state?.typeOfUser || null;
 
     const [formData, setFormData] = useState({
@@ -29,9 +30,9 @@ const Register = ({setAlert, register, isAuthenticated}) => {
         }
         if (typeOfUser === 'student'){
             console.log('student signup')
-            return <Navigate to='/student-signup'/>
+            nav('/student-signup');
         } else if (typeOfUser === 'employer'){
-            return <Navigate to='/employer-signup'/>
+            nav('/employer-signup');
         } else {
             return <Navigate to='/'/>
         }
