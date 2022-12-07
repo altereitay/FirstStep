@@ -3,6 +3,7 @@ const router = express.Router();
 const {check, validationResult} = require('express-validator')
 const Student = require('../modules/StudentProfile')
 const Employer = require('../modules/EmployerProfile')
+const auth = require('../middleware/auth')
 /**
  *@route    POST api/profiles/student
  *@desc     add a new student profile
@@ -76,5 +77,30 @@ router.post('/student', [
 
     });
 
+/**
+ *@route    GET api/profiles/:id
+ *@desc     get an user student profile
+ *@access   Public
+ */
+
+router.get('/:id',auth, async (req, res)=> {
+    try {
+        let profile=await Student.exists({user:req.params.id})
+        if (!profile) {
+            profile = await Employer.exists({user:req.params.id});
+            const user=await Employer.find({user:req.params.id});
+            return res.json(user);
+            if(!profile)
+            {
+                return res.status(400).json({msg:'user dont have profile'})
+            }
+        }
+        const user=await  Student.find({user:req.params.id});
+        res.json(user);
+    } catch (e) {
+            console.error(e);
+            res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;

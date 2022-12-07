@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from "./types";
+import {REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS} from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -43,4 +43,20 @@ export const loadUser = () => async dispatch => {
             type: AUTH_ERROR
         })
     }
+}
+
+export const login = ({email, password})=>async dispatch =>{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const body = {email,password};
+    const res = await axios.post('/api/auth/login', body, config);
+    dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+    })
+    setAuthToken(res.data);
+
 }
