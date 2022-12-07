@@ -1,5 +1,13 @@
 import axios from "axios";
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from "./types";
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    PROFILE_LOADED,
+    LOGIN_FAIL
+} from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -42,5 +50,34 @@ export const loadUser = () => async dispatch => {
         dispatch({
             type: AUTH_ERROR
         })
+    }
+}
+export const login=(email,password,navigate)=>async dispatch=>
+{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const body=JSON.stringify({email,password});
+    try
+    {
+        const res = await axios.post('/api/auth/login', body, config);
+        console.log(res.data)
+        dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data.token
+        })
+        setAuthToken(res.data.user)
+        const profile = await axios.get(`/api/profiles/${res.data.user}`)
+        dispatch({
+            type: PROFILE_LOADED,
+            payload: profile.data
+        })
+        navigate("/");
+    }
+
+    catch(e) {
+        dispatch({type:LOGIN_FAIL})
     }
 }
