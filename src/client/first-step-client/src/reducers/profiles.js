@@ -4,15 +4,16 @@ const initialState = {
     profile: null,
     loading: true,
     error: {},
-    profiles:null
+    profiles: null
 }
 
-export default function (state = initialState, action){
+export default function (state = initialState, action) {
     const {type, payload} = action;
-    switch (type){
+    switch (type) {
         case NEW_STUDENT_PROFILE:
-        case PROFILE_LOADED:
             return {...state, profile: payload, loading: false};
+        case PROFILE_LOADED:
+            return {...state, profile: payload[0], loading: false};
         case PROFILE_ERROR:
             return {...state, error: payload, loading: false, profile: null}
         default:

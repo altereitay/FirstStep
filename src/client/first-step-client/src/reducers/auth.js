@@ -3,20 +3,22 @@ import {
     REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL,
 } from "../actions/types";
 
-const initialState ={
+const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     user: null
 }
 
-export default function (state = initialState, action){
+export default function (state = initialState, action) {
     const {type, payload} = action;
 
     switch (type) {
         case USER_LOADED:
-        case LOGIN_SUCCESS:
             return {...state, isAuthenticated: true, loading: false, user: payload}
+        case LOGIN_SUCCESS:
+            localStorage.setItem('token', payload);
+            return {...state, isAuthenticated: true, loading: false, token: payload}
         case REGISTER_SUCCESS:
             localStorage.setItem('token', payload.token);
             return {...state, ...payload, isAuthenticated: true, loading: false};

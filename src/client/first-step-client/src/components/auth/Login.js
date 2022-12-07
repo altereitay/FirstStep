@@ -1,10 +1,10 @@
-import React, { useState, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {useState, Fragment} from "react";
+import {useNavigate} from "react-router-dom";
+import {connect} from "react-redux";
 import {login} from "../../actions/auth";
 
-const Login=({login})=> {
-    const nav=useNavigate();
+const Login = ({login}) => {
+    const nav = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -15,7 +15,7 @@ const Login=({login})=> {
     }
     const onSubmit = event => {
         event.preventDefault();
-        login(formData.email,formData.password,nav);
+        login(formData.email, formData.password, nav);
     }
     return (
         <div>
@@ -39,15 +39,12 @@ const Login=({login})=> {
                            onChange={event => onChange(event)}
                            required/>
                 </div>
-                <input className="btn btn-primary" type='submit' />
+                <input className="btn btn-primary" type='submit'/>
             </form>
-
-
         </div>
-
     );
 }
-export default connect(null,{login}) (Login);
+export default connect(null, {login})(Login);
 
 
 
