@@ -1,4 +1,4 @@
-import {PROFILE_ERROR, NEW_STUDENT_PROFILE} from "../actions/types";
+import {PROFILE_ERROR, NEW_STUDENT_PROFILE, NEW_EMPLOYER_PROFILE} from "../actions/types";
 
 const initialState = {
     profile: null,
@@ -10,6 +10,7 @@ const initialState = {
 export default function (state = initialState, action){
     const {type, payload} = action;
     switch (type){
+        case NEW_EMPLOYER_PROFILE:
         case NEW_STUDENT_PROFILE:
             return {...state, profile: payload, loading: false};
         case PROFILE_ERROR:
