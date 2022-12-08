@@ -22,8 +22,7 @@ const Navbar = ({auth: {loading}}) => {
                 <Fragment>
                     {guestLinks}
                 </Fragment>
-            )
-            }
+            )}
         </nav>
     )
 }
