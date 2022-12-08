@@ -10,7 +10,7 @@ import Alert from "./components/layout/Alert";
 import Navbar from "./components/layout/Navbar";
 import RegistrationSelector from "./components/auth/RegistrationSelector";
 import StudentProfile from "./components/profiles/StudentProfile";
-
+import Login from "./components/auth/Login";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -30,6 +30,7 @@ function App () {
                             <Route exact path='/register-select' element={<RegistrationSelector/>}/>
                             <Route exact path='/register' element={<Register/>}/>
                             <Route exact path='/student-signup' element={<StudentProfile/>}/>
+                            <Route exact path='/login' element={<Login/>}/>
                         </Routes>
                     </section>
                 </Fragment>

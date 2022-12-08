@@ -51,7 +51,7 @@ const Register = ({setAlert, register, isAuthenticated}) => {
                 <i className="fas fa-user"></i> Create Your Account</p>
             <form className='form' onSubmit={event => onSubmit(event)}>
                 <div className="form-group">
-                    <input type='text'
+                    <input type='email'
                            placeholder='Enter Email'
                            name='email'
                            value={email}
