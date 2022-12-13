@@ -3,6 +3,12 @@ const router = exprees.Router();
 const auth = require('../middleware/auth');
 const User = require('../modules/User');
 
+/**
+ *@route    GET api/users
+ *@desc     get user by token
+ *@access   Public
+ */
+
 router.get('/', auth, async (req, res)=>{
     try {
         const user = await User.findById(req.user.id).select('-password')
