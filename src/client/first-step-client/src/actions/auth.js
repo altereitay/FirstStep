@@ -11,7 +11,7 @@ import {
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
-export const register = ({email, password, typeOfUser}) => async dispatch => {
+export const register = ({email, password, typeOfUser}, navigate) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -25,6 +25,11 @@ export const register = ({email, password, typeOfUser}) => async dispatch => {
             payload: res.data
         })
         dispatch(loadUser())
+        if (typeOfUser === 'student'){
+            navigate('/student-signup');
+        } else if (typeOfUser === 'employer'){
+            navigate('/employer-signup');
+        }
     } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {

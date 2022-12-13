@@ -6,7 +6,13 @@ const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-router.get('/', auth, async (req, res) => {
+/**
+ *@route    GET api/users
+ *@desc     get user by token
+ *@access   Public
+ */
+
+router.get('/', auth, async (req, res)=>{
     try {
         const user = await User.findById(req.user.id).select('-password')
         res.json(user)

@@ -28,19 +28,8 @@ const Register = ({setAlert, register, isAuthenticated}) => {
         } else {
             register({email, password, typeOfUser});
         }
-        if (typeOfUser === 'student'){
-            console.log('student signup')
-            nav('/student-signup');
-        } else if (typeOfUser === 'employer'){
-            nav('/employer-signup');
-        } else {
-            return <Navigate to='/'/>
-        }
-    }
 
-    // if (isAuthenticated) {
-    //     return <Navigate to='/'/>;
-    // }
+    }
     if (typeOfUser === null) {
         return <Navigate to='/register-select'/>
     }
