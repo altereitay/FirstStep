@@ -204,7 +204,7 @@ const StudentProfile = ({ user, newStudentProfile}) => {
                            rows='5'
                            value={description}
                            onChange={event => onChange(event)}
-                           required/>
+                           />
                 </div>
                 <input type='submit' className='btn btn-primary my-1'/>
             </form>

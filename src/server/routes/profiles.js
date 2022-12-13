@@ -24,7 +24,6 @@ router.post('/student', [
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-        console.log(req.body)
         const {
             user,
             name,
@@ -38,7 +37,7 @@ router.post('/student', [
             certificateOfStudying
         } = req.body;
 
-        const profileFiles = {
+        const profileFields = {
             user,
             name,
             dateOfBirth,
@@ -46,17 +45,18 @@ router.post('/student', [
             education,
             availability
         }
+
         if (skills) {
-            profileFiles.skills = skills;
+            profileFields.skills = skills;
         }
         if (picture) {
-            profileFiles.picture = picture;
+            profileFields.picture = picture;
         }
         if (description) {
-            profileFiles.description = description;
+            profileFields.description = description;
         }
         if (certificateOfStudying) {
-            profileFiles.certificateOfStudying = certificateOfStudying;
+            profileFields.certificateOfStudying = certificateOfStudying;
         }
         try {
             let profile = await Student.exists({user});
@@ -66,7 +66,64 @@ router.post('/student', [
             if (profile) {
                 return res.status(400).json({msg: 'user already have a profile'})
             } else {
-                profile = new Student(profileFiles);
+                profile = new Student(profileFields);
+                await profile.save();
+                res.json(profile);
+            }
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+
+    });
+
+/**
+ *@route    POST api/profiles/employer
+ *@desc     add a new employer profile
+ *@access   Public
+ */
+
+router.post('/employer', [
+        check('user', 'Please include an user id').notEmpty(),
+        check('name', 'Please include profile name').notEmpty(),
+        check('business', 'please include business name').notEmpty(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()})
+        }
+        const {
+            user,
+            name,
+            business,
+            picture,
+            description,
+        } = req.body;
+
+        const profileFields = {
+            user,
+            name,
+            business,
+            picture,
+            description
+        }
+        if (picture) {
+            profileFields.picture = picture;
+        }
+        if (description) {
+            profileFields.description = description;
+        }
+
+        try {
+            let profile = await Employer.exists({user});
+            if (!profile) {
+                profile = await Student.exists({user});
+            }
+            if (profile) {
+                return res.status(400).json({msg:'user already have a profile'})
+            } else {
+                profile = new Employer(profileFields);
                 await profile.save();
                 res.json(profile);
             }
