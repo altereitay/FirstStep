@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import JobDetail from "../jobs/JobDetail";
 
 const Dashboard = ({auth,jobs}) => {
+    console.log(jobs)
     const navigate = useNavigate();
     return (
        <div>
@@ -13,10 +14,12 @@ const Dashboard = ({auth,jobs}) => {
 
         <Fragment>
 
-        {auth.user.typeOfUser==='employer' &&
+        {auth.user?.typeOfUser==='employer' &&
             <Fragment>
-
-                {jobs.jobs.map((job)=><JobDetail key={job.job._id} jobs={job}/>)}
+                {jobs.jobs.map((job)=>{
+                    return <JobDetail key={job._id} job={job}/>
+                }
+                )}
             </Fragment>
      
         }

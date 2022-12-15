@@ -55,7 +55,6 @@ export const loadUser = () => async dispatch => {
         dispatch(loadProfile(res.data._id))
 
         if(res.data.typeOfUser === 'employer'){
-            console.log('auth action employer', res.data._id)
             const profile = await axios.get(`api/profiles/${res.data._id}`)
             dispatch(loadJobs(profile.data._id))
         }

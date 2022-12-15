@@ -1,26 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const JobDetail=({jobs: {job: {jobTitle, description, location}}})=> {
-
+const JobDetail = (job) => {
     return (
         <div>
-            <h3 className='text-dark'>Job name : {jobTitle}</h3>
-
+            <h3 className='text-dark'>Job name : {job.job.jobTitle}</h3>
             <p>
-                <strong>Description: </strong>{description}
+                <strong>Description: </strong>{job.job.description}
             </p>
             <p>
-                <strong>location :  </strong>  {location}
+                <strong>location : </strong> {job.job.location}
             </p>
             <button>edit</button>
             <button>delete</button>
-
         </div>
     )
 }
-    JobDetail.propTypes = {
-        jobs: PropTypes.object.isRequired
-    }
-
-    export default JobDetail;
+export default JobDetail;
