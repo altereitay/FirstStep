@@ -5,11 +5,11 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    PROFILE_LOADED,
     LOGIN_FAIL
 } from "./types";
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
+import {loadProfile} from "./profiles";
 
 export const register = ({email, password, typeOfUser}, navigate) => async dispatch => {
     const config = {
@@ -51,12 +51,14 @@ export const loadUser = () => async dispatch => {
             type: USER_LOADED,
             payload: res.data
         })
+        dispatch(loadProfile(res.data._id))
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
         })
     }
 }
+
 
 export const login = (email, password, navigate) => async dispatch => {
     const config = {
@@ -75,11 +77,7 @@ export const login = (email, password, navigate) => async dispatch => {
             setAuthToken(localStorage.token)
         }
         dispatch(loadUser())
-        const profile = await axios.get(`/api/profiles/${res.data.user}`)
-        dispatch({
-            type: PROFILE_LOADED,
-            payload: profile.data
-        })
+        dispatch(loadProfile(res.data.user))
         navigate("/");
         dispatch(setAlert('Login Success', 'success'));
     } catch (e) {

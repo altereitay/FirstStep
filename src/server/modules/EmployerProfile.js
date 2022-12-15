@@ -11,10 +11,12 @@ const EmployerProfile = new mongoose.Schema({
         required: true
     },
     business: {
-        type: [String],
+        type: String,
         required: true
     },
-    picture: {},
+    picture: {
+        type: String
+    },
     description: {
         type: String
     },
@@ -22,6 +24,7 @@ const EmployerProfile = new mongoose.Schema({
         type: Boolean,
         default: false
     }
+
 })
 
 

@@ -6,7 +6,7 @@ const JobOffer = new mongoose.Schema({
         ref: 'employer',
         required: true
     },
-    name: {
+    jobTitle: {
         type: String,
         required: true
     },
@@ -23,7 +23,7 @@ const JobOffer = new mongoose.Schema({
         required:true
     },
     location:{
-        type:[String],
+        type:String,
         required:true
     },
     requiredSkills:{
@@ -33,6 +33,42 @@ const JobOffer = new mongoose.Schema({
     jobType:{
         type: [String],
         required:true
+    },
+    requiredDays: {
+        sunday:{
+            type:Boolean ,
+            default: false
+        },
+        monday:{
+            type:Boolean ,
+            default: false
+        },
+        tuesday:{
+            type:Boolean ,
+            default: false
+        },
+        wednesday:{
+            type:Boolean ,
+            default: false
+        },
+        thursday:{
+            type:Boolean ,
+            default: false
+        },
+        friday:{
+            type:Boolean ,
+            default: false
+        },
+        saturday:{
+            type:Boolean ,
+            default: false
+        }
+    },
+    appliedStudents:{
+        type:[mongoose.Schema.Types.ObjectId]
+    },
+    picture:{
+        type:String
     }
 })
 
