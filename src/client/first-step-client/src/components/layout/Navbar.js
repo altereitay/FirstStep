@@ -8,7 +8,6 @@ const Navbar = ({auth}) => {
         <ul>
             <li><Link to="/register-select">Register</Link></li>
             <li><Link to="/login">Login</Link></li>
-            
         </ul>
     );
     const indicator = (
