@@ -12,9 +12,11 @@ import RegistrationSelector from "./components/auth/RegistrationSelector";
 import StudentProfile from "./components/profiles/StudentProfile";
 import EmployerProfile from "./components/profiles/EmployerProfile";
 import Login from "./components/auth/Login";
+import UploadJob from "./components/jobs/UploadJob";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
+
 
 function App () {
     useEffect(() => {
@@ -33,6 +35,7 @@ function App () {
                             <Route exact path='/student-signup' element={<StudentProfile/>}/>
                             <Route exact path='/employer-signup' element={<EmployerProfile/>}/>
                             <Route exact path='/login' element={<Login/>}/>
+                            <Route exact path='/upload-job' element={<UploadJob/>}/>
                         </Routes>
                     </section>
                 </Fragment>
