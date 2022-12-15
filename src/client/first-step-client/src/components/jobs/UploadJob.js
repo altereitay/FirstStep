@@ -11,11 +11,12 @@ const UploadJob = ({profile, newJob}) => {
         business: '',
         picture: '',
         description: '',
-        jobPercent: '',
+        percentageOfJob: '',
         location: '',
+        jobType: '',
         requiredSkills: []
     })
-    const {jobTitle, business, jobPercent, location, reqDays, description, requiredSkills} = formData
+    const {jobTitle, business, percentageOfJob, location, jobType, description, requiredSkills} = formData
     const [availabilityData, setAvailability] = useState({
         'sunday': false,
         'monday': false,
@@ -69,20 +70,31 @@ const UploadJob = ({profile, newJob}) => {
                            required/>
                 </div>
                 <div className='form-group'>
-                    <h3 style={{color: '#38a1f3'}}>Description</h3>
+                    <h3 style={{color: '#38a1f3'}}>Job Type</h3>
                     <input type='text'
-                           placeholder='Enter Description'
-                           name='description'
-                           value={description}
+                           placeholder='Enter Job Type'
+                           name='jobType'
+                           value={jobType}
                            onChange={event => onChange(event)}
                            required/>
+                </div>
+                <div className='form-group'>
+                    <h3 style={{color: '#38a1f3'}}>Description</h3>
+                    <textarea
+                        placeholder='A Description About The Job'
+                        name='description'
+                        cols='5'
+                        rows='5'
+                        value={description}
+                        onChange={event => onChange(event)}
+                    />
                 </div>
                 <div className='form-group'>
                     <h3 style={{color: '#38a1f3'}}>Job Percent</h3>
                     <input type='text'
                            placeholder='Enter Job Percent'
-                           name='jobPercent'
-                           value={jobPercent}
+                           name='percentageOfJob'
+                           value={percentageOfJob}
                            onChange={event => onChange(event)}
                            required/>
                 </div>
@@ -167,7 +179,9 @@ const UploadJob = ({profile, newJob}) => {
         </form>
     )
 }
-const mapStateToProps = state => ({
-    profile: state.profiles
-})
+const mapStateToProps = state => {
+    return {
+        profile: state.profiles.profile
+    }
+}
 export default connect(mapStateToProps, {newJob})(UploadJob)

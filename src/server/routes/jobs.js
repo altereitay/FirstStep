@@ -11,7 +11,7 @@ const {check, validationResult} = require("express-validator");
  *@access   Public
  */
 router.post('/', [
-        check('name', 'please include a job name').exists(),
+        check('jobTitle', 'please include a job name').exists(),
         check('business', 'please include a business name').exists(),
         check('description', 'please include a job description').exists(),
         check('percentageOfJob', 'please include a percentage of job').exists(),
@@ -25,7 +25,7 @@ router.post('/', [
             return res.status(400).json({errors: errors.array()})
         }
         const {
-            name: jobTitle,
+            jobTitle,
             business,
             description,
             percentageOfJob,

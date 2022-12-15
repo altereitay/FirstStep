@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
         case NEW_STUDENT_PROFILE:
             return {...state, profile: payload, loading: false};
         case PROFILE_LOADED:
-            return {...state, profile: payload[0], loading: false};
+            return {...state, profile: payload, loading: false};
         case PROFILE_ERROR:
             return {...state, error: payload, loading: false, profile: null}
         default:

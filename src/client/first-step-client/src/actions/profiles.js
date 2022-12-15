@@ -1,6 +1,7 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE } from "./types";
+import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE, PROFILE_LOADED, AUTH_ERROR } from "./types";
+import setAuthToken from "../utils/setAuthToken";
 
 export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
     try {
@@ -56,6 +57,23 @@ export const newEmployerProfile = (formData, user, navigate) => async (dispatch)
         dispatch({
             type: PROFILE_ERROR,
             payload: {msg: e.response.statusText, status: e.response.status}
+        })
+    }
+}
+
+export const loadProfile = (id) => async dispatch => {
+    if (id === ''){
+        return
+    }
+    try {
+        const profile = await axios.get(`/api/profiles/${id}`)
+        dispatch({
+            type: PROFILE_LOADED,
+            payload: profile.data
+        })
+    } catch (err) {
+        dispatch({
+            type: AUTH_ERROR
         })
     }
 }

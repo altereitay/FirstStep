@@ -4,6 +4,7 @@ const {check, validationResult} = require('express-validator')
 const Student = require('../modules/StudentProfile')
 const Employer = require('../modules/EmployerProfile')
 const auth = require('../middleware/auth')
+const mongoose = require('mongoose');
 /**
  *@route    POST api/profiles/student
  *@desc     add a new student profile
@@ -121,7 +122,7 @@ router.post('/employer', [
                 profile = await Student.exists({user});
             }
             if (profile) {
-                return res.status(400).json({msg:'user already have a profile'})
+                return res.status(400).json({msg: 'user already have a profile'})
             } else {
                 profile = new Employer(profileFields);
                 await profile.save();
@@ -140,18 +141,17 @@ router.post('/employer', [
  *///
 router.get('/:id', auth, async (req, res) => {
     try {
-
-        let profile = await Student.exists({user: req.params.id})
+        let profile = await Student.exists({user: mongoose.Types.ObjectId(req.params.id)})
         if (!profile) {
-            profile = await Employer.exists({user: req.params.id});
-            const user = await Employer.find({user: req.params.id});
-
-            return res.json(user);
+            profile = await Employer.find({user:req.params.id});
             if (!profile) {
                 return res.status(400).json({msg: 'user dont have profile'})
             }
+            const user = await Employer.findOne({user: mongoose.Types.ObjectId(req.params.id)});
+            return res.json(user);
+
         }
-        const user = await Student.find({user: req.params.id});
+        const user = await Student.findOne({user: mongoose.Types.ObjectId(req.params.id)});
         res.json(user);
     } catch (e) {
 

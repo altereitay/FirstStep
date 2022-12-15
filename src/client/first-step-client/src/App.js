@@ -6,6 +6,7 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { Provider } from "react-redux";
 import { loadUser } from "./actions/auth";
+import {loadProfile} from "./actions/profiles";
 import Alert from "./components/layout/Alert";
 import Navbar from "./components/layout/Navbar";
 import RegistrationSelector from "./components/auth/RegistrationSelector";

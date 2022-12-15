@@ -19,6 +19,6 @@ export default function (state = initialState, action) {
         case JOB_ERROR:
             return {...state, errors: payload, loading: false}
         default:
-            return state;
+            return {...state, loading: false};
     }
 }
