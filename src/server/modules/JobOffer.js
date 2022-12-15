@@ -6,7 +6,7 @@ const JobOffer = new mongoose.Schema({
         ref: 'employer',
         required: true
     },
-    name: {
+    jobTitle: {
         type: String,
         required: true
     },

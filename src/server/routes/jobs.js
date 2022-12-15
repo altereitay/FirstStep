@@ -25,7 +25,7 @@ router.post('/', [
             return res.status(400).json({errors: errors.array()})
         }
         const {
-            name,
+            name: jobTitle,
             business,
             description,
             percentageOfJob,
@@ -45,7 +45,7 @@ router.post('/', [
             }
             const jobFields = {
                 profile,
-                name,
+                jobTitle,
                 business,
                 description,
                 percentageOfJob,
@@ -61,7 +61,7 @@ router.post('/', [
             }
              const job = new Job(jobFields);
              await job.save();
-             res.json({msg: 'Job Uploaded Successfully'});
+             res.json({job});
         } catch (e) {
             console.error(e.message)
             res.status(500).send('server error')
