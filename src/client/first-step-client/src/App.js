@@ -12,6 +12,8 @@ import RegistrationSelector from "./components/auth/RegistrationSelector";
 import StudentProfile from "./components/profiles/StudentProfile";
 import EmployerProfile from "./components/profiles/EmployerProfile";
 import Login from "./components/auth/Login";
+import Dashboard from "./components/layout/Dashboard";
+import DashboardAdmin from "./components/layout/DashboardAdmin";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -33,6 +35,8 @@ function App () {
                             <Route exact path='/student-signup' element={<StudentProfile/>}/>
                             <Route exact path='/employer-signup' element={<EmployerProfile/>}/>
                             <Route exact path='/login' element={<Login/>}/>
+                            <Route exact path='/dashboard' element={<Dashboard/>}/>
+                            <Route exact path='/dashboardadmin' element={<DashboardAdmin/>}/>
                         </Routes>
                     </section>
                 </Fragment>
