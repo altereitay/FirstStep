@@ -12,5 +12,7 @@ export const LOGIN_FAIL="LOGIN_FAIL";
 export const PROFILE_LOADED="PROFILE_LOADED";
 export const NEW_JOB="NEW_JOB";
 export const JOB_ERROR = 'JOB_ERROR';
+export const LOAD_JOBS = 'LOAD_JOBS';
+
 
 

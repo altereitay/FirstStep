@@ -131,5 +131,27 @@ router.put('/:id', [
         }
     })
 
+/**
+ *@route    GET api/jobs/:id
+ *@desc     add a new job offer
+ *@access   Public
+ */
+router.get('/:id', [auth
+    ],
+    async (req, res) => {
+        try {
+            let employer = await Employer.findById(req.params.id);
+            if (!employer) {
+                return res.status(404).json({
+                    errors: [{msg: 'No employer found'}]
+                })
+            }
+            const jobs = await Job.find({profile:req.params.id});
+            res.json(jobs);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 
 module.exports = router;

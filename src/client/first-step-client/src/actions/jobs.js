@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import {JOB_ERROR, NEW_JOB, NEW_STUDENT_PROFILE, PROFILE_ERROR} from "./types";
+import {AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -26,6 +26,21 @@ export const newJob = (formData, availabilityData, profile, navigate) => async (
         dispatch({
             type: JOB_ERROR,
             payload: {msg: e.response.statusText, status: e.response.status}
+        })
+    }
+}
+
+export const loadJobs = (id) => async dispatch => {
+
+    try {
+        const jobs = await axios.get(`/api/jobs/${id}`)
+        dispatch({
+            type: LOAD_JOBS,
+            payload: jobs.data
+        })
+    } catch (err) {
+        dispatch({
+            type: JOB_ERROR
         })
     }
 }
