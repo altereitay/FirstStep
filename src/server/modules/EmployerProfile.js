@@ -17,6 +17,10 @@ const EmployerProfile = new mongoose.Schema({
     picture: {},
     description: {
         type: String
+    },
+    isApproved: {
+        type: Boolean,
+        default: false
     }
 })
 

@@ -24,7 +24,7 @@ function App () {
         <Provider store={store}>
             <Router>
                 <Fragment>
-                    <Navbar typeOfUser='admin'/>
+                    <Navbar />
                     <section className='container'>
                         <Alert/>
                         <Routes>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const Navbar = ({auth: {loading}}) => {
+const Navbar = ({auth}) => {
     const guestLinks = (
         <ul>
             <li><Link to="/register-select">Register</Link></li>
@@ -11,6 +11,11 @@ const Navbar = ({auth: {loading}}) => {
             
         </ul>
     );
+    const indicator = (
+        <h3 className='text-primary'>
+            {auth.isAuthenticated? `Hello ${auth.user.typeOfUser}`: 'Hello Stranger'}
+        </h3>
+    )
 
     return (
         <nav className="navbar bg-dark">
@@ -18,8 +23,9 @@ const Navbar = ({auth: {loading}}) => {
                 <Link to="/">
                     <i className="fas fa-code"/>FirstStep</Link>
             </h1>
-            {!loading && (
+            {!auth.loading && (
                 <Fragment>
+                    {indicator}
                     {guestLinks}
                 </Fragment>
             )}
