@@ -42,7 +42,9 @@ const StudentProfile = new mongoose.Schema({
     skills: {
         type: [String]
     },
-    picture: {},
+    picture: {
+        type: String
+    },
     description: {
         type: String
     },
@@ -80,7 +82,12 @@ const StudentProfile = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    certificateOfStudying: {}
+    certificateOfStudying: {
+        type: String
+    },
+    resume: {
+        type: String
+    }
 })
 
 

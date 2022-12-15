@@ -23,7 +23,7 @@ const JobOffer = new mongoose.Schema({
         required:true
     },
     location:{
-        type:[String],
+        type:String,
         required:true
     },
     requiredSkills:{
@@ -33,6 +33,12 @@ const JobOffer = new mongoose.Schema({
     jobType:{
         type: [String],
         required:true
+    },
+    appliedStudents:{
+        type:[mongoose.Schema.Types.ObjectId]
+    },
+    picture:{
+        type:String
     }
 })
 
