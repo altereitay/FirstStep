@@ -44,6 +44,21 @@ export const loadJobs = (id) => async dispatch => {
         })
     }
 }
+export const loadJobsAdmin = () => async dispatch => {
+
+    try {
+        const jobs = await axios.get('/api/jobs/');
+        dispatch({
+            type: LOAD_JOBS,
+            payload: jobs.data
+        })
+    } catch (err) {
+        dispatch({
+            type: JOB_ERROR
+        })
+    }
+}
+
 export const updateJob=(formData, availabilityData, id, navigate)=> async dispatch => {
     try {
         const config = {
@@ -60,6 +75,21 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
         dispatch(setAlert('Job Updated Successfully','success'))
         navigate('/dashboard')
     } catch (err) {
+        dispatch({
+            type: JOB_ERROR
+        })
+    }
+}
+
+export const deleteJob = (id, navigate) => async dispatch => {
+
+    try {
+        const jobs = await axios.delete(`/api/jobs/${id}`)
+        dispatch(setAlert(jobs.data.msg, 'success'))
+        dispatch(loadJobsAdmin())
+        navigate('/dashboard')
+    } catch (err) {
+        console.log('error')
         dispatch({
             type: JOB_ERROR
         })

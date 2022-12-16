@@ -1,15 +1,18 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import JobDetail from "../jobs/JobDetail";
-import { loadJobs } from "../../actions/jobs";
+import { loadJobs, loadJobsAdmin, deleteJob } from "../../actions/jobs";
 
-const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
+const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) => {
     const navigate = useNavigate();
     useEffect (()=>{
         if (auth.user?.typeOfUser==='employer'){
             loadJobs(profiles.profile._id)
+        }
+        if (auth.user?.typeOfUser==='admin'){
+            loadJobsAdmin()
         }
     }, [])
     return (
@@ -22,7 +25,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
             <Fragment>
                 <h2 className='text-primary'>My Jobs</h2>
                 {jobs.jobs.map((job)=>{
-                    return <JobDetail key={job._id} job={job}/>
+                    return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
                 }
                 )}
             </Fragment>
@@ -32,6 +35,17 @@ const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
                 {auth.user?.typeOfUser==='student' &&
                     <Fragment>
                   <button onClick={()=>navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
+                    </Fragment>
+                }
+            </Fragment>
+            <Fragment>
+                {auth.user?.typeOfUser==='admin' &&
+                    <Fragment>
+                        <h2 className='text-primary'>My Jobs</h2>
+                        {jobs.jobs?.map((job)=>{
+                                return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
+                            }
+                        )}
                     </Fragment>
                 }
             </Fragment>
@@ -50,4 +64,4 @@ const mapStateToProps = state => ({
     jobs: state.jobs,
     profiles: state.profiles
 });
-export default connect(mapStateToProps, {loadJobs})(Dashboard)
+export default connect(mapStateToProps, {loadJobs, loadJobsAdmin, deleteJob})(Dashboard)
