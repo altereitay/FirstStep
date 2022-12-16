@@ -5,11 +5,12 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL, LOAD_JOBS
 } from "./types";
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 import {loadProfile} from "./profiles";
+import {loadJobs} from "./jobs";
 
 export const register = ({email, password, typeOfUser}, navigate) => async dispatch => {
     const config = {
@@ -52,14 +53,18 @@ export const loadUser = () => async dispatch => {
             payload: res.data
         })
         dispatch(loadProfile(res.data._id))
+
+        if(res.data.typeOfUser === 'employer'){
+            const profile = await axios.get(`api/profiles/${res.data._id}`)
+            dispatch(loadJobs(profile.data._id))
+        }
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
         })
     }
+
 }
-
-
 export const login = (email, password, navigate) => async dispatch => {
     const config = {
         headers: {
