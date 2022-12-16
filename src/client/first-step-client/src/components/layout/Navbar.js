@@ -14,7 +14,6 @@ const Navbar = ({auth}) => {
     const indicator = (
         <h3 className='text-primary'>
             {auth.isAuthenticated? `Hello ${auth.user?.typeOfUser}`: 'Hello Stranger'}
-
         </h3>
     )
     const employerLinks = (

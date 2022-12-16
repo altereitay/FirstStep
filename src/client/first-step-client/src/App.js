@@ -16,6 +16,7 @@ import UploadJob from "./components/jobs/UploadJob";
 import Dashboard from "./components/layout/Dashboard";
 import EditStudentProfile from "./components/profiles/EditStudentProfile";
 import UpdateJob from "./components/jobs/UpdateJob";
+import Home from './components/layout/Home'
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -33,6 +34,7 @@ function App () {
                     <section className='container'>
                         <Alert/>
                         <Routes>
+                            <Route exact path='/' element={<Home/>}/>
                             <Route exact path='/register-select' element={<RegistrationSelector/>}/>
                             <Route exact path='/register' element={<Register/>}/>
                             <Route exact path='/student-signup' element={<StudentProfile/>}/>

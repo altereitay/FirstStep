@@ -20,7 +20,7 @@ export const newStudentProfile = (formData,educationData ,availabilityData, user
             payload: res.data
         })
         dispatch(setAlert('Profile Created', 'success'));
-        navigate('/')
+        navigate('/dashboard')
     }catch (e) {
         const errors = e.response.data.errors;
         if (errors){
@@ -48,7 +48,7 @@ export const newEmployerProfile = (formData, user, navigate) => async (dispatch)
             payload: res.data
         })
         dispatch(setAlert('Profile Created', 'success'));
-        navigate('/')
+        navigate('/dashboard')
     }catch (e) {
         const errors = e.response.data.errors;
         if (errors){
