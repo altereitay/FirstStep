@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import {AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED} from "./types";
+import {AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -41,6 +41,21 @@ export const loadJobs = (id) => async dispatch => {
     } catch (err) {
         dispatch({
             type: JOB_ERROR
+        })
+    }
+}
+export const updateJob=(formData, availabilityData, id, navigate)=> async dispatch => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        let body = {...formData, requiredDays: availabilityData}
+        const res = await axios.put('/api/jobs/${id}', body, config);
+        dispatch({
+            type: UPDATE_JOB,
+            payload: res.data
         })
     }
 }

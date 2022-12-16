@@ -100,12 +100,8 @@ router.put('/:id', [
             requiredDays
         } = req.body;
         try {
-            let employer = await Employer.findOne({_id: profile});
-            if (!employer) {
-                return res.status(404).json({
-                    errors: [{msg: 'No employer found'}]
-                })
-            }
+
+
             const jobFields = {
                 profile,
                 jobTitle,
@@ -122,7 +118,9 @@ router.put('/:id', [
             if (requiredDays) {
                 jobFields.requiredDays = requiredDays;
             }
-            const job = new Job(jobFields);
+            const job = await Job.findOneAndUpdate({_id:req.params.id},jobFields,{new:true})
+            //const job = await Job.findById({profile:req.params.id})
+            console.log(job);
             await job.save();
             res.json({job});
         } catch (e) {

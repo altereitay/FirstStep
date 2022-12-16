@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import JobDetail from "../jobs/JobDetail";
 
 const Dashboard = ({auth,jobs}) => {
-    console.log(jobs)
     const navigate = useNavigate();
     return (
        <div>
@@ -21,7 +20,6 @@ const Dashboard = ({auth,jobs}) => {
                 }
                 )}
             </Fragment>
-     
         }
         </Fragment>
         </div>

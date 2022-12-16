@@ -25,7 +25,7 @@ const Navbar = ({auth}) => {
         </ul>
     );
     const adminLinks = (
-        <li><Link to="/dashboardadmin">Dashboard</Link></li>
+        <li><Link to="/dashboard">Dashboard</Link></li>
     )
     return (
         <nav className="navbar bg-dark">

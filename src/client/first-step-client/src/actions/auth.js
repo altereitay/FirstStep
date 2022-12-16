@@ -64,10 +64,7 @@ export const loadUser = () => async dispatch => {
         })
     }
 
-
 }
-
-
 export const login = (email, password, navigate) => async dispatch => {
     const config = {
         headers: {
