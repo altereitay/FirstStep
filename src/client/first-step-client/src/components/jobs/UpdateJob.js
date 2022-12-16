@@ -1,9 +1,9 @@
 import React, {useState, Fragment} from "react";
 import {useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
-import {newJob} from "../../actions/jobs";
+import {newJob, updateJob} from "../../actions/jobs";
 
-const UpdateJob = (job,idJob) => {
+const UpdateJob = (job,jobId) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         jobTitle: job.jobTitle,
@@ -43,7 +43,7 @@ const UpdateJob = (job,idJob) => {
     }
     const onSubmit = async (event) => {
         event.preventDefault();
-        newJob(formData, availabilityData, profile, navigate);
+        updateJob(formData, availabilityData,jobId, navigate);
     }
 
     return (
@@ -183,4 +183,4 @@ const mapStateToProps = state => {
         profile: state.profiles.profile
     }
 }
-export default connect(mapStateToProps, {newJob})(UpdateJob)
+export default connect(mapStateToProps, {updateJob})(UpdateJob)

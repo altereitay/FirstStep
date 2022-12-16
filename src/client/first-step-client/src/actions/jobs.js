@@ -52,10 +52,16 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
             }
         }
         let body = {...formData, requiredDays: availabilityData}
-        const res = await axios.put('/api/jobs/${id}', body, config);
+        const res = await axios.put(`/api/jobs/${id}`, body, config);
         dispatch({
             type: UPDATE_JOB,
             payload: res.data
+        })
+        dispatch(setAlert('Job Updated Successfully','success'))
+        navigate('/dashboard')
+    } catch (err) {
+        dispatch({
+            type: JOB_ERROR
         })
     }
 }
