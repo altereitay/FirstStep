@@ -118,8 +118,7 @@ router.put('/:id', [
             if (requiredDays) {
                 jobFields.requiredDays = requiredDays;
             }
-            const job = await Job.findOneAndUpdate({_id:req.params.id},jobFields,{new:true})
-            //const job = await Job.findById({profile:req.params.id})
+            const job = await Job.findOneAndUpdate({_id: req.params.id}, jobFields, {new: true})
             console.log(job);
             await job.save();
             res.json({job});
@@ -131,7 +130,7 @@ router.put('/:id', [
 
 /**
  *@route    GET api/jobs/:id
- *@desc     add a new job offer
+ *@desc     get a jobs by employer id
  *@access   Public
  */
 router.get('/:id', [auth
@@ -144,12 +143,46 @@ router.get('/:id', [auth
                     errors: [{msg: 'No employer found'}]
                 })
             }
-            const jobs = await Job.find({profile:req.params.id});
+            const jobs = await Job.find({profile: req.params.id});
             res.json(jobs);
         } catch (e) {
             console.error(e.message)
             res.status(500).send('server error')
         }
     })
+
+/**
+ *@route    DELETE api/jobs/:id
+ *@desc     delete a job offer
+ *@access   Public
+ */
+router.delete('/:id', [auth
+    ],
+    async (req, res) => {
+        try {
+            await Job.findOneAndDelete({_id: req.params.id});
+            res.json({msg: 'Job Deleted Successfully'});
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
+
+/**
+ *@route    GET api/jobs/
+ *@desc     get all jobs
+ *@access   Public
+ */
+router.get('/', [],
+    async (req, res) => {
+        try {
+            const jobs = await Job.find();
+            res.json(jobs);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
+
 
 module.exports = router;

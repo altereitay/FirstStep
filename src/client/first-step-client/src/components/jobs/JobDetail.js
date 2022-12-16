@@ -1,23 +1,23 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const JobDetail = (job) => {
+
+const JobDetail = ({job, deleteJob}) => {
     const navigate = useNavigate()
     return (
         <div>
-            <h3 className='text-dark'>Job name : {job.job.jobTitle}</h3>
+            <h3 className='text-dark'>Job name : {job?.jobTitle}</h3>
             <p>
-                <strong>Description: </strong>{job.job.description}
+                <strong>Description: </strong>{job?.description}
             </p>
             <p>
-                <strong>location : </strong> {job.job.location}
+                <strong>location : </strong> {job?.location}
             </p>
             <button onClick={() => {
-                console.log('job edit', job.job)
-                return navigate(`/jobs/${job.job._id}`)
+                return navigate(`/jobs/${job?._id}`)
             }}>Edit Job
             </button>
-            <button>delete</button>
+            <button onClick={() => deleteJob(job?._id, navigate)}>delete</button>
         </div>
     )
 }

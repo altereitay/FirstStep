@@ -6,7 +6,6 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { Provider } from "react-redux";
 import { loadUser } from "./actions/auth";
-import {loadProfile} from "./actions/profiles";
 import Alert from "./components/layout/Alert";
 import Navbar from "./components/layout/Navbar";
 import RegistrationSelector from "./components/auth/RegistrationSelector";
@@ -15,9 +14,7 @@ import EmployerProfile from "./components/profiles/EmployerProfile";
 import Login from "./components/auth/Login";
 import UploadJob from "./components/jobs/UploadJob";
 import Dashboard from "./components/layout/Dashboard";
-import EditStudentProfile from "./components/profiles/EditStudentProfile"
-import DashboardAdmin from "./components/layout/DashboardAdmin";
-import JobDetail from "./components/jobs/JobDetail";
+import EditStudentProfile from "./components/profiles/EditStudentProfile";
 import UpdateJob from "./components/jobs/UpdateJob";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
