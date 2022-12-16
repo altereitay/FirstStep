@@ -200,7 +200,7 @@ const StudentProfile = ({ user, newStudentProfile}) => {
                     <textarea
                            placeholder='A Short Description About You'
                            name='description'
-                           cols='5'
+                           cols='30'
                            rows='5'
                            value={description}
                            onChange={event => onChange(event)}

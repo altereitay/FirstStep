@@ -1,12 +1,17 @@
 import axios from "axios";
-import {setAlert} from "./alert";
-import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE, PROFILE_LOADED, AUTH_ERROR, UPDATE_STUDENT_PROFILE } from "./types";
-import setAuthToken from "../utils/setAuthToken";
+import { setAlert } from "./alert";
+import {
+    NEW_STUDENT_PROFILE,
+    PROFILE_ERROR,
+    NEW_EMPLOYER_PROFILE,
+    PROFILE_LOADED,
+    UPDATE_STUDENT_PROFILE
+} from "./types";
 
-export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
+export const newStudentProfile = (formData, educationData, availabilityData, user, navigate) => async (dispatch) => {
     try {
         const config = {
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         }
@@ -16,14 +21,14 @@ export const newStudentProfile = (formData,educationData ,availabilityData, user
         body.user = user;
         const res = await axios.post('/api/profiles/student', body, config);
         dispatch({
-            type:NEW_STUDENT_PROFILE,
+            type: NEW_STUDENT_PROFILE,
             payload: res.data
         })
         dispatch(setAlert('Profile Created', 'success'));
         navigate('/dashboard')
-    }catch (e) {
+    } catch (e) {
         const errors = e.response.data.errors;
-        if (errors){
+        if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -33,10 +38,10 @@ export const newStudentProfile = (formData,educationData ,availabilityData, user
     }
 }
 
-export const newEmployerProfile = (formData, user, navigate) => async (dispatch) =>{
+export const newEmployerProfile = (formData, user, navigate) => async (dispatch) => {
     try {
         const config = {
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         }
@@ -44,14 +49,14 @@ export const newEmployerProfile = (formData, user, navigate) => async (dispatch)
         body.user = user;
         const res = await axios.post('/api/profiles/employer', body, config);
         dispatch({
-            type:NEW_EMPLOYER_PROFILE,
+            type: NEW_EMPLOYER_PROFILE,
             payload: res.data
         })
         dispatch(setAlert('Profile Created', 'success'));
         navigate('/dashboard')
-    }catch (e) {
+    } catch (e) {
         const errors = e.response.data.errors;
-        if (errors){
+        if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -62,9 +67,6 @@ export const newEmployerProfile = (formData, user, navigate) => async (dispatch)
 }
 
 export const loadProfile = (id) => async dispatch => {
-    if (id === ''){
-        return
-    }
     try {
         const profile = await axios.get(`/api/profiles/${id}`)
         dispatch({
@@ -73,12 +75,12 @@ export const loadProfile = (id) => async dispatch => {
         })
     } catch (err) {
         dispatch({
-            type: AUTH_ERROR
+            type: PROFILE_ERROR
         })
     }
 }
 
-export const updateStudentProfile = (formData, educationData, availabilityData, profile, navigate)=> async dispatch => {
+export const updateStudentProfile = (formData, educationData, availabilityData, profile, navigate) => async dispatch => {
     try {
         const config = {
             headers: {
@@ -94,7 +96,7 @@ export const updateStudentProfile = (formData, educationData, availabilityData, 
             type: UPDATE_STUDENT_PROFILE,
             payload: res.data
         })
-        dispatch(setAlert('Profile updated successfully','success'))
+        dispatch(setAlert('Profile updated successfully', 'success'))
         navigate('/dashboard')
     } catch (err) {
         console.error('action error', err)

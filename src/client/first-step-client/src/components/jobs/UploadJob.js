@@ -83,7 +83,7 @@ const UploadJob = ({profile, newJob}) => {
                     <textarea
                         placeholder='A Description About The Job'
                         name='description'
-                        cols='5'
+                        cols='30'
                         rows='5'
                         value={description}
                         onChange={event => onChange(event)}

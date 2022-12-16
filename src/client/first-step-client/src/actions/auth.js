@@ -5,7 +5,7 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL, LOAD_JOBS
+    LOGIN_FAIL
 } from "./types";
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -56,6 +56,9 @@ export const loadUser = () => async dispatch => {
 
         if(res.data.typeOfUser === 'employer'){
             const profile = await axios.get(`api/profiles/${res.data._id}`)
+            if (profile.data === null){
+                return;
+            }
             dispatch(loadJobs(profile.data._id))
         }
     } catch (err) {
