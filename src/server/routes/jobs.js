@@ -70,7 +70,7 @@ router.post('/', [
 
 /**
  *@route    PUT api/jobs/:id
- *@desc     add a new job offer
+ *@desc     update a job offer
  *@access   Public
  */
 router.put('/:id', [

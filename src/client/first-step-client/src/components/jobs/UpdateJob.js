@@ -1,9 +1,12 @@
-import React, {useState, Fragment} from "react";
-import {useNavigate} from "react-router-dom";
-import {connect} from "react-redux";
-import {newJob, updateJob} from "../../actions/jobs";
+import React, { useState, Fragment } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateJob } from "../../actions/jobs";
 
-const UpdateJob = (job,jobId) => {
+const UpdateJob = ({jobs, updateJob}) => {
+    const {id} = useParams();
+    let index = jobs.jobs.map(job=>job._id).indexOf(id);
+    let job = jobs.jobs[index];
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         jobTitle: job.jobTitle,
@@ -13,17 +16,17 @@ const UpdateJob = (job,jobId) => {
         percentageOfJob: job.percentageOfJob,
         location: job.location,
         jobType: job.jobType,
-        requiredSkills:job.requiredSkills
+        requiredSkills: job.requiredSkills
     })
     const {jobTitle, business, percentageOfJob, location, jobType, description, requiredSkills} = formData
     const [availabilityData, setAvailability] = useState({
-        'sunday': job.availability.sunday,
-        'monday': job.availability.monday,
-        'tuesday': job.availability.tuesday,
-        'wednesday': job.availability.wednesday,
-        'thursday': job.availability.thursday,
-        'friday': job.availability.friday,
-        'saturday': job.availability.saturday
+        'sunday': job.requiredDays?.sunday || false,
+        'monday': job.requiredDays?.monday || false,
+        'tuesday': job.requiredDays?.tuesday || false,
+        'wednesday': job.requiredDays?.wednesday || false,
+        'thursday': job.requiredDays?.thursday || false,
+        'friday': job.requiredDays?.friday || false,
+        'saturday': job.requiredDays?.saturday
     })
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
@@ -43,13 +46,15 @@ const UpdateJob = (job,jobId) => {
     }
     const onSubmit = async (event) => {
         event.preventDefault();
-        updateJob(formData, availabilityData,jobId, navigate);
+        updateJob(formData, availabilityData, id, navigate);
     }
 
     return (
-        <form onSubmit={e =>{onSubmit(e)}}>
+        <form onSubmit={e => {
+            onSubmit(e)
+        }}>
             <Fragment>
-                <h1 className="large text-primary">Upload Job</h1>
+                <h1 className="large text-primary">Update Job</h1>
                 <div className='form-group'>
                     <h3 style={{color: '#38a1f3'}}>Job Title</h3>
                     <input type='text'
@@ -178,9 +183,8 @@ const UpdateJob = (job,jobId) => {
         </form>
     )
 }
-const mapStateToProps = state => {
-    return {
-        profile: state.profiles.profile
-    }
-}
+
+const mapStateToProps = state =>({
+    jobs: state.jobs
+})
 export default connect(mapStateToProps, {updateJob})(UpdateJob)

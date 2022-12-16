@@ -1,11 +1,15 @@
-import React, {useState, Fragment} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import JobDetail from "../jobs/JobDetail";
+import { loadJobs } from "../../actions/jobs";
 
-const Dashboard = ({auth,jobs}) => {
+const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
     const navigate = useNavigate();
+    useEffect (()=>{
+        loadJobs(profiles.profile._id)
+    }, [])
     return (
        <div>
            <h2 className='text-primary'>My Jobs</h2>
@@ -28,11 +32,13 @@ const Dashboard = ({auth,jobs}) => {
 }
 Dashboard.propTypes = {
     auth: PropTypes.object.isRequired,
-    jobs:PropTypes.object.isRequired
+    jobs:PropTypes.object.isRequired,
+    profiles:PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    jobs: state.jobs
+    jobs: state.jobs,
+    profiles: state.profiles
 });
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps, {loadJobs})(Dashboard)
