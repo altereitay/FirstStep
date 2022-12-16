@@ -78,6 +78,75 @@ router.post('/student', [
 
     });
 
+    /**
+ *@route    PUT api/profiles/student/:id
+ *@desc     edit student profile
+ *@access   Public
+ */
+
+
+router.put('/student/:id', [
+    check('user', 'Please include an user id').notEmpty(),
+    check('name', 'Please include profile name').notEmpty(),
+    check('city', 'please include a city').notEmpty(),
+    check('education', 'please include a education').notEmpty(),
+    check('availability', 'please include a availability').notEmpty()
+],
+async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()})
+    }
+    const {
+        user,
+        name,
+        dateOfBirth,
+        city,
+        education,
+        skills,
+        picture,
+        description,
+        availability,
+        certificateOfStudying
+    } = req.body;
+
+    const profileFields = {
+        user,
+        name,
+        dateOfBirth,
+        city,
+        education,
+        availability
+    }
+
+    if (skills) {
+        profileFields.skills = skills;
+    }
+    if (picture) {
+        profileFields.picture = picture;
+    }
+    if (description) {
+        profileFields.description = description;
+    }
+    if (certificateOfStudying) {
+        profileFields.certificateOfStudying = certificateOfStudying;
+    }
+    try {
+        let profile = await Student.exists({user});
+        if (!profile) {
+            return res.status(400).json({msg: 'profile dosent exist'})
+        } else {
+            profile = await Student.findOneAndUpdate({_id: req.params.id}, profileFields, {new:true});
+            await profile.save();
+            res.json({profile});
+        }
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('server error')
+    }
+
+});
+
 /**
  *@route    POST api/profiles/employer
  *@desc     add a new employer profile

@@ -14,6 +14,7 @@ export const NEW_JOB="NEW_JOB";
 export const JOB_ERROR = 'JOB_ERROR';
 export const LOAD_JOBS = 'LOAD_JOBS';
 export const UPDATE_JOB='UPDATE_JOB';
+export const UPDATE_STUDENT_PROFILE = 'UPDATE_STUDENT_PROFILE';
 
 
 

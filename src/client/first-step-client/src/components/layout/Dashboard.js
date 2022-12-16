@@ -8,17 +8,19 @@ import { loadJobs } from "../../actions/jobs";
 const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
     const navigate = useNavigate();
     useEffect (()=>{
-        loadJobs(profiles.profile._id)
+        if (auth.user?.typeOfUser==='employer'){
+            loadJobs(profiles.profile._id)
+        }
     }, [])
     return (
        <div>
-           <h2 className='text-primary'>My Jobs</h2>
+
         <div className='profile-edu bg-white p-2'>
 
         <Fragment>
-
         {auth.user?.typeOfUser==='employer' &&
             <Fragment>
+                <h2 className='text-primary'>My Jobs</h2>
                 {jobs.jobs.map((job)=>{
                     return <JobDetail key={job._id} job={job}/>
                 }
@@ -26,6 +28,13 @@ const Dashboard = ({auth,jobs, profiles, loadJobs}) => {
             </Fragment>
         }
         </Fragment>
+            <Fragment>
+                {auth.user?.typeOfUser==='student' &&
+                    <Fragment>
+                  <button onClick={()=>navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
+                    </Fragment>
+                }
+            </Fragment>
         </div>
        </div>
     )

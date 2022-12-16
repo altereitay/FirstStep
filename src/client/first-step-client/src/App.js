@@ -15,6 +15,7 @@ import EmployerProfile from "./components/profiles/EmployerProfile";
 import Login from "./components/auth/Login";
 import UploadJob from "./components/jobs/UploadJob";
 import Dashboard from "./components/layout/Dashboard";
+import EditStudentProfile from "./components/profiles/EditStudentProfile"
 import DashboardAdmin from "./components/layout/DashboardAdmin";
 import JobDetail from "./components/jobs/JobDetail";
 import UpdateJob from "./components/jobs/UpdateJob";
@@ -45,6 +46,7 @@ function App () {
                             <Route exact path='/uploadjob' element={<UploadJob/>}/>
                             <Route exact path='/jobs/:id' element={<UpdateJob/>}/>
 
+                            <Route exact path='/student/:id' element={<EditStudentProfile/>}/>
                         </Routes>
                     </section>
                 </Fragment>
