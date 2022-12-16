@@ -27,6 +27,9 @@ const Navbar = ({auth}) => {
     const adminLinks = (
         <li><Link to="/dashboard">Dashboard</Link></li>
     )
+    const studentLinks = (
+        <li><Link to="/dashboard">Dashboard</Link></li>
+    )
     return (
         <nav className="navbar bg-dark">
             <h1>
@@ -37,7 +40,7 @@ const Navbar = ({auth}) => {
                 <Fragment>
                     {indicator}
                     {auth.user?.typeOfUser === 'employer' ? employerLinks :
-                        auth.user?.typeOfUser === 'admin' ? adminLinks : guestLinks}
+                        auth.user?.typeOfUser === 'admin' ? adminLinks : auth.user?.typeOfUser === 'student'?studentLinks:guestLinks}
                 </Fragment>
             )}
         </nav>

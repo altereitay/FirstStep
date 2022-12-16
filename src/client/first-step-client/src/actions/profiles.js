@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE, PROFILE_LOADED, AUTH_ERROR } from "./types";
+import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE, PROFILE_LOADED, AUTH_ERROR, UPDATE_STUDENT_PROFILE } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
@@ -74,6 +74,32 @@ export const loadProfile = (id) => async dispatch => {
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
+        })
+    }
+}
+
+export const updateStudentProfile = (formData, educationData, availabilityData, profile, navigate)=> async dispatch => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        let body = {...formData};
+        body.education[0] = educationData;
+        body.availability = {...availabilityData};
+        body.user = profile.user;
+        const res = await axios.put(`/api/profiles/student/${profile._id}`, body, config);
+        dispatch({
+            type: UPDATE_STUDENT_PROFILE,
+            payload: res.data
+        })
+        dispatch(setAlert('Profile updated successfully','success'))
+        navigate('/dashboard')
+    } catch (err) {
+        console.error('action error', err)
+        dispatch({
+            type: PROFILE_ERROR
         })
     }
 }

@@ -15,6 +15,7 @@ import EmployerProfile from "./components/profiles/EmployerProfile";
 import Login from "./components/auth/Login";
 import UploadJob from "./components/jobs/UploadJob";
 import Dashboard from "./components/layout/Dashboard";
+import EditStudentProfile from "./components/profiles/EditStudentProfile"
 import DashboardAdmin from "./components/layout/DashboardAdmin";
 import JobDetail from "./components/jobs/JobDetail";
 if (localStorage.token) {
@@ -42,6 +43,7 @@ function App () {
                             <Route exact path='/upload-job' element={<UploadJob/>}/>
                             <Route exact path='/dashboard' element={<Dashboard/>}/>
                             <Route exact path='/uploadjob' element={<UploadJob/>}/>
+                            <Route exact path='/student/:id' element={<EditStudentProfile/>}/>
                         </Routes>
                     </section>
                 </Fragment>
