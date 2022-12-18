@@ -14,7 +14,7 @@
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Fira sans', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
@@ -303,13 +303,12 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem 2rem;
+  padding: 1rem 2rem;
   position: fixed;
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
+  background-color: rgb(20, 20, 20);
 }
 
 .navbar ul {
@@ -318,12 +317,16 @@ button {
 
 .navbar a {
   color: #fff;
-  padding: 0.45rem;
-  margin: 0 0.25rem;
+  margin: 0 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.4s;
+  padding: 8px 16px;
+  border-radius: 99px;
 }
 
 .navbar a:hover {
-  color: var(--primary-color);
+  background-color: rgb(29, 122, 203);;
 }
 
 .navbar .welcome span {

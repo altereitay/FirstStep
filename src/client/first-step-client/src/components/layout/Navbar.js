@@ -19,8 +19,8 @@ const Navbar = ({auth}) => {
     const employerLinks = (
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/uploadjob">uploadjob</Link></li>
-            <li><Link>signout</Link></li>
+            <li><Link to="/uploadjob">Create New Job</Link></li>
+            <li><Link>Sign Out</Link></li>
         </ul>
     );
     const adminLinks = (
@@ -37,7 +37,7 @@ const Navbar = ({auth}) => {
             </h1>
             {!auth.loading && (
                 <Fragment>
-                    {indicator}
+                    {/* {indicator} */}
                     {auth.user?.typeOfUser === 'employer' ? employerLinks :
                         auth.user?.typeOfUser === 'admin' ? adminLinks : auth.user?.typeOfUser === 'student'?studentLinks:guestLinks}
                 </Fragment>
