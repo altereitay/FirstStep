@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import './Jobs.css'
+
 
 
 const JobDetail = ({job, deleteJob}) => {
     const navigate = useNavigate()
     return (
-        <div>
-            <h3 className='text-dark'>Job name : {job?.jobTitle}</h3>
+        <div className="job-table">
+            <h1 className='text-dark'>{job?.jobTitle}</h1>
             <p>
                 <strong>Description: </strong>{job?.description}
             </p>

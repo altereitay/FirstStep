@@ -5,18 +5,23 @@ import { Link } from 'react-router-dom';
 
 function HeroSection() {
   return (
+    <div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
     <div className='hero-container'>
-        <video src="videos/homeloop.mp4" autoPlay loop muted/>
-        <h1>GET STARTED</h1>
-        <p>First Steps to Find a New Job</p>
+    
+        <h1>FIRST STEP</h1>
+        <p>Towards Your Career</p>
         <div class Name="hero-btns">
-          
-            <Button className='btns' buttonStyle='btn--outline'
-            buttonSize='btn--large'>
+        <Link to='/register-select'>
+            <Button className='btn' buttonStyle='btn--pramiry'
+            buttonSize='btn--large'  >
                 GET STARTED
             </Button>
+          </Link>
         </div>
-
+    </div>
     </div>
   )
 }

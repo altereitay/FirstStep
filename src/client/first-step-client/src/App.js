@@ -31,7 +31,6 @@ function App () {
             <Router>
                 <Fragment>
                     <Navbar />
-                    <section className='container'>
                         <Alert/>
                         <Routes>
                             <Route exact path='/' element={<Home/>}/>
@@ -44,10 +43,8 @@ function App () {
                             <Route exact path='/dashboard' element={<Dashboard/>}/>
                             <Route exact path='/uploadjob' element={<UploadJob/>}/>
                             <Route exact path='/jobs/:id' element={<UpdateJob/>}/>
-
                             <Route exact path='/student/:id' element={<EditStudentProfile/>}/>
                         </Routes>
-                    </section>
                 </Fragment>
             </Router>
         </Provider>
