@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
  *@access   Public
  */
 
+
 router.post('/student', [
         check('user', 'Please include an user id').notEmpty(),
         check('name', 'Please include profile name').notEmpty(),
@@ -151,6 +152,7 @@ async (req, res) => {
  *@desc     add a new employer profile
  *@access   Public
  */
+
 router.post('/employer', [
         check('user', 'Please include an user id').notEmpty(),
         check('name', 'Please include profile name').notEmpty(),
@@ -201,13 +203,14 @@ router.post('/employer', [
         }
 
     });
-/**
+
+     /**
  *@route    PUT api/profiles/employer/:id
  *@desc     edit employer profile
  *@access   Public
  */
 
-router.put('/employer/:id', [
+ router.put('/employer/:id', [
         check('user', 'Please include an user id').notEmpty(),
         check('name', 'Please include profile name').notEmpty(),
         check('business', 'please include business name').notEmpty(),
@@ -240,20 +243,21 @@ router.put('/employer/:id', [
         }
 
         try {
-            let profile = await Employer.exists({user});
-            if (!profile) {
-                return res.status(400).json({msg: 'profile dosent exist'})
-            } else {
-                profile = await Employer.findOneAndUpdate({_id: req.params.id}, profileFields, {new:true});
-                await profile.save();
-                res.json({profile});
-            }
-        } catch (e) {
-            console.error(e.message)
-            res.status(500).send('server error')
+        let profile = await Employer.exists({user});
+        if (!profile) {
+            return res.status(400).json({msg: 'profile dosent exist'})
+        } else {
+            profile = await Employer.findOneAndUpdate({_id: req.params.id}, profileFields, {new:true});
+            await profile.save();
+            res.json({profile});
         }
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('server error')
+    }
 
     });
+
 /**
  *@route    GET api/profile/:id
  *@desc     get user profile
@@ -280,5 +284,5 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
-
+  
 module.exports = router;

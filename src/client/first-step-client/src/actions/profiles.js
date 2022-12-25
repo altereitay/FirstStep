@@ -112,7 +112,6 @@ export const updateEmployerProfile = (formData, profile, navigate) => async disp
             }
         }
         let body = {...formData};
-        console.log(body)
         body.user = profile.user;
         const res = await axios.put(`/api/profiles/employer/${profile._id}`, body, config);
         dispatch({
