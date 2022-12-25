@@ -50,11 +50,7 @@ const StudentProfile = ({ user, newStudentProfile}) => {
     }
 
     const availabilityOnChange = e => {
-        if (e.target.value === 'false') {
-            setAvailability({...availabilityData, [e.target.name] : true});
-        }else {
-            setAvailability({...availabilityData, [e.target.name] : false});
-        }
+        setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
 
     const onSubmit = async (event) => {
