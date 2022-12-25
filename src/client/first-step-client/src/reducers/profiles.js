@@ -1,4 +1,11 @@
-import {PROFILE_ERROR, NEW_STUDENT_PROFILE, PROFILE_LOADED, NEW_EMPLOYER_PROFILE, UPDATE_STUDENT_PROFILE} from "../actions/types";
+import {
+    PROFILE_ERROR,
+    NEW_STUDENT_PROFILE,
+    PROFILE_LOADED,
+    NEW_EMPLOYER_PROFILE,
+    UPDATE_STUDENT_PROFILE,
+    UPDATE_EMPLOYER_PROFILE
+} from "../actions/types";
 
 const initialState = {
     profile: null,
@@ -13,6 +20,7 @@ export default function (state = initialState, action) {
         case NEW_EMPLOYER_PROFILE:
         case NEW_STUDENT_PROFILE:
             return {...state, profile: payload, loading: false};
+        case UPDATE_EMPLOYER_PROFILE:
         case UPDATE_STUDENT_PROFILE:
             return {...state, profile: payload.profile, loading: false};
         case PROFILE_LOADED:
