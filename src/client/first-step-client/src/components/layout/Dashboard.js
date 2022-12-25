@@ -23,6 +23,9 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
         <Fragment>
         {auth.user?.typeOfUser==='employer' &&
             <Fragment>
+                <div> 
+                <button onClick={()=>navigate(`/employer/${profiles.profile._id}`)}>Edit Profile</button>
+                </div>
                 <h2 className='text-primary'>My Jobs</h2>
                 {jobs.jobs.map((job)=>{
                     return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
