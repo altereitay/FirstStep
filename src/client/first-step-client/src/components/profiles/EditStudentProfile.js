@@ -16,7 +16,8 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
         picture: student?.picture || '',
         description: student?.description || ''
     })
-    const {name, dateOfBirth, city, skills, description} = formData
+    const showDate=student.dateOfBirth.split('T')[0];
+    const {name, city, skills, description} = formData
     const [educationData, setEducation] = useState({
         school: student?.education[0].school || '',
         degree: student?.education[0].degree || '',
@@ -24,18 +25,20 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
         to: student?.education[0].to || '',
         current: student?.education.current || true
     })
-    const {school, degree, from, to} = educationData;
+    const fromDateToShow = educationData.from.split('T')[0];
+    const toDateToShow = educationData.to.split('T')[0];
+    const {school, degree} = educationData;
     const [availabilityData, setAvailability] = useState({
-        'sunday': student?.availability.sunday || false,
-        'monday': student?.availability.monday || false,
-        'tuesday': student?.availability.tuesday || false,
-        'wednesday': student?.availability.wednesday || false,
-        'thursday': student?.availability.thursday || false,
-        'friday': student?.availability.friday || false,
-        'saturday': student?.availability.saturday || false
+        sunday: student.availability[0].sunday ,
+        monday: student.availability[0].monday ,
+        tuesday: student.availability[0].tuesday ,
+        wednesday: student.availability[0].wednesday ,
+        thursday: student.availability[0].thursday ,
+        friday: student.availability[0].friday ,
+        saturday: student.availability[0].saturday
     })
-    const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
+    const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
     const onChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
     }
@@ -47,11 +50,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
         setFormData({...formData, skills: skill});
     }
     const availabilityOnChange = e => {
-        if (e.target.value === 'false') {
-            setAvailability({...availabilityData, [e.target.name]: true});
-        }else {
-            setAvailability({...availabilityData, [e.target.name]: false});
-        }
+            setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -75,7 +74,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <h3 className='large text-primary'>Date of Birth</h3>
                     <input type='date'
                            name='dateOfBirth'
-                           value={dateOfBirth}
+                           value={showDate}
                            max={Date.now()}
                            onChange={event => onChange(event)}
                            required/>
@@ -110,7 +109,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <input type='date'
                            className='my-1'
                            name='from'
-                           value={from}
+                           value={fromDateToShow}
                            max={Date.now()}
                            onChange={event => onChangeEducation(event)}
                            required/>
@@ -118,7 +117,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <input type='date'
                            className='my-1'
                            name='to'
-                           value={to}
+                           value={toDateToShow}
                            onChange={event => onChangeEducation(event)}
                            required/>
 
@@ -137,6 +136,8 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <h3 className='text-dark'>Availability</h3>
                     <label className='my-1'>
                         <input type="checkbox"
+                               id="sunday.box"
+                               checked={sunday}
                                name="sunday"
                                className='my-1'
                                value={sunday}
@@ -147,6 +148,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                         <input type="checkbox"
                                name="monday"
                                className='my-1'
+                               checked={monday}
                                value={monday}
                                onChange={(e) => availabilityOnChange(e)}/>
                         Monday
@@ -154,6 +156,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="tuesday"
+                               checked={tuesday}
                                className='my-1'
                                value={tuesday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -162,6 +165,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="wednesday"
+                               checked={wednesday}
                                className='my-1'
                                value={wednesday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -170,6 +174,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="thursday"
+                               checked={thursday}
                                className='my-1'
                                value={thursday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -178,6 +183,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="friday"
+                               checked={friday}
                                className='my-1'
                                value={friday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -186,6 +192,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="saturday"
+                               checked={saturday}
                                className='my-1'
                                value={saturday}
                                onChange={(e) => availabilityOnChange(e)}/>

@@ -28,13 +28,13 @@ const StudentProfile = ({ user, newStudentProfile}) => {
     const {school, degree, from, to} = educationData;
 
     const [availabilityData, setAvailability] = useState({
-        'sunday': false,
-        'monday': false,
-        'tuesday': false,
-        'wednesday': false,
-        'thursday': false,
-        'friday': false,
-        'saturday': false
+        sunday: false,
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false
     })
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
@@ -50,17 +50,13 @@ const StudentProfile = ({ user, newStudentProfile}) => {
     }
 
     const availabilityOnChange = e => {
-        if (e.target.value === 'false') {
-            setAvailability({...availabilityData, [e.target.name]: true});
-        }else {
-            setAvailability({...availabilityData, [e.target.name]: false});
-        }
+        setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
+
     const onSubmit = async (event) => {
         event.preventDefault();
         newStudentProfile(formData,educationData ,availabilityData, user?._id, navigate);
     }
-
     return (
         <Fragment>
             <form className='form' onSubmit={event=> onSubmit(event)}>

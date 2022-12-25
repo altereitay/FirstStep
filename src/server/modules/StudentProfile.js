@@ -54,7 +54,7 @@ const StudentProfile = new mongoose.Schema({
             default: false
         },
         monday:{
-            type:Boolean ,
+            type:Boolean,
             default: false
         },
         tuesday:{
@@ -74,7 +74,7 @@ const StudentProfile = new mongoose.Schema({
             default: false
         },
         saturday:{
-            type:Boolean ,
+            type:Boolean,
             default: false
         }
     }],
