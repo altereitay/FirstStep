@@ -17,7 +17,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
         description: student?.description || ''
     })
     const showDate=student.dateOfBirth.split('T')[0];
-    const {name, dateOfBirth, city, skills, description} = formData
+    const {name, city, skills, description} = formData
     const [educationData, setEducation] = useState({
         school: student?.education[0].school || '',
         degree: student?.education[0].degree || '',
@@ -27,7 +27,7 @@ const EditStudentProfile = ({profile,updateStudentProfile}) => {
     })
     const fromDateToShow = educationData.from.split('T')[0];
     const toDateToShow = educationData.to.split('T')[0];
-    const {school, degree, from, to} = educationData;
+    const {school, degree} = educationData;
     const [availabilityData, setAvailability] = useState({
         sunday: student?.availability.sunday || false,
         monday: student?.availability.monday || false,
