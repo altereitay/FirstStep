@@ -20,13 +20,13 @@ const UpdateJob = ({jobs, updateJob}) => {
     })
     const {jobTitle, business, percentageOfJob, location, jobType, description, requiredSkills} = formData
     const [availabilityData, setAvailability] = useState({
-        'sunday': job.requiredDays?.sunday || false,
-        'monday': job.requiredDays?.monday || false,
-        'tuesday': job.requiredDays?.tuesday || false,
-        'wednesday': job.requiredDays?.wednesday || false,
-        'thursday': job.requiredDays?.thursday || false,
-        'friday': job.requiredDays?.friday || false,
-        'saturday': job.requiredDays?.saturday
+        sunday: job.requiredDays.sunday,
+        monday: job.requiredDays.monday,
+        tuesday: job.requiredDays.tuesday,
+        wednesday: job.requiredDays.wednesday,
+        thursday: job.requiredDays.thursday,
+        friday: job.requiredDays.friday,
+        saturday: job.requiredDays.saturday
     })
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
@@ -38,11 +38,7 @@ const UpdateJob = ({jobs, updateJob}) => {
         setFormData({...formData, requiredSkills: reqSkill});
     }
     const availabilityOnChange = e => {
-        if (e.target.value === 'false') {
-            setAvailability({...availabilityData, [e.target.name]: true});
-        } else {
-            setAvailability({...availabilityData, [e.target.name]: false});
-        }
+        setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -123,7 +119,8 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <h3 style={{color: '#38a1f3'}}>Required Days</h3>
                     <label className='my-1'>
                         <input type="checkbox"
-                               name="sunday "
+                               name="sunday"
+                               checked={sunday}
                                className='my-1'
                                value={sunday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -132,6 +129,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="monday"
+                               checked={monday}
                                className='my-1'
                                value={monday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -140,6 +138,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="tuesday"
+                               checked={tuesday}
                                className='my-1'
                                value={tuesday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -148,6 +147,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="wednesday"
+                               checked={wednesday}
                                className='my-1'
                                value={wednesday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -156,6 +156,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="thursday"
+                               checked={thursday}
                                className='my-1'
                                value={thursday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -164,6 +165,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="friday"
+                               checked={friday}
                                className='my-1'
                                value={friday}
                                onChange={(e) => availabilityOnChange(e)}/>
@@ -172,6 +174,7 @@ const UpdateJob = ({jobs, updateJob}) => {
                     <label className='my-1'>
                         <input type="checkbox"
                                name="saturday"
+                               checked={saturday}
                                className='my-1'
                                value={saturday}
                                onChange={(e) => availabilityOnChange(e)}/>
