@@ -6,7 +6,7 @@ describe('POST /api/users', ()=>{
     describe('given email, password and type of user', ()=>{
         test('should return a response of 200 ',async ()=>{
             const response = await request(server).post('/api/users').send({
-                email:'test@example.com',
+                email:'test1@example.com',
                 password:'123456',
                 typeOfUser:'student'
             })
@@ -15,7 +15,7 @@ describe('POST /api/users', ()=>{
 
         test('should return a response of json ',async ()=> {
             const response = await request(server).post('/api/users').send({
-                email: 'test@example.com',
+                email: 'test1@example.com',
                 password: '123456',
                 typeOfUser: 'student'
             })
