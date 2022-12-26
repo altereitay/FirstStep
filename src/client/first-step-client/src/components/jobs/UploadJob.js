@@ -18,13 +18,13 @@ const UploadJob = ({profile, newJob}) => {
     })
     const {jobTitle, business, percentageOfJob, location, jobType, description, requiredSkills} = formData
     const [availabilityData, setAvailability] = useState({
-        'sunday': false,
-        'monday': false,
-        'tuesday': false,
-        'wednesday': false,
-        'thursday': false,
-        'friday': false,
-        'saturday': false
+        sunday: false,
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false
     })
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
@@ -36,11 +36,7 @@ const UploadJob = ({profile, newJob}) => {
         setFormData({...formData, requiredSkills: reqSkill});
     }
     const availabilityOnChange = e => {
-        if (e.target.value === 'false') {
-            setAvailability({...availabilityData, [e.target.name]: true});
-        } else {
-            setAvailability({...availabilityData, [e.target.name]: false});
-        }
+        setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -119,7 +115,7 @@ const UploadJob = ({profile, newJob}) => {
                     <h3 style={{color: '#38a1f3'}}>Required Days</h3>
                     <label className='my-1'>
                         <input type="checkbox"
-                               name="sunday "
+                               name="sunday"
                                className='my-1'
                                value={sunday}
                                onChange={(e) => availabilityOnChange(e)}/>
