@@ -16,19 +16,15 @@ router.post('/', [
         check('password', 'please enter a password longer then 6 characters').isLength({min: 6})
     ],
     async (req, res)=>{
-         // console.log(req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()})
         }
         const {email, password, typeOfUser} = req.body;
         try{
-            // console.debug(email, password, typeOfUser)
             let user = await User.findOne({email});
             if (user){
-                return  res.status(400).json({
-                    errors:[{msg: 'User exist'}]
-                })
+                return  res.status(400).json({errors:[{msg: 'User exist'}]})
             }
 
             user = new User({typeOfUser, email, password})
