@@ -7,9 +7,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 /**
- *@route    GET api/users
+ *@route    GET api/auth
  *@desc     get user by token
- *@access   Public
+ *@access   Private
  */
 
 router.get('/', auth, async (req, res)=>{
@@ -22,6 +22,11 @@ router.get('/', auth, async (req, res)=>{
     }
 });
 
+/**
+ *@route    POST api/auth/login
+ *@desc     login a user
+ *@access   Public
+ */
 router.post('/login', [
         check('email', 'please include a vaild email').isEmail(),
         check('password', 'please include a password').exists()
