@@ -175,5 +175,86 @@ describe('PUT api/profiles/student/:id', ()=>{
         expect(response.body.profile.profile).toMatchObject(studentObject);
 
     })
+})
 
+describe('POST api/profiles/employer', () => {
+    test('empty request', async () => {
+        const response = await request(app).post('/api/profiles/employer')
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('errors');
+    })
+    test('user already have profile', async ()=>{
+        Employer.mockImplementation(() => {
+            return {
+                exists: jest.fn().mockReturnValue(true)
+            };
+        });
+        Employer.exists.mockReturnValue(true);
+        const response = await request(app).post('/api/profiles/employer').send(employerObject);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.msg).toBe('user already have a profile')
+    })
+
+    test('a good request', async ()=>{
+        Employer.mockImplementation(() => {
+            return {
+                exists: jest.fn(),
+                save: jest.fn().mockResolvedValue(true)
+            };
+        });
+        Employer.exists.mockReturnValue(false);
+
+        const spy = jest.spyOn(Employer, 'constructor');
+        spy.mockResolvedValue(new Employer(employerObject));
+        const response = await request(app).post('/api/profiles/employer').send(employerObject);
+
+        expect(response.statusCode).toBe(200);
+        spy.mockReset();
+    })
+})
+
+
+describe('PUT api/profiles/employer/:id', ()=>{
+    afterEach(()=>{
+        jest.restoreAllMocks()
+    })
+
+    test('an empty request', async ()=>{
+        const response = await request(app).put('/api/profiles/employer/1').send()
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('errors');
+    })
+
+    test('profile doesnt exists', async ()=>{
+
+        Employer.mockImplementation(() => {
+            return {
+                exists: jest.fn()
+            };
+        });
+        Employer.exists.mockReturnValue(false);
+        const response = await request(app).put('/api/profiles/employer/1').send(employerObject)
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toMatchObject({msg: 'profile dosent exist'});
+    })
+
+    test('a good request', async ()=>{
+        Employer.mockImplementation(() => {
+            return {
+                exists: jest.fn(),
+                findOneAndUpdate: jest.fn()
+            };
+        });
+        Employer.exists.mockReturnValue(true);
+        Employer.findOneAndUpdate.mockReturnValue({profile:employerObject, save:jest.fn()});
+
+        const response = await request(app).put(`/api/profiles/employer/${employerObject.user}`).send({...employerObject, name: 'update'})
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.profile.profile).toMatchObject(employerObject);
+
+    })
 })
