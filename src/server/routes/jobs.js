@@ -118,8 +118,11 @@ router.put('/:id', [
             if (requiredDays) {
                 jobFields.requiredDays = requiredDays;
             }
+            const exists = await Job.exists({_id: req.params.id})
+            if (!exists) {
+                return res.status(404).json({errors: ["job doesn't exists"]})
+            }
             const job = await Job.findOneAndUpdate({_id: req.params.id}, jobFields, {new: true})
-            console.log(job);
             await job.save();
             res.json({job});
         } catch (e) {
@@ -131,7 +134,7 @@ router.put('/:id', [
 /**
  *@route    GET api/jobs/:id
  *@desc     get a jobs by employer id
- *@access   Public
+ *@access   Private
  */
 router.get('/:id', [auth
     ],
@@ -154,12 +157,16 @@ router.get('/:id', [auth
 /**
  *@route    DELETE api/jobs/:id
  *@desc     delete a job offer
- *@access   Public
+ *@access   Private
  */
 router.delete('/:id', [auth
     ],
     async (req, res) => {
         try {
+            const exists = await Job.findById(req.params.id)
+            if (!exists) {
+                return res.status(404).json({msg: "Job Doesn't exists"});
+            }
             await Job.findOneAndDelete({_id: req.params.id});
             res.json({msg: 'Job Deleted Successfully'});
         } catch (e) {

@@ -259,7 +259,7 @@ router.post('/employer', [
     });
 
 /**
- *@route    GET api/profile/:id
+ *@route    GET api/profiles/:id
  *@desc     get user profile
  *@access   Public
  *///
