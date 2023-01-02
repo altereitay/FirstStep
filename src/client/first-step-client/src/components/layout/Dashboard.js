@@ -48,10 +48,10 @@ const Dashboard = ({ auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob })
                                 <button onClick={() => navigate(`/admin/jobs`)}>Job Managment</button>
                             </Fragment>
                             <Fragment>
-                                <button onClick={() => navigate(`/student/${profiles.profile._id}`)}>Account Managment</button>
+                                <button onClick={() => navigate(`/dashboard`)}>Account Managment</button>
                             </Fragment>
                             <Fragment>
-                                <button onClick={() => navigate(`/student/${profiles.profile._id}`)}>Add New Admin</button>
+                                <button onClick={() => navigate(`/dashboard`)}>Add New Admin</button>
                             </Fragment>
                         </Fragment>
                     }
