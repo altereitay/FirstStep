@@ -75,14 +75,8 @@ const UploadJob = ({profile, newJob, setAlert}) => {
                 </div>
                 <div className='form-group'>
                     <h3 style={{color: '#38a1f3'}}>Job Type</h3>
-                    {/* <input type='text'
-                           placeholder='Enter Job Type'
-                           name='jobType'
-                           value={jobType}
-                           onChange={event => onChange(event)}
-                           required/> */}
                         <select onChange={e => onJobChange(e)}>
-                            <option value="" disabled selected>Select your option</option>
+                            <option value="" disabled selected>Select Job Type</option>
                             <option value="Software Engineering">Software Engineering</option>
                             <option value="Civil Engineering">Civil Engineering</option>
                             <option value="Electrical Engineering">Electrical Engineering</option>
