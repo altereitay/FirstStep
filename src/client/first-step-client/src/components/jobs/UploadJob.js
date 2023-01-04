@@ -2,9 +2,10 @@ import React, {useState, Fragment} from "react";
 import {useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {newJob} from "../../actions/jobs";
+import { setAlert } from "../../actions/alert";
 
 
-const UploadJob = ({profile, newJob}) => {
+const UploadJob = ({profile, newJob, setAlert}) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         jobTitle: '',
@@ -28,6 +29,9 @@ const UploadJob = ({profile, newJob}) => {
     })
     const {sunday, monday, tuesday, wednesday, thursday, friday, saturday} = availabilityData
 
+    const onJobChange = e => {
+        setFormData({...formData, jobType: e.target.value})
+    }
     const onChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
     }
@@ -40,6 +44,10 @@ const UploadJob = ({profile, newJob}) => {
     }
     const onSubmit = async (event) => {
         event.preventDefault();
+        if (jobType === ""){
+            setAlert("Job Type Must Be Selected", "danger")
+            return;
+        }
         newJob(formData, availabilityData, profile, navigate);
     }
 
@@ -67,12 +75,14 @@ const UploadJob = ({profile, newJob}) => {
                 </div>
                 <div className='form-group'>
                     <h3 style={{color: '#38a1f3'}}>Job Type</h3>
-                    <input type='text'
-                           placeholder='Enter Job Type'
-                           name='jobType'
-                           value={jobType}
-                           onChange={event => onChange(event)}
-                           required/>
+                        <select onChange={e => onJobChange(e)}>
+                            <option value="" disabled selected>Select Job Type</option>
+                            <option value="Software Engineering">Software Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Industrial Engineering">Industrial Engineering</option>
+                            <option value="Architecture">Architecture</option>
+                        </select>
                 </div>
                 <div className='form-group'>
                     <h3 style={{color: '#38a1f3'}}>Description</h3>
@@ -180,4 +190,4 @@ const mapStateToProps = state => {
         profile: state.profiles.profile
     }
 }
-export default connect(mapStateToProps, {newJob})(UploadJob)
+export default connect(mapStateToProps, {newJob, setAlert})(UploadJob)
