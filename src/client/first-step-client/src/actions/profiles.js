@@ -162,3 +162,17 @@ export const loadStudent = () => async dispatch => {
         })
     }
 }
+
+export const loadEmployer = () => async dispatch => {
+    try {
+        const employer = await axios.get('/api/profiles/employer');
+        dispatch({
+            type: LOAD_PROFILES,
+            payload: employer.data
+        })
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR
+        })
+    }
+}

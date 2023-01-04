@@ -23,6 +23,7 @@ import AccountManagement from './components/profiles/AccountManagement';
 import AddNewAdmin from './components/profiles/AddNewAdmin';
 import profileDetails from "./components/profiles/profileDetails";
 import StudentJobs from './components/jobs/StudentJobs';
+import EmployerReport from "./components/profiles/EmployerReport";
 import StudentReport from "./components/profiles/StudentReport";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -59,6 +60,7 @@ function App () {
                             <Route exact path='/student/jobs' element={<StudentJobs/>}/>
                             <Route exact path ='/admin/studentReport' element={<StudentReport/>}/>
                             <Route exact path='/add-admin' element={<AddNewAdmin/>}/>
+                            <Route exact path='/admin/employerReport' element={<EmployerReport/>}/>
                         </Routes>
                     </section>
                 </Fragment>
