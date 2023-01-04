@@ -16,5 +16,6 @@ export const LOAD_JOBS = 'LOAD_JOBS';
 export const UPDATE_JOB='UPDATE_JOB';
 export const UPDATE_STUDENT_PROFILE = 'UPDATE_STUDENT_PROFILE';
 export const UPDATE_EMPLOYER_PROFILE = 'UPDATE_EMPLOYER_PROFILE';
-
-
+export const LOGOUT = 'LOGOUT';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const CLEAR_JOBS = 'CLEAR_JOBS';
