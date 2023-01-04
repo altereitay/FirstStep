@@ -136,8 +136,7 @@ router.put('/:id', [
  *@desc     get a jobs by employer id
  *@access   Private
  */
-router.get('/:id', [auth
-    ],
+router.get('/:id', [auth],
     async (req, res) => {
         try {
             let employer = await Employer.findById(req.params.id);
@@ -190,6 +189,29 @@ router.get('/', [],
             res.status(500).send('server error')
         }
     })
+
+/**
+ *@route    GET api/jobs/student/:id
+ *@desc     get all jobs if its relevant by id
+ *@access   Private
+ */
+ router.get('/student/:id', [auth],
+ async (req, res) => {
+     try {
+         let student = await Student.findById(req.params.id);
+         if (!student) {
+             return res.status(404).json({
+                 errors: [{msg: 'No student found'}]
+             })
+         }
+         let field = student.education[0].degree;
+         const jobs = await Job.find({jobType: field});   
+         res.json(jobs);
+     } catch (e) {
+         console.error(e.message)
+         res.status(500).send('server error')
+     }
+ })
 
 
 module.exports = router;
