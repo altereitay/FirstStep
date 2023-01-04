@@ -38,6 +38,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
                 {auth.user?.typeOfUser==='student' &&
                     <Fragment>
                   <button onClick={()=>navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
+                  <button onClick={()=>navigate(`/student/jobs`)}>Find Jobs</button>
                     </Fragment>
                 }
             </Fragment>
