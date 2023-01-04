@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import JobDetail from "../jobs/JobDetail";
 import { loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer } from "../../actions/jobs";
 
-const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
+const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
     const navigate = useNavigate();
     useEffect(() => {
         if (auth.user?.typeOfUser === 'employer') {
@@ -20,51 +20,43 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, del
 
             <div className='profile-edu bg-white p-2'>
 
-        <Fragment>
-        {auth.user?.typeOfUser==='employer' &&
-            <Fragment>
-                <div> 
-                <button onClick={()=>navigate(`/employer/${profiles.profile._id}`)}>Edit Profile</button>
-                </div>
-                <h2 className='text-primary'>My Jobs</h2>
-                {jobs.jobs.map((job)=>{
-                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer}/>
-                }
-                )}
-            </Fragment>
-        }
-        </Fragment>
-            <Fragment>
-                {auth.user?.typeOfUser==='student' &&
-                    <Fragment>
-                  <button onClick={()=>navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
-                        <button onClick={()=>navigate(`/applied/${profiles.profile._id}`)}>Get applied Jobs Report</button>
-                  <button onClick={()=>navigate(`/student/jobs`)}>Find Jobs</button>
-                    </Fragment>
-                }
-            </Fragment>
-            <Fragment>
-                {auth.user?.typeOfUser==='admin' &&
-                    <Fragment>
-                        <h2 className='text-primary'>My Jobs</h2>
-                        {jobs.jobs?.map((job)=>{
-                                return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
-                            }
+                <Fragment>
+                    {auth.user?.typeOfUser === 'employer' &&
+                        <Fragment>
+                            <div>
+                                <button onClick={() => navigate(`/employer/${profiles.profile._id}`)}>Edit Profile
+                                </button>
+                            </div>
+                            <h2 className='text-primary'>My Jobs</h2>
+                            {jobs.jobs.map((job) => {
+                                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer}/>
+                                }
                             )}
                         </Fragment>
                     }
-                </Fragment> 
+                </Fragment>
+                <Fragment>
+                    {auth.user?.typeOfUser === 'student' &&
+                        <Fragment>
+                            <button className='btn btn-primary' onClick={() => navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/applied/${profiles.profile._id}`)}>Get applied Jobs Report</button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/student/jobs`)}>Find Jobs
+                            </button>
+                        </Fragment>
+                    }
+                </Fragment>
                 <Fragment>
                     {auth.user?.typeOfUser === 'admin' &&
                         <Fragment>
                             <Fragment>
-                                <button onClick={() => navigate(`/admin/jobs`)}>Job Managment</button>
+                                <button className='btn btn-primary' onClick={() => navigate(`/admin/jobs`)}>Job
+                                    Managment
+                                </button>
                             </Fragment>
                             <Fragment>
-                                <button onClick={() => navigate(`/admin/accounts`)}>Account Managment</button>
-                            </Fragment>
-                            <Fragment>
-                                <button onClick={() => navigate(`/admin/add`)}>Add New Admin</button>
+                                <button className='btn btn-primary' onClick={() => navigate(`/admin/accounts`)}>Account
+                                    Managment
+                                </button>
                             </Fragment>
                         </Fragment>
                     }

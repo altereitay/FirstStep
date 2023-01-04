@@ -34,7 +34,34 @@ export const register = ({email, password, typeOfUser}, navigate) => async dispa
             navigate('/student-signup');
         } else if (typeOfUser === 'employer'){
             navigate('/employer-signup');
+        } else {
+            navigate('/dashboard')
         }
+    } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+        }
+        dispatch({
+            type: REGISTER_FAIL
+        })
+    }
+}
+export const addAdmin = ({email, password, typeOfUser}, navigate) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    const body = JSON.stringify({email, password, typeOfUser});
+    try {
+        const res = await axios.post('/api/users', body, config);
+        dispatch({
+            type: REGISTER_SUCCESS,
+            payload: res.data
+        })
+        navigate('/dashboard')
+        dispatch(setAlert('Admin Added Successfully', 'success'))
     } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {

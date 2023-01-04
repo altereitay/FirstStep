@@ -25,7 +25,7 @@ const JobDetail = ({job, deleteJob, auth, profile , isStudent=false}) => {
                 return navigate(`/jobs/${job?._id}`)
             }}>Edit Job
             </button>
-            && <button onClick={() => onClick(job)}>delete</button> )
+            && <button className='btn btn-primary' onClick={() => onClick(job)}>delete</button> )
         }
 
         </div>

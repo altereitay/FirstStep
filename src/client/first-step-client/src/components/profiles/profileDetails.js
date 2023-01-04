@@ -8,7 +8,7 @@ const ProfileDetails = ({profile, deleteUser}) => {
             <p>
                 <strong>user description: </strong>{profile?.description}
             </p>
-            <button onClick={() => deleteUser(profile?.user, navigate)}>delete</button>
+            <button className='btn btn-danger' onClick={() => deleteUser(profile?.user, navigate)}>delete</button>
         </div>
     )
 }

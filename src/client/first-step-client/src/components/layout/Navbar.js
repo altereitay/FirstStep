@@ -21,7 +21,7 @@ const Navbar = ({auth, logout}) => {
     const employerLinks = (
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/uploadjob">Upload Job</Link></li>
+            <li><Link to="/upload-job">Upload Job</Link></li>
             <li><Link onClick={logout} to="#!">
                 <i className='fas fa-sign-out-alt'/> {' '}
                 <span className='hide-sm'>Logout</span>
