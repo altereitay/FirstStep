@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import JobDetail from "../jobs/JobDetail";
 import { loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer } from "../../actions/jobs";
-
+//test
 const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
     const navigate = useNavigate();
     useEffect(() => {
