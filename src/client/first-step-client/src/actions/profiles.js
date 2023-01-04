@@ -149,3 +149,16 @@ export const loadProfiles = () => async dispatch => {
         })
     }
 }
+export const loadStudent = () => async dispatch => {
+    try {
+        const students = await axios.get('/api/profiles/student');
+        dispatch({
+            type: LOAD_PROFILES,
+            payload: students.data
+        })
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR
+        })
+    }
+}

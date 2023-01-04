@@ -58,6 +58,9 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                                     Managment
                                 </button>
                             </Fragment>
+                            <Fragment>
+                                <button onClick={() => navigate(`/admin/studentReport`)}>Student report</button>
+                            </Fragment>
                         </Fragment>
                     }
                 </Fragment>
