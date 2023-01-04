@@ -58,7 +58,20 @@ export const loadJobsAdmin = () => async dispatch => {
         })
     }
 }
+export const loadJobsStudent = (id) => async dispatch => {
 
+    try {
+        const jobs = await axios.get(`/api/jobs/student/${id}`)
+        dispatch({
+            type: LOAD_JOBS,
+            payload: jobs.data
+        })
+    } catch (err) {
+        dispatch({
+            type: JOB_ERROR
+        })
+    }
+}
 export const updateJob=(formData, availabilityData, id, navigate)=> async dispatch => {
     try {
         const config = {

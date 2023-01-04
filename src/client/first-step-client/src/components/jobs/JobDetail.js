@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 
-const JobDetail = ({job, deleteJob, auth, profile}) => {
+const JobDetail = ({job, deleteJob, auth, profile , isStudent=false}) => {
     const navigate = useNavigate()
     const onClick = (job)=>{
         if (auth.user.typeOfUser === 'employer'){
@@ -21,11 +21,13 @@ const JobDetail = ({job, deleteJob, auth, profile}) => {
             <p>
                 <strong>location : </strong> {job?.location}
             </p>
-            <button onClick={() => {
+            {!isStudent &&(<button onClick={() => {
                 return navigate(`/jobs/${job?._id}`)
             }}>Edit Job
             </button>
-            <button onClick={() => onClick(job)}>delete</button>
+            && <button onClick={() => onClick(job)}>delete</button> )
+        }
+            
         </div>
     )
 }

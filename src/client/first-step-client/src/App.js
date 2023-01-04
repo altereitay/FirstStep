@@ -17,6 +17,8 @@ import Dashboard from "./components/layout/Dashboard";
 import EditStudentProfile from "./components/profiles/EditStudentProfile";
 import UpdateJob from "./components/jobs/UpdateJob";
 import EditEmployerProfile from './components/profiles/EditEmployerProfile';
+import StudentJobs from './components/jobs/StudentJobs';
+
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -45,6 +47,7 @@ function App () {
                             <Route exact path='/jobs/:id' element={<UpdateJob/>}/>
                             <Route exact path='/student/:id' element={<EditStudentProfile/>}/>
                             <Route exact path='/employer/:id' element={<EditEmployerProfile/>}/>
+                            <Route exact path='/student/jobs' element={<StudentJobs/>}/>
                         </Routes>
                     </section>
                 </Fragment>
