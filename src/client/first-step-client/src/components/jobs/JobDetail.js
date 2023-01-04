@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const JobDetail = ({job, deleteJob}) => {
+const JobDetail = ({job, deleteJob, isStudent=false}) => {
     const navigate = useNavigate()
     return (
         <div>
@@ -13,11 +13,14 @@ const JobDetail = ({job, deleteJob}) => {
             <p>
                 <strong>location : </strong> {job?.location}
             </p>
-            <button onClick={() => {
-                return navigate(`/jobs/${job?._id}`)
-            }}>Edit Job
-            </button>
-            <button onClick={() => deleteJob(job?._id, navigate)}>delete</button>
+            {!isStudent &&(
+                <button onClick={() => {
+                    return navigate(`/jobs/${job?._id}`)
+                }}>Edit Job
+                </button> &&
+                <button onClick={() => deleteJob(job?._id, navigate)}>delete</button>
+                )
+            }
         </div>
     )
 }

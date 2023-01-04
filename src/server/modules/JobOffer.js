@@ -65,7 +65,7 @@ const JobOffer = new mongoose.Schema({
         }
     },
     appliedStudents:{
-        type:[mongoose.Schema.Types.ObjectId]
+        type:[String]
     },
     picture:{
         type:String

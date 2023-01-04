@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import {AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB} from "./types";
+import {APPLIED_JOBS_REPORT, AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -88,6 +88,23 @@ export const deleteJob = (id, navigate) => async dispatch => {
         dispatch(setAlert(jobs.data.msg, 'success'))
         dispatch(loadJobsAdmin())
         navigate('/dashboard')
+    } catch (err) {
+        console.log('error')
+        dispatch({
+            type: JOB_ERROR
+        })
+    }
+}
+
+export const getAppliedJob = (id, navigate) => async dispatch => {
+
+    try {
+        const jobs = await axios.get(`/api/jobs/applied/${id}`)
+        dispatch({
+            type: APPLIED_JOBS_REPORT,
+            payload: jobs.data
+        })
+        dispatch(setAlert('Got All Jobs That Applied For', 'success'))
     } catch (err) {
         console.log('error')
         dispatch({
