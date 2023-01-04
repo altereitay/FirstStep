@@ -5,7 +5,8 @@ import {
     NEW_EMPLOYER_PROFILE,
     UPDATE_STUDENT_PROFILE,
     UPDATE_EMPLOYER_PROFILE,
-    CLEAR_PROFILE
+    CLEAR_PROFILE,
+    LOAD_PROFILES
 } from "../actions/types";
 
 const initialState = {
@@ -30,6 +31,8 @@ export default function (state = initialState, action) {
             return {...state, error: payload, loading: false, profile: null}
         case CLEAR_PROFILE:
             return {...state, profile: null, error: {}, loading: false, profiles: null};
+        case LOAD_PROFILES:
+            return {...state,profiles:payload,loading:false}
         default:
             return {...state, loading: false}
     }

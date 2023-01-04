@@ -19,3 +19,5 @@ export const UPDATE_EMPLOYER_PROFILE = 'UPDATE_EMPLOYER_PROFILE';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const CLEAR_JOBS = 'CLEAR_JOBS';
+export const USER_ERROR='USER_ERROR';
+export const LOAD_PROFILES = 'LOAD_PROFILES';

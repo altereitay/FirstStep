@@ -20,6 +20,7 @@ import EditEmployerProfile from './components/profiles/EditEmployerProfile';
 import Adminjobs from './components/jobs/AdminJobs';
 import AccountManagement from './components/profiles/AccountManagement';
 import AddNewAdmin from './components/profiles/AddNewAdmin';
+import profileDetails from "./components/profiles/profileDetails";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }

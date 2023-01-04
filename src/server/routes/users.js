@@ -60,25 +60,10 @@ router.post('/', [
 
     });
 
-/**
- *@route    get api/users/
- *@desc     get all users
- *@access   Public
- */
-router.get('/', [],
-    async (req, res) => {
-        try {
-            const users = await User.find();
-            res.json(users);
-        } catch (e) {
-            console.error(e.message)
-            res.status(500).send('server error')
-        }
-})
 
 /**
- *@route    delete api/users/
- *@desc      delete user
+ *@route    DELETE api/users/:id
+ *@desc      delete user and his profile
  *@access   Public
  */
 router.delete('/:id',
