@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import JobDetail from "../jobs/JobDetail";
 import { loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer } from "../../actions/jobs";
-//test
+
 const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
     const navigate = useNavigate();
     useEffect(() => {
@@ -53,14 +53,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, del
                             )}
                         </Fragment>
                     }
-                </Fragment>
-                <Fragment>
-                    {auth.user?.typeOfUser === 'student' &&
-                        <Fragment>
-                            <button onClick={() => navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
-                        </Fragment>
-                    }
-                </Fragment>
+                </Fragment> 
                 <Fragment>
                     {auth.user?.typeOfUser === 'admin' &&
                         <Fragment>
