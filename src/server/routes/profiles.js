@@ -257,6 +257,24 @@ router.post('/employer', [
     }
 
     });
+/**
+ *@route    GET api/profiles/employer
+ *@desc     get all Employer profile
+ *@access   Public
+ *///
+router.get('/employer',
+    async (req, res) => {
+        try
+        {
+            const employer=await Employer.find();
+            res.json(employer);
+        }
+        catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+
+    })
 
 /**
  *@route    GET api/profiles/:id
@@ -303,6 +321,7 @@ router.get('/',
    }
 
 })
+
 
 
 module.exports = router;

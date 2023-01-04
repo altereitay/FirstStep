@@ -43,17 +43,6 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, del
                     </Fragment>
                 }
             </Fragment>
-            <Fragment>
-                {auth.user?.typeOfUser==='admin' &&
-                    <Fragment>
-                        <h2 className='text-primary'>My Jobs</h2>
-                        {jobs.jobs?.map((job)=>{
-                                return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
-                            }
-                            )}
-                        </Fragment>
-                    }
-                </Fragment> 
                 <Fragment>
                     {auth.user?.typeOfUser === 'admin' &&
                         <Fragment>
@@ -65,6 +54,9 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, del
                             </Fragment>
                             <Fragment>
                                 <button onClick={() => navigate(`/admin/add`)}>Add New Admin</button>
+                            </Fragment>
+                            <Fragment>
+                                <button onClick={() => navigate(`/admin/employerReport`)}>Get Employer Report</button>
                             </Fragment>
                         </Fragment>
                     }
