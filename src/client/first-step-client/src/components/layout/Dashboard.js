@@ -3,9 +3,9 @@ import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import JobDetail from "../jobs/JobDetail";
-import { loadJobs, loadJobsAdmin, deleteJob } from "../../actions/jobs";
+import { loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer } from "../../actions/jobs";
 
-const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) => {
+const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
     const navigate = useNavigate();
     useEffect (()=>{
         if (auth.user?.typeOfUser==='employer'){
@@ -28,7 +28,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
                 </div>
                 <h2 className='text-primary'>My Jobs</h2>
                 {jobs.jobs.map((job)=>{
-                    return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
+                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer}/>
                 }
                 )}
             </Fragment>
@@ -68,4 +68,4 @@ const mapStateToProps = state => ({
     jobs: state.jobs,
     profiles: state.profiles
 });
-export default connect(mapStateToProps, {loadJobs, loadJobsAdmin, deleteJob})(Dashboard)
+export default connect(mapStateToProps, {loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer})(Dashboard)

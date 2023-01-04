@@ -136,8 +136,7 @@ router.put('/:id', [
  *@desc     get a jobs by employer id
  *@access   Private
  */
-router.get('/:id', [auth
-    ],
+router.get('/:id', [auth],
     async (req, res) => {
         try {
             let employer = await Employer.findById(req.params.id);

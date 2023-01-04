@@ -1,9 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 
 
-const JobDetail = ({job, deleteJob, isStudent=false}) => {
+const JobDetail = ({job, deleteJob, auth, profile , isStudent=false}) => {
     const navigate = useNavigate()
+    const onClick = (job)=>{
+        if (auth.user.typeOfUser === 'employer'){
+            deleteJob(job?._id, navigate, profile?.profile._id, auth?.user._id)
+        }else {
+            deleteJob(job?._id, navigate)
+        }
+    }
     return (
         <div>
             <h3 className='text-dark'>Job name : {job?.jobTitle}</h3>
@@ -17,9 +25,15 @@ const JobDetail = ({job, deleteJob, isStudent=false}) => {
                 return navigate(`/jobs/${job?._id}`)
             }}>Edit Job
             </button>
-            &&<button onClick={() => deleteJob(job?._id, navigate)}>delete</button>)
+            && <button onClick={() => onClick(job)}>delete</button> )
         }
+            
         </div>
     )
 }
-export default JobDetail;
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    profile: state.profiles
+});
+export default connect(mapStateToProps, null)(JobDetail);

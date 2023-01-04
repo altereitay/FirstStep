@@ -6,7 +6,6 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    LOAD_JOBS,
     LOGOUT,
     CLEAR_PROFILE,
     CLEAR_JOBS
