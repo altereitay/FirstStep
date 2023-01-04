@@ -1,24 +1,24 @@
 import React, { Fragment, useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import JobDetail from "../jobs/JobDetail";
-import { loadJobs, loadJobsAdmin, deleteJob } from "../../actions/jobs";
+import { loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer } from "../../actions/jobs";
 
-const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) => {
+const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer}) => {
     const navigate = useNavigate();
-    useEffect (()=>{
-        if (auth.user?.typeOfUser==='employer'){
+    useEffect(() => {
+        if (auth.user?.typeOfUser === 'employer') {
             loadJobs(profiles.profile._id)
         }
-        if (auth.user?.typeOfUser==='admin'){
+        if (auth.user?.typeOfUser === 'admin') {
             loadJobsAdmin()
         }
     }, [])
     return (
-       <div>
+        <div>
 
-        <div className='profile-edu bg-white p-2'>
+            <div className='profile-edu bg-white p-2'>
 
         <Fragment>
         {auth.user?.typeOfUser==='employer' &&
@@ -28,7 +28,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
                 </div>
                 <h2 className='text-primary'>My Jobs</h2>
                 {jobs.jobs.map((job)=>{
-                    return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
+                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer}/>
                 }
                 )}
             </Fragment>
@@ -39,6 +39,7 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
                     <Fragment>
                   <button onClick={()=>navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
                         <button onClick={()=>navigate(`/applied/${profiles.profile._id}`)}>Get applied Jobs Report</button>
+                  <button onClick={()=>navigate(`/student/jobs`)}>Find Jobs</button>
                     </Fragment>
                 }
             </Fragment>
@@ -49,18 +50,40 @@ const Dashboard = ({auth,jobs, profiles, loadJobs, loadJobsAdmin, deleteJob}) =>
                         {jobs.jobs?.map((job)=>{
                                 return <JobDetail key={job._id} job={job} deleteJob={deleteJob}/>
                             }
-                        )}
-                    </Fragment>
-                }
-            </Fragment>
+                            )}
+                        </Fragment>
+                    }
+                </Fragment>
+                <Fragment>
+                    {auth.user?.typeOfUser === 'student' &&
+                        <Fragment>
+                            <button onClick={() => navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
+                        </Fragment>
+                    }
+                </Fragment>
+                <Fragment>
+                    {auth.user?.typeOfUser === 'admin' &&
+                        <Fragment>
+                            <Fragment>
+                                <button onClick={() => navigate(`/admin/jobs`)}>Job Managment</button>
+                            </Fragment>
+                            <Fragment>
+                                <button onClick={() => navigate(`/admin/accounts`)}>Account Managment</button>
+                            </Fragment>
+                            <Fragment>
+                                <button onClick={() => navigate(`/admin/add`)}>Add New Admin</button>
+                            </Fragment>
+                        </Fragment>
+                    }
+                </Fragment>
+            </div>
         </div>
-       </div>
     )
 }
 Dashboard.propTypes = {
     auth: PropTypes.object.isRequired,
-    jobs:PropTypes.object.isRequired,
-    profiles:PropTypes.object.isRequired
+    jobs: PropTypes.object.isRequired,
+    profiles: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -68,4 +91,4 @@ const mapStateToProps = state => ({
     jobs: state.jobs,
     profiles: state.profiles
 });
-export default connect(mapStateToProps, {loadJobs, loadJobsAdmin, deleteJob})(Dashboard)
+export default connect(mapStateToProps, {loadJobs, loadJobsAdmin, deleteJob, deleteJobEmployer})(Dashboard)

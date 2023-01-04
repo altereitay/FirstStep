@@ -5,6 +5,7 @@ const User = require('../modules/User');
 const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Job = require("../modules/JobOffer");
 
 /**
  *@route    GET api/auth
@@ -70,6 +71,15 @@ router.post('/login', [
             res.status(500).send('server error')
         }
     })
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router;

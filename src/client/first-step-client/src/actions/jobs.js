@@ -58,7 +58,20 @@ export const loadJobsAdmin = () => async dispatch => {
         })
     }
 }
+export const loadJobsStudent = (id) => async dispatch => {
 
+    try {
+        const jobs = await axios.get(`/api/jobs/student/${id}`)
+        dispatch({
+            type: LOAD_JOBS,
+            payload: jobs.data
+        })
+    } catch (err) {
+        dispatch({
+            type: JOB_ERROR
+        })
+    }
+}
 export const updateJob=(formData, availabilityData, id, navigate)=> async dispatch => {
     try {
         const config = {
@@ -82,19 +95,18 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
 }
 
 export const deleteJob = (id, navigate) => async dispatch => {
-
     try {
         const jobs = await axios.delete(`/api/jobs/${id}`)
         dispatch(setAlert(jobs.data.msg, 'success'))
         dispatch(loadJobsAdmin())
-        navigate('/dashboard')
+        navigate('/admin/jobs')
     } catch (err) {
-        console.log('error')
         dispatch({
             type: JOB_ERROR
         })
     }
 }
+
 
 export const getAppliedJob = (id, navigate) => async dispatch => {
 
@@ -107,8 +119,18 @@ export const getAppliedJob = (id, navigate) => async dispatch => {
         dispatch(setAlert('Got All Jobs That Applied For', 'success'))
     } catch (err) {
         console.log('error')
+    }
+    }
+export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async dispatch => {
+    try {
+        const jobs = await axios.delete(`/api/jobs/${jobId}`)
+        dispatch(setAlert(jobs.data.msg, 'success'))
+        dispatch(loadJobs(employerId))
+        navigate('/dashboard')
+    } catch (err) {
         dispatch({
             type: JOB_ERROR
         })
     }
+
 }

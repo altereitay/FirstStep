@@ -20,3 +20,5 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const CLEAR_JOBS = 'CLEAR_JOBS';
 export const APPLIED_JOBS_REPORT = 'APPLIED_JOBS_REPORT';
+export const USER_ERROR='USER_ERROR';
+export const LOAD_PROFILES = 'LOAD_PROFILES';
