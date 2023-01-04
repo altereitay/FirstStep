@@ -4,6 +4,11 @@ const { check, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../modules/User')
+const auth = require("../middleware/auth");
+const Job = require("../modules/JobOffer");
+const Student = require("../modules/StudentProfile");
+const mongoose = require("mongoose");
+const Employer = require("../modules/EmployerProfile");
 /**
  *@route    POST api/users
  *@desc     register a new user
@@ -56,5 +61,34 @@ router.post('/', [
     });
 
 
+/**
+ *@route    DELETE api/users/:id
+ *@desc      delete user and his profile
+ *@access   Public
+ */
+router.delete('/:id',
+    async (req, res) => {
+        try {
+            let profile = await Student.find({user: mongoose.Types.ObjectId(req.params.id)})
+            if (!profile) {
+                profile = await Employer.find({user: req.params.id});
+                if (!profile) {
+                    return res.status(400).json({msg: 'user dont have profile'})
+                }
+                await  Employer.findOneAndDelete({user:req.params.id})
+            }
+            await  Student.findOneAndDelete({user:req.params.id})
+            const exists = await User.findById(req.params.id)
+            if (!exists) {
+                return res.status(404).json({msg: "User Doesn't exists"});
+            }
+
+            await User.findOneAndDelete({_id: req.params.id});
+            res.json({msg: 'User Deleted Successfully'});
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 
 module.exports = router;

@@ -99,7 +99,7 @@ export const deleteJob = (id, navigate) => async dispatch => {
         const jobs = await axios.delete(`/api/jobs/${id}`)
         dispatch(setAlert(jobs.data.msg, 'success'))
         dispatch(loadJobsAdmin())
-        navigate('/dashboard')
+        navigate('/admin/jobs')
     } catch (err) {
         dispatch({
             type: JOB_ERROR

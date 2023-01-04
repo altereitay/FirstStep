@@ -14,12 +14,12 @@ const JobDetail = ({job, deleteJob, auth, profile , isStudent=false}) => {
     }
     return (
         <div>
-            <h3 className='text-dark'>Job name : {job?.jobTitle}</h3>
+            <h3 className='text-dark'>Job name: {job?.jobTitle}</h3>
             <p>
                 <strong>Description: </strong>{job?.description}
             </p>
             <p>
-                <strong>location : </strong> {job?.location}
+                <strong>location: </strong> {job?.location}
             </p>
             {!isStudent &&(<button onClick={() => {
                 return navigate(`/jobs/${job?._id}`)

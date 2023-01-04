@@ -283,6 +283,26 @@ router.get('/:id', auth, async (req, res) => {
         res.status(500).send("server error ")
     }
 });
+/**
+ *@route    GET api/profiles/
+ *@desc     get all user profile
+ *@access   Public
+ *///
+router.get('/',
+    async (req, res) => {
+   try
+   {
+       const student=await Student.find();
+       const employer=await Employer.find();
+       const allProfile=student.concat(employer);
+       res.json(allProfile);
+   }
+   catch (e) {
+       console.error(e.message)
+       res.status(500).send('server error')
+   }
 
-  
+})
+
+
 module.exports = router;

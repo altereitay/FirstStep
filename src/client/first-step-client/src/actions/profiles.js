@@ -1,6 +1,15 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import { NEW_STUDENT_PROFILE, PROFILE_ERROR, NEW_EMPLOYER_PROFILE, PROFILE_LOADED, AUTH_ERROR, UPDATE_STUDENT_PROFILE, UPDATE_EMPLOYER_PROFILE} from "./types";
+import {
+    NEW_STUDENT_PROFILE,
+    PROFILE_ERROR,
+    NEW_EMPLOYER_PROFILE,
+    PROFILE_LOADED,
+    AUTH_ERROR,
+    UPDATE_STUDENT_PROFILE,
+    UPDATE_EMPLOYER_PROFILE,
+    LOAD_JOBS, JOB_ERROR, LOAD_PROFILES
+} from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
@@ -122,6 +131,19 @@ export const updateEmployerProfile = (formData, profile, navigate) => async disp
         navigate('/dashboard')
     }catch (err) {
         console.error('action error', err)
+        dispatch({
+            type: PROFILE_ERROR
+        })
+    }
+}
+export const loadProfiles = () => async dispatch => {
+    try {
+        const profiles = await axios.get('/api/profiles/');
+        dispatch({
+            type: LOAD_PROFILES,
+            payload: profiles.data
+        })
+    } catch (err) {
         dispatch({
             type: PROFILE_ERROR
         })

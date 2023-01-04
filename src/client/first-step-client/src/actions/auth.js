@@ -8,12 +8,13 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     CLEAR_PROFILE,
-    CLEAR_JOBS
+    CLEAR_JOBS, JOB_ERROR, UPDATE_STUDENT_PROFILE, USER_ERROR
 } from "./types";
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 import {loadProfile} from "./profiles";
-import {loadJobs} from "./jobs";
+import {loadJobs, loadJobsAdmin} from "./jobs";
+import {loadProfiles} from "./profiles";
 
 export const register = ({email, password, typeOfUser}, navigate) => async dispatch => {
     const config = {
@@ -99,3 +100,16 @@ export const logout = () => dispatch =>{
     dispatch({type: LOGOUT});
     dispatch({type: CLEAR_JOBS});
 }
+export const deleteUser = (id, navigate) => async dispatch => {
+    try {
+        const users = await axios.delete(`/api/users/${id}`)
+        dispatch(setAlert(users.data.msg, 'success'))
+        dispatch(loadProfiles())
+        navigate('/admin/accounts')
+    } catch (err) {
+        dispatch({
+            type: USER_ERROR
+        })
+    }
+}
+
