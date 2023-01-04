@@ -1,9 +1,10 @@
-import React, {Fragment, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { logout } from "../../actions/auth";
 
-const Navbar = ({auth}) => {
+const Navbar = ({auth, logout}) => {
     const guestLinks = (
         <ul>
             <li><Link to="/register-select">Register</Link></li>
@@ -13,22 +14,37 @@ const Navbar = ({auth}) => {
 
     const indicator = (
         <h3 className='text-primary'>
-            {auth.isAuthenticated? `Hello ${auth.user?.typeOfUser}`: 'Hello Stranger'}
+            {auth.isAuthenticated ? `Hello ${auth.user?.typeOfUser}` : 'Hello Stranger'}
 
         </h3>
     )
     const employerLinks = (
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/uploadjob">uploadjob</Link></li>
-            <li><Link>signout</Link></li>
+            <li><Link to="/uploadjob">Upload Job</Link></li>
+            <li><Link onClick={logout} to="#!">
+                <i className='fas fa-sign-out-alt'/> {' '}
+                <span className='hide-sm'>Logout</span>
+            </Link></li>
         </ul>
     );
     const adminLinks = (
-        <li><Link to="/dashboard">Dashboard</Link></li>
+        <ul>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link onClick={logout} to="/">
+                <i className='fas fa-sign-out-alt'/> {' '}
+                <span className='hide-sm'>Logout</span>
+            </Link></li>
+        </ul>
     )
     const studentLinks = (
-        <li><Link to="/dashboard">Dashboard</Link></li>
+        <ul>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link onClick={logout} to="#!">
+                <i className='fas fa-sign-out-alt'/> {' '}
+                <span className='hide-sm'>Logout</span>
+            </Link></li>
+        </ul>
     )
     return (
         <nav className="navbar bg-dark">
@@ -39,8 +55,10 @@ const Navbar = ({auth}) => {
             {!auth.loading && (
                 <Fragment>
                     {indicator}
-                    {auth.user?.typeOfUser === 'employer' ? employerLinks :
-                        auth.user?.typeOfUser === 'admin' ? adminLinks : auth.user?.typeOfUser === 'student'?studentLinks:guestLinks}
+                    {auth.isAuthenticated && auth.user?.typeOfUser === 'employer' ? employerLinks :
+                        auth.isAuthenticated && auth.user?.typeOfUser === 'admin' ? adminLinks :
+                        auth.isAuthenticated && auth.user?.typeOfUser === 'student' ? studentLinks :
+                        guestLinks}
                 </Fragment>
             )}
         </nav>
@@ -54,4 +72,4 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
     auth: state.auth
 });
-export default connect(mapStateToProps)(Navbar)
+export default connect(mapStateToProps, {logout})(Navbar)

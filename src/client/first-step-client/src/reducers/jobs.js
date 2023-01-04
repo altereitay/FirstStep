@@ -1,5 +1,5 @@
 import {
-    NEW_JOB, JOB_ERROR, LOAD_JOBS, UPDATE_JOB
+    NEW_JOB, JOB_ERROR, LOAD_JOBS, UPDATE_JOB, CLEAR_JOBS
 } from "../actions/types";
 
 const initialState = {
@@ -26,6 +26,8 @@ export default function (state = initialState, action) {
             let indexToChange=job.map(job=>job._id).indexOf(id)
             job[indexToChange]=payload
             return {...state,jobs:job,loading: false}
+        case CLEAR_JOBS:
+            return {...state, loading: false, jobs: [], errors: {}}
         default:
             return {...state, loading: false};
     }

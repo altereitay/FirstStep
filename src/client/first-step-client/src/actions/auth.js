@@ -5,7 +5,11 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL, LOAD_JOBS
+    LOGIN_FAIL,
+    LOAD_JOBS,
+    LOGOUT,
+    CLEAR_PROFILE,
+    CLEAR_JOBS
 } from "./types";
 import {setAlert} from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -89,4 +93,10 @@ export const login = (email, password, navigate) => async dispatch => {
         dispatch({type: LOGIN_FAIL});
         dispatch(setAlert('Login Failed', 'danger'));
     }
+}
+
+export const logout = () => dispatch =>{
+    dispatch({type: CLEAR_PROFILE});
+    dispatch({type: LOGOUT});
+    dispatch({type: CLEAR_JOBS});
 }
