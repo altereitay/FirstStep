@@ -116,7 +116,6 @@ export const getAppliedJob = (id, navigate) => async dispatch => {
             type: APPLIED_JOBS_REPORT,
             payload: jobs.data
         })
-        dispatch(setAlert('Got All Jobs That Applied For', 'success'))
     } catch (err) {
         console.log('error')
     }
