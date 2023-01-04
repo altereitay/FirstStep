@@ -56,6 +56,7 @@ function App () {
                             <Route exact path='/admin/accounts' element={<AccountManagement/>}/>
                             <Route exact path='/admin/add' element={<AddNewAdmin/>}/>
                             <Route exact path='/student/jobs' element={<StudentJobs/>}/>
+                            <Route exact path='/add-admin' element={<AddNewAdmin/>}/>
                         </Routes>
                     </section>
                 </Fragment>
