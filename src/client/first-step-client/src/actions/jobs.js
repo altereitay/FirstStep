@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import { JOB_ERROR, LOAD_JOBS, NEW_JOB, UPDATE_JOB} from "./types";
+import {APPLIED_JOBS_REPORT, AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -107,6 +107,20 @@ export const deleteJob = (id, navigate) => async dispatch => {
     }
 }
 
+
+export const getAppliedJob = (id, navigate) => async dispatch => {
+
+    try {
+        const jobs = await axios.get(`/api/jobs/applied/${id}`)
+        dispatch({
+            type: APPLIED_JOBS_REPORT,
+            payload: jobs.data
+        })
+        dispatch(setAlert('Got All Jobs That Applied For', 'success'))
+    } catch (err) {
+        console.log('error')
+    }
+    }
 export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async dispatch => {
     try {
         const jobs = await axios.delete(`/api/jobs/${jobId}`)
@@ -118,4 +132,5 @@ export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async 
             type: JOB_ERROR
         })
     }
+
 }

@@ -1,5 +1,5 @@
 import {
-    NEW_JOB, JOB_ERROR, LOAD_JOBS, UPDATE_JOB, CLEAR_JOBS
+    NEW_JOB, JOB_ERROR, LOAD_JOBS, UPDATE_JOB, CLEAR_JOBS, APPLIED_JOBS_REPORT
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +18,7 @@ export default function (state = initialState, action) {
             return {...state,jobs, loading: false}
         case JOB_ERROR:
             return {...state, errors: payload, loading: false}
+        case APPLIED_JOBS_REPORT:
         case LOAD_JOBS:
             return {...state, jobs: payload, loading: false}
         case UPDATE_JOB:

@@ -27,7 +27,7 @@ const JobDetail = ({job, deleteJob, auth, profile , isStudent=false}) => {
             </button>
             && <button onClick={() => onClick(job)}>delete</button> )
         }
-            
+
         </div>
     )
 }

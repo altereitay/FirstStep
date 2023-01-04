@@ -189,7 +189,28 @@ router.get('/', [],
             res.status(500).send('server error')
         }
     })
+/**
+ *@route    GET api/jobs/applied/:userId
+ *@desc     get jobs report
+ *@access   Public
+ */
+router.get('/applied/:userId',[],
+    async (req, res) => {
+        try {
+            const jobs = await Job.find();
+            let appliedJobs = []
 
+            for (const job of jobs){
+                if(job.appliedStudents.find(element => element === req.params.userId )){
+                    appliedJobs.push(job)
+                }
+            }
+            res.json(appliedJobs);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 /**
  *@route    GET api/jobs/student/:id
  *@desc     get all jobs if its relevant by id
