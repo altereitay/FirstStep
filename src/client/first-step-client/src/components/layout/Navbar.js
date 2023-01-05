@@ -22,7 +22,7 @@ const Navbar = ({auth, logout}) => {
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/upload-job">Upload Job</Link></li>
-            <li><Link onClick={logout} to="#!">
+            <li><Link onClick={logout} to="/">
                 <i className='fas fa-sign-out-alt'/> {' '}
                 <span className='hide-sm'>Logout</span>
             </Link></li>
@@ -40,7 +40,7 @@ const Navbar = ({auth, logout}) => {
     const studentLinks = (
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link onClick={logout} to="#!">
+            <li><Link onClick={logout} to="/">
                 <i className='fas fa-sign-out-alt'/> {' '}
                 <span className='hide-sm'>Logout</span>
             </Link></li>
