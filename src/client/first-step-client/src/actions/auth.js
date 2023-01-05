@@ -10,11 +10,11 @@ import {
     CLEAR_PROFILE,
     CLEAR_JOBS, JOB_ERROR, UPDATE_STUDENT_PROFILE, USER_ERROR
 } from "./types";
-import {setAlert} from "./alert";
+import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
-import {loadProfile} from "./profiles";
-import {loadJobs, loadJobsAdmin} from "./jobs";
-import {loadProfiles} from "./profiles";
+import { loadProfile } from "./profiles";
+import { loadJobs, loadJobsAdmin } from "./jobs";
+import { loadProfiles } from "./profiles";
 
 export const register = ({email, password, typeOfUser}, navigate) => async dispatch => {
     const config = {
@@ -30,9 +30,9 @@ export const register = ({email, password, typeOfUser}, navigate) => async dispa
             payload: res.data
         })
         dispatch(loadUser())
-        if (typeOfUser === 'student'){
+        if (typeOfUser === 'student') {
             navigate('/student-signup');
-        } else if (typeOfUser === 'employer'){
+        } else if (typeOfUser === 'employer') {
             navigate('/employer-signup');
         } else {
             navigate('/dashboard')
@@ -85,7 +85,7 @@ export const loadUser = () => async dispatch => {
         })
         dispatch(loadProfile(res.data._id))
 
-        if(res.data.typeOfUser === 'employer'){
+        if (res.data.typeOfUser === 'employer') {
             const profile = await axios.get(`api/profiles/${res.data._id}`)
             dispatch(loadJobs(profile.data._id))
         }
@@ -122,7 +122,7 @@ export const login = (email, password, navigate) => async dispatch => {
     }
 }
 
-export const logout = () => dispatch =>{
+export const logout = () => dispatch => {
     dispatch({type: CLEAR_PROFILE});
     dispatch({type: LOGOUT});
     dispatch({type: CLEAR_JOBS});
@@ -133,6 +133,26 @@ export const deleteUser = (id, navigate) => async dispatch => {
         dispatch(setAlert(users.data.msg, 'success'))
         dispatch(loadProfiles())
         navigate('/admin/accounts')
+    } catch (err) {
+        dispatch({
+            type: USER_ERROR
+        })
+    }
+}
+
+export const updateInfo = (id, email, password, navigate) => async dispatch => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const body = JSON.stringify({email, password});
+        const res = await axios.put(`/api/users/${id}`, body, config);
+        setAuthToken(res.token);
+        dispatch(setAlert('Profile Updated Successfully', 'success'));
+        navigate('/dashboard');
+
     } catch (err) {
         dispatch({
             type: USER_ERROR

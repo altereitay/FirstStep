@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator')
+const {check, validationResult} = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../modules/User')
@@ -20,16 +20,16 @@ router.post('/', [
         check('typeOfUser', 'Please include type of user').notEmpty(),
         check('password', 'please enter a password longer then 6 characters').isLength({min: 6})
     ],
-    async (req, res)=>{
+    async (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
         const {email, password, typeOfUser} = req.body;
-        try{
+        try {
             let user = await User.findOne({email});
-            if (user){
-                return  res.status(400).json({errors:[{msg: 'User exist'}]})
+            if (user) {
+                return res.status(400).json({errors: [{msg: 'User exist'}]})
             }
 
             user = new User({typeOfUser, email, password})
@@ -47,13 +47,13 @@ router.post('/', [
             jwt.sign(payload,
                 require('../configs/defualt.json').JWT_SECRET,
                 {expiresIn: 360000,},
-                (err, token)=>{
-                    if (err){
+                (err, token) => {
+                    if (err) {
                         throw err;
                     }
                     res.json({token})
                 })
-        }catch (e) {
+        } catch (e) {
             console.error(e.message)
             res.status(500).send('server error')
         }
@@ -75,9 +75,9 @@ router.delete('/:id',
                 if (!profile) {
                     return res.status(400).json({msg: 'user dont have profile'})
                 }
-                await  Employer.findOneAndDelete({user:req.params.id})
+                await Employer.findOneAndDelete({user: req.params.id})
             }
-            await  Student.findOneAndDelete({user:req.params.id})
+            await Student.findOneAndDelete({user: req.params.id})
             const exists = await User.findById(req.params.id)
             if (!exists) {
                 return res.status(404).json({msg: "User Doesn't exists"});
@@ -90,5 +90,47 @@ router.delete('/:id',
             res.status(500).send('server error')
         }
     })
+
+/**
+ *@route    PUT api/users/:id
+ *@desc     Update user info
+ *@access   Private
+ */
+router.put('/:id', [auth,
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'please enter a password longer then 6 characters').isLength({min: 6})
+], async (req, res) => {
+    try {
+        if (!User.exists({_id: req.params.id})) {
+            return res.status(404).json({errors: [{msg: "User Doesn't exists"}]});
+        }
+        let profileFields = {email: req.body.email, password: req.body.password}
+        const salt = await bcrypt.genSalt(10);
+        profileFields.password = await bcrypt.hash(req.body.password, salt)
+        const user = await User.findOneAndUpdate({_id: req.params.id}, profileFields, {new: true});
+        await user.save();
+
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        jwt.sign(payload,
+            require('../configs/defualt.json').JWT_SECRET,
+            {expiresIn: 360000,},
+            (err, token) => {
+                if (err) {
+                    throw err;
+                }
+                res.json({token})
+            })
+
+    } catch (err) {
+        console.error(e.message);
+        res.status(500).send('server error');
+    }
+
+})
 
 module.exports = router;
