@@ -38,8 +38,12 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                 <Fragment>
                     {auth.user?.typeOfUser === 'student' &&
                         <Fragment>
-                            <button className='btn btn-primary' onClick={() => navigate(`/student/${profiles.profile._id}`)}>Edit Profile</button>
-                            <button className='btn btn-primary' onClick={() => navigate(`/applied/${profiles.profile._id}`)}>Get applied Jobs Report</button>
+                            <button className='btn btn-primary'
+                                    onClick={() => navigate(`/student/${profiles.profile._id}`)}>Edit Profile
+                            </button>
+                            <button className='btn btn-primary'
+                                    onClick={() => navigate(`/applied/${profiles.profile._id}`)}>Get applied Jobs Report
+                            </button>
                             <button className='btn btn-primary' onClick={() => navigate(`/student/jobs`)}>Find Jobs
                             </button>
                         </Fragment>
@@ -48,22 +52,11 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                 <Fragment>
                     {auth.user?.typeOfUser === 'admin' &&
                         <Fragment>
-                            <Fragment>
-                                <button className='btn btn-primary' onClick={() => navigate(`/admin/jobs`)}>Job
-                                    Managment
-                                </button>
-                            </Fragment>
-                            <Fragment>
-                                <button className='btn btn-primary' onClick={() => navigate(`/admin/accounts`)}>Account
-                                    Managment
-                                </button>
-                            </Fragment>
-                            <Fragment>
-                                <button onClick={() => navigate(`/admin/studentReport`)}>Student report</button>
-                            </Fragment>
-                            <Fragment>
-                                <button onClick={() => navigate(`/admin/employerReport`)}>Get Employer Report</button>
-                            </Fragment>
+                            <button className='btn btn-primary' onClick={() => navigate(`/admin/jobs`)}> Job Management </button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/admin/accounts`)}> Account Management </button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/admin/studentReport`)}>Student report</button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/admin/employerReport`)}>Get Employer Report</button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/admin/edit`)}>Edit Account</button>
                         </Fragment>
                     }
                 </Fragment>
