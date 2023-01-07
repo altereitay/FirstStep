@@ -13,12 +13,12 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
         city: '',
         education: [],
         skills: [],
-        picture: '',
+
         description: '',
         availability: []
     })
     const { name, dateOfBirth, city, skills, description } = formData
-
+    const [filename, setFileName] = useState("");
     const [educationData, setEducation] = useState({
         school: '',
         degree: '',
@@ -47,6 +47,9 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
     }
     const onChangeEducation = event => {
         setEducation({ ...educationData, [event.target.name]: event.target.value });
+    }
+    const onChangeFile = e =>{
+        setFileName(e.target.files[0]);
     }
     const skillsOnChange = e => {
         let skill = e.target.value.split(',');

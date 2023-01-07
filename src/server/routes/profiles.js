@@ -5,6 +5,20 @@ const Student = require('../modules/StudentProfile')
 const Employer = require('../modules/EmployerProfile')
 const auth = require('../middleware/auth')
 const mongoose = require('mongoose');
+const multer = require('multer')
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, callback) =>{
+        callback(null, "./client/first-step-client/public/uploads/");
+    },
+    filename: (req, file, callback) => {
+        callback(null, file.originalname);
+    }
+})
+
+const upload = multer({storage: storage});
+
 /**
  *@route    POST api/profiles/student
  *@desc     add a new student profile
@@ -19,6 +33,7 @@ router.post('/student', [
         check('education', 'please include a education').notEmpty(),
         check('availability', 'please include a availability').notEmpty()
     ],
+    upload.single("picture"),
     async (req, res) => {
         // console.log(req.body);
         const errors = validationResult(req);
@@ -32,11 +47,11 @@ router.post('/student', [
             city,
             education,
             skills,
-            picture,
             description,
             availability,
             certificateOfStudying
         } = req.body;
+        const picture = req.file.originalname
 
         const profileFields = {
             user,
@@ -92,6 +107,7 @@ router.put('/student/:id', [
         check('education', 'please include a education').notEmpty(),
         check('availability', 'please include a availability').notEmpty()
     ],
+    upload.single("picture"),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -104,12 +120,11 @@ router.put('/student/:id', [
             city,
             education,
             skills,
-            picture,
             description,
             availability,
             certificateOfStudying
         } = req.body;
-
+        const picture = req.file.originalname
         const profileFields = {
             user,
             name,
