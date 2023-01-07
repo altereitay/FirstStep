@@ -24,7 +24,7 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                     {auth.user?.typeOfUser === 'employer' &&
                         <Fragment>
                             <div>
-                                <button onClick={() => navigate(`/employer/${profiles.profile._id}`)}>Edit Profile
+                                <button className='btn btn-primary' onClick={() => navigate(`/employer/${profiles.profile._id}`)}>Edit Profile
                                 </button>
                             </div>
                             <h2 className='text-primary'>My Jobs</h2>
