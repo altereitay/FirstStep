@@ -398,16 +398,23 @@ router.post('/students/certs/:id', auth, async (req, res) => {
  *@desc     Aprrove user certificate
  *@access   Private
  */
-router.put(`/approve/:id`,async (req, res) => {
-    if(req.body.typeOfUser==="student"){
-        const profile=await Student.findById(req.params.id)
-        if(profile) {
-            profile.isApproved=true
+router.put(`/approve/:id`, async (req, res) => {
+    if (req.body.typeOfUser === "student") {
+        const profile = await Student.findById(req.params.id)
+        if (profile) {
+            profile.isApproved = true
             await profile.save();
-            res.json({msg:'profile Approved'})
+            return res.json({msg: 'Profile Approved'})
+        }
+    } else if (req.body.typeOfUser === "employer") {
+        const profile = await Employer.findById(req.params.id)
+        if (profile) {
+            profile.isApproved = true
+            await profile.save();
+            return res.json({msg: 'Profile Approved'})
         }
     }
-
+    res.status(404).json({errors:["Profile not found"]})
 })
 
 module.exports = router;
