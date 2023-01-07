@@ -13,7 +13,7 @@ const Adminjobs = ({auth, jobs,loadJobsAdmin, deleteJob}) => {
         <div>
             <h2 className='text-primary'>Jobs Managment</h2>
             {jobs.jobs?.map((job) => {
-                return <JobDetail key={job._id} job={job} deleteJob={deleteJob} />
+                return <JobDetail key={job._id} job={job} deleteJob={deleteJob} isAdmin={true} />
             })}
         </div>
     )

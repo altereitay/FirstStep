@@ -23,7 +23,7 @@ export const newStudentProfile = (formData,educationData ,availabilityData, user
         body.education.push(educationData);
         body.availability = {...availabilityData};
         body.user = user;
-        const res = await axios.post('/api/profiles/student', body, config);
+        const res = await axios.post('http://localhost:5000/api/profiles/student', body, config);
         dispatch({
             type:NEW_STUDENT_PROFILE,
             payload: res.data
@@ -51,7 +51,7 @@ export const newEmployerProfile = (formData, user, navigate) => async (dispatch)
         }
         let body = {...formData};
         body.user = user;
-        const res = await axios.post('/api/profiles/employer', body, config);
+        const res = await axios.post('http://localhost:5000/api/profiles/employer', body, config);
         dispatch({
             type:NEW_EMPLOYER_PROFILE,
             payload: res.data
@@ -75,7 +75,7 @@ export const loadProfile = (id) => async dispatch => {
         return
     }
     try {
-        const profile = await axios.get(`/api/profiles/${id}`)
+        const profile = await axios.get(`http://localhost:5000/api/profiles/${id}`)
         dispatch({
             type: PROFILE_LOADED,
             payload: profile.data
@@ -98,7 +98,7 @@ export const updateStudentProfile = (formData, educationData, availabilityData, 
         body.education[0] = educationData;
         body.availability = {...availabilityData};
         body.user = profile.user;
-        const res = await axios.put(`/api/profiles/student/${profile._id}`, body, config);
+        const res = await axios.put(`http://localhost:5000/api/profiles/student/${profile._id}`, body, config);
         dispatch({
             type: UPDATE_STUDENT_PROFILE,
             payload: res.data
@@ -122,7 +122,7 @@ export const updateEmployerProfile = (formData, profile, navigate) => async disp
         }
         let body = {...formData};
         body.user = profile.user;
-        const res = await axios.put(`/api/profiles/employer/${profile._id}`, body, config);
+        const res = await axios.put(`http://localhost:5000/api/profiles/employer/${profile._id}`, body, config);
         dispatch({
             type:UPDATE_EMPLOYER_PROFILE,
             payload: res.data
@@ -138,7 +138,7 @@ export const updateEmployerProfile = (formData, profile, navigate) => async disp
 }
 export const loadProfiles = () => async dispatch => {
     try {
-        const profiles = await axios.get('/api/profiles/');
+        const profiles = await axios.get('http://localhost:5000/api/profiles/');
         dispatch({
             type: LOAD_PROFILES,
             payload: profiles.data
@@ -151,7 +151,7 @@ export const loadProfiles = () => async dispatch => {
 }
 export const loadStudent = () => async dispatch => {
     try {
-        const students = await axios.get('/api/profiles/student');
+        const students = await axios.get('http://localhost:5000/api/profiles/student');
         dispatch({
             type: LOAD_PROFILES,
             payload: students.data
@@ -165,7 +165,7 @@ export const loadStudent = () => async dispatch => {
 
 export const loadEmployer = () => async dispatch => {
     try {
-        const employer = await axios.get('/api/profiles/employer');
+        const employer = await axios.get('http://localhost:5000/api/profiles/employer');
         dispatch({
             type: LOAD_PROFILES,
             payload: employer.data
@@ -184,7 +184,7 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
                 'Content-Type': 'multipart/form-data'
             }
         }
-        const res = await axios.post(`/api/profiles/students/certs/${userID}`, fileData, config);
+        const res = await axios.post(`http://localhost:5000/api/profiles/students/certs/${userID}`, fileData, config);
         dispatch(setAlert('Certificate of Studying Upload Successfully', 'success'));
     } catch (err) {
         dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));
@@ -197,7 +197,7 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
                 'Content-Type': 'multipart/form-data'
             }
         }
-        const res = await axios.post(`/api/profiles/employers/certs/${userID}`, fileData, config);
+        const res = await axios.post(`http://localhost:5000/api/profiles/employers/certs/${userID}`, fileData, config);
         dispatch(setAlert('Certificate of Studying Upload Successfully', 'success'));
     } catch (err) {
         dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));
@@ -207,7 +207,7 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
 export const approveCert=(profileId,typeOfUser)=>async dispatch =>{
     try{
         const body={typeOfUser}
-       await axios.put(`/api/profiles/approve/${profileId}`,body)
+       await axios.put(`http://localhost:5000/api/profiles/approve/${profileId}`,body)
         dispatch(setAlert('Profile Approved', 'success'));
     }catch (err){
         dispatch(setAlert('Profile did not approved', 'danger'));

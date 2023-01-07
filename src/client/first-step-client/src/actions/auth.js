@@ -8,7 +8,8 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     CLEAR_PROFILE,
-    CLEAR_JOBS, JOB_ERROR, UPDATE_STUDENT_PROFILE, USER_ERROR
+    CLEAR_JOBS,
+    USER_ERROR
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -24,7 +25,7 @@ export const register = ({email, password, typeOfUser}, navigate) => async dispa
     };
     const body = JSON.stringify({email, password, typeOfUser});
     try {
-        const res = await axios.post('/api/users', body, config);
+        const res = await axios.post('http://localhost:5000/api/users', body, config);
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
@@ -55,7 +56,7 @@ export const addAdmin = ({email, password, typeOfUser}, navigate) => async dispa
     };
     const body = JSON.stringify({email, password, typeOfUser});
     try {
-        const res = await axios.post('/api/users', body, config);
+        const res = await axios.post('http://localhost:5000/api/users', body, config);
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
@@ -78,7 +79,7 @@ export const loadUser = () => async dispatch => {
         setAuthToken(localStorage.token)
     }
     try {
-        const res = await axios.get('/api/auth');
+        const res = await axios.get('http://localhost:5000/api/auth');
         dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -86,7 +87,7 @@ export const loadUser = () => async dispatch => {
         dispatch(loadProfile(res.data._id))
 
         if (res.data.typeOfUser === 'employer') {
-            const profile = await axios.get(`api/profiles/${res.data._id}`)
+            const profile = await axios.get(`http://localhost:5000/api/profiles/${res.data._id}`)
             dispatch(loadJobs(profile.data._id))
         }
     } catch (err) {
@@ -104,7 +105,7 @@ export const login = (email, password, navigate) => async dispatch => {
     };
     const body = JSON.stringify({email, password});
     try {
-        const res = await axios.post('/api/auth/login', body, config);
+        const res = await axios.post('http://localhost:5000/api/auth/login', body, config);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data.token
@@ -130,7 +131,7 @@ export const logout = () => dispatch => {
 }
 export const deleteUser = (id, navigate) => async dispatch => {
     try {
-        const users = await axios.delete(`/api/users/${id}`)
+        const users = await axios.delete(`http://localhost:5000/api/users/${id}`)
         dispatch(setAlert(users.data.msg, 'success'))
         dispatch(loadProfiles())
         navigate('/admin/accounts')
@@ -149,7 +150,7 @@ export const updateInfo = (id, email, password, navigate) => async dispatch => {
             }
         };
         const body = JSON.stringify({email, password});
-        const res = await axios.put(`/api/users/${id}`, body, config);
+        const res = await axios.put(`http://localhost:5000/api/users/${id}`, body, config);
         setAuthToken(res.token);
         dispatch(setAlert('Profile Updated Successfully', 'success'));
         navigate('/dashboard');

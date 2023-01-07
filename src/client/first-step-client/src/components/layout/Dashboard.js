@@ -29,7 +29,7 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                             </div>
                             <h2 className='text-primary'>My Jobs</h2>
                             {jobs.jobs.map((job) => {
-                                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer}/>
+                                    return <JobDetail key={job._id} job={job} deleteJob={deleteJobEmployer} isEmployer={true}/>
                                 }
                             )}
                         </Fragment>

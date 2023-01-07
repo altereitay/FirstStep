@@ -10,7 +10,7 @@ export const newJob = (formData, availabilityData, profile, navigate) => async (
             }
         }
         let body = {...formData, requiredDays: availabilityData, profile}
-        const res = await axios.post('/api/jobs', body, config);
+        const res = await axios.post('http://localhost:5000/api/jobs', body, config);
         dispatch({
             type: NEW_JOB,
             payload: res.data
@@ -33,7 +33,7 @@ export const newJob = (formData, availabilityData, profile, navigate) => async (
 export const loadJobs = (id) => async dispatch => {
 
     try {
-        const jobs = await axios.get(`/api/jobs/${id}`)
+        const jobs = await axios.get(`http://localhost:5000/api/jobs/${id}`)
         dispatch({
             type: LOAD_JOBS,
             payload: jobs.data
@@ -47,7 +47,7 @@ export const loadJobs = (id) => async dispatch => {
 export const loadJobsAdmin = () => async dispatch => {
 
     try {
-        const jobs = await axios.get('/api/jobs/');
+        const jobs = await axios.get('http://localhost:5000/api/jobs/');
         dispatch({
             type: LOAD_JOBS,
             payload: jobs.data
@@ -61,7 +61,7 @@ export const loadJobsAdmin = () => async dispatch => {
 export const loadJobsStudent = (id) => async dispatch => {
 
     try {
-        const jobs = await axios.get(`/api/jobs/student/${id}`)
+        const jobs = await axios.get(`http://localhost:5000/api/jobs/student/${id}`)
         dispatch({
             type: LOAD_JOBS,
             payload: jobs.data
@@ -80,7 +80,7 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
             }
         }
         let body = {...formData, requiredDays: availabilityData}
-        const res = await axios.put(`/api/jobs/${id}`, body, config);
+        const res = await axios.put(`http://localhost:5000/api/jobs/${id}`, body, config);
         dispatch({
             type: UPDATE_JOB,
             payload: res.data
@@ -96,7 +96,7 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
 
 export const deleteJob = (id, navigate) => async dispatch => {
     try {
-        const jobs = await axios.delete(`/api/jobs/${id}`)
+        const jobs = await axios.delete(`http://localhost:5000/api/jobs/${id}`)
         dispatch(setAlert(jobs.data.msg, 'success'))
         dispatch(loadJobsAdmin())
         navigate('/admin/jobs')
@@ -111,7 +111,7 @@ export const deleteJob = (id, navigate) => async dispatch => {
 export const getAppliedJob = (id, navigate) => async dispatch => {
 
     try {
-        const jobs = await axios.get(`/api/jobs/applied/${id}`)
+        const jobs = await axios.get(`http://localhost:5000/api/jobs/applied/${id}`)
         dispatch({
             type: APPLIED_JOBS_REPORT,
             payload: jobs.data
@@ -122,7 +122,7 @@ export const getAppliedJob = (id, navigate) => async dispatch => {
     }
 export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async dispatch => {
     try {
-        const jobs = await axios.delete(`/api/jobs/${jobId}`)
+        const jobs = await axios.delete(`http://localhost:5000/api/jobs/${jobId}`)
         dispatch(setAlert(jobs.data.msg, 'success'))
         dispatch(loadJobs(employerId))
         navigate('/dashboard')
