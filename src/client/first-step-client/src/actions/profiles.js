@@ -11,6 +11,7 @@ import {
     LOAD_JOBS, JOB_ERROR, LOAD_PROFILES
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
+import profiles from "../reducers/profiles";
 
 export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
     try {
@@ -189,5 +190,13 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
     } catch (err) {
         dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));
     }
-
+}
+export const approveCert=(profileId,typeOfUser)=>async dispatch =>{
+    try{
+        const body={typeOfUser}
+       await axios.put(`/api/profiles/approve/${profileId}`,body)
+        dispatch(setAlert('Profile Approved', 'success'));
+    }catch (err){
+        dispatch(setAlert('Profile did not approved', 'danger'));
+    }
 }
