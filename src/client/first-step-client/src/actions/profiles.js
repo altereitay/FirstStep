@@ -189,5 +189,27 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
     } catch (err) {
         dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));
     }
+}
+    export const uploadEmployerCert = (userID, fileData) => async dispatch =>{
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        const res = await axios.post(`/api/profiles/employers/certs/${userID}`, fileData, config);
+        dispatch(setAlert('Certificate of Studying Upload Successfully', 'success'));
+    } catch (err) {
+        dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));
+    }
+}
 
+export const approveCert=(profileId,typeOfUser)=>async dispatch =>{
+    try{
+        const body={typeOfUser}
+       await axios.put(`/api/profiles/approve/${profileId}`,body)
+        dispatch(setAlert('Profile Approved', 'success'));
+    }catch (err){
+        dispatch(setAlert('Profile did not approved', 'danger'));
+    }
 }

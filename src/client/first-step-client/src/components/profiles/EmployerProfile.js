@@ -1,18 +1,26 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {newEmployerProfile} from "../../actions/profiles";
+import {
+    newEmployerProfile,
+    uploadEmployerCert,
+} from "../../actions/profiles";
 import {useNavigate} from "react-router-dom";
 
-const EmployerProfile = ({user, newEmployerProfile}) => {
+const EmployerProfile = ({user, newEmployerProfile,uploadEmployerCert}) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         business: '',
-        picture: '',
         description: ''
     })
     const {name, business, description} = formData
+
+    const [fileName, setFileName] = useState("");
+
+    const onFileChange = event =>{
+        setFileName(event.target.files[0])
+    }
 
     const onChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
@@ -20,7 +28,15 @@ const EmployerProfile = ({user, newEmployerProfile}) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        newEmployerProfile(formData, user?._id, navigate);
+        let fileData;
+        if (fileName) {
+            fileData = new FormData();
+            fileData.append('image', fileName)
+        }
+         await newEmployerProfile(formData, user?._id, navigate);
+        if (fileName) {
+            uploadEmployerCert(user?._id, fileData);
+        }
     }
 
     return (
@@ -57,6 +73,10 @@ const EmployerProfile = ({user, newEmployerProfile}) => {
                         onChange={event => onChange(event)}
                         />
                 </div>
+                <div className='form-group'>
+                    <h3 className='large text-primary'>Picture</h3>
+                    <input type='file' onChange={e => onFileChange(e)}/>
+                </div>
                 <input type='submit' className='btn btn-primary my-1'/>
             </form>
 
@@ -71,4 +91,4 @@ EmployerProfile.propTypes = {
 const mapStateToProps = state =>({
     user: state.auth.user
 })
-export default connect(mapStateToProps, {newEmployerProfile})(EmployerProfile);
+export default connect(mapStateToProps, {newEmployerProfile,uploadEmployerCert})(EmployerProfile);

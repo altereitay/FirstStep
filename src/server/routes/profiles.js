@@ -9,7 +9,7 @@ const multer = require('multer')
 const path = require('path')
 
 const storage = multer.diskStorage({
-    destination: './public/',
+    destination: '../client/first-step-client/public',
     filename: function (req, file, cb) {
         cb(null, req.url + path.extname(file.originalname));
     }
@@ -20,19 +20,21 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: 1000000},
     fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
+        checkFileType(file,cb);
     }
+
 }).single('image');
 
-function checkFileType (file, cb) {
+function checkFileType(file, cb) {
     const filetypes = /jpeg|jpg|png|gif|pdf/;
+
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb('Error: Images Only!');
+        cb(new Error('Error: Images Only!'),false);
     }
 }
 
@@ -375,13 +377,13 @@ router.get('/',
  */
 router.post('/students/certs/:id', auth, async (req, res) => {
     const profile = await Student.findOne({user: req.params.id});
-    if (!profile){
-        return res.status(404).json({errors:['Profile Not Found']});
+    if (!profile) {
+        return res.status(404).json({errors: ['Profile Not Found']});
     }
     upload(req, res, async (err) => {
         if (err) {
             console.error(err)
-            res.json({errors:[err]});
+            res.json({errors: [err]});
         } else {
             if (req.file === undefined) {
                 res.json({errors: ['No File Selected!']});
@@ -393,6 +395,53 @@ router.post('/students/certs/:id', auth, async (req, res) => {
         }
     });
 });
-
+/**
+ *@route    POST api/profiles/employers/certs/:id
+ *@desc     Upload employer certificate of studying
+ *@access   Private
+ */
+router.post('/employers/certs/:id', auth, async (req, res) => {
+    const profile = await Employer.findOne({user: req.params.id});
+    if (!profile) {
+        return res.status(404).json({errors: ['Profile Not Found']});
+    }
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error(err)
+            return res.status(400).json({errors: [err]});
+        } else {
+            if (req.file === undefined) {
+                return res.status(400).json({errors: ['No File Selected!']});
+            } else {
+                profile.picture = '' + req.file.path;
+                await profile.save();
+                res.json({msg: 'File Uploaded!',});
+            }
+        }
+    });
+});
+/**
+ *@route    POST api/profiles/approve/:id
+ *@desc     Aprrove user certificate
+ *@access   Private
+ */
+router.put(`/approve/:id`, async (req, res) => {
+    if (req.body.typeOfUser === "student") {
+        const profile = await Student.findById(req.params.id)
+        if (profile) {
+            profile.isApproved = true
+            await profile.save();
+            return res.json({msg: 'Profile Approved'})
+        }
+    } else if (req.body.typeOfUser === "employer") {
+        const profile = await Employer.findById(req.params.id)
+        if (profile) {
+            profile.isApproved = true
+            await profile.save();
+            return res.json({msg: 'Profile Approved'})
+        }
+    }
+    res.status(404).json({errors:["Profile not found"]})
+})
 
 module.exports = router;
