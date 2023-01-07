@@ -1,28 +1,37 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import {updateEmployerProfile} from "../../actions/profiles";
+import {updateEmployerProfile, uploadEmployerCert} from "../../actions/profiles";
 import {useNavigate} from "react-router-dom";
 
-const EditEmployerProfile = ({profile, updateEmployerProfile}) => {
+const EditEmployerProfile = ({profile, updateEmployerProfile,uploadEmployerCert}) => {
     const navigate = useNavigate();
     const employer = profile;
     const [formData, setFormData] = useState({
         name: employer.name,
         business: employer.business,
-        picture: employer.picture,
         description: employer.description
     })
     const {name, business, description} = formData
-
+    const [fileName, setFileName] = useState("");
+    const onFileChange = event =>{
+        setFileName(event.target.files[0])
+    }
     const onChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
     }
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        updateEmployerProfile(formData, profile, navigate);
+        let fileData;
+        if (fileName) {
+            fileData = new FormData();
+            fileData.append('image', fileName)
+        }
+        await updateEmployerProfile(formData, profile, navigate);
+        if (fileName) {
+            uploadEmployerCert(profile.user, fileData);
+        }
     }
-
     return (
         <Fragment>
             <form className='form' onSubmit={event=> onSubmit(event)}>
@@ -57,6 +66,10 @@ const EditEmployerProfile = ({profile, updateEmployerProfile}) => {
                         onChange={event => onChange(event)}
                         />
                 </div>
+                <div className='form-group'>
+                    <h3 className='large text-primary'>Picture</h3>
+                    <input type='file' onChange={e => onFileChange(e)}/>
+                </div>
                 <input type='submit' className='btn btn-primary my-1'/>
             </form>
 
@@ -67,4 +80,4 @@ const EditEmployerProfile = ({profile, updateEmployerProfile}) => {
 const mapStateToProps = state =>({
     profile: state.profiles.profile
 })
-export default connect(mapStateToProps, {updateEmployerProfile})(EditEmployerProfile);
+export default connect(mapStateToProps, {updateEmployerProfile,uploadEmployerCert})(EditEmployerProfile);

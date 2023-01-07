@@ -13,7 +13,6 @@ const StudentProfile = ({ user, newStudentProfile, setAlert, uploadStudentCert})
         city: '',
         education: [],
         skills: [],
-
         description: '',
         availability: []
     })

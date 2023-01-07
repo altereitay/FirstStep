@@ -394,6 +394,31 @@ router.post('/students/certs/:id', auth, async (req, res) => {
     });
 });
 /**
+ *@route    POST api/profiles/employers/certs/:id
+ *@desc     Upload employer certificate of studying
+ *@access   Private
+ */
+router.post('/employers/certs/:id', auth, async (req, res) => {
+    const profile = await Employer.findOne({user: req.params.id});
+    if (!profile) {
+        return res.status(404).json({errors: ['Profile Not Found']});
+    }
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error(err)
+            res.json({errors: [err]});
+        } else {
+            if (req.file === undefined) {
+                res.json({errors: ['No File Selected!']});
+            } else {
+                profile.picture = '' + req.file.path;
+                await profile.save();
+                res.json({msg: 'File Uploaded!',});
+            }
+        }
+    });
+});
+/**
  *@route    POST api/profiles/approve/:id
  *@desc     Aprrove user certificate
  *@access   Private
