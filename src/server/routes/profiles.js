@@ -6,18 +6,36 @@ const Employer = require('../modules/EmployerProfile')
 const auth = require('../middleware/auth')
 const mongoose = require('mongoose');
 const multer = require('multer')
-
+const path = require('path')
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) =>{
-        callback(null, "./client/first-step-client/public/uploads/");
-    },
-    filename: (req, file, callback) => {
-        callback(null, file.originalname);
+    destination: './public/',
+    filename: function (req, file, cb) {
+        cb(null, req.url + path.extname(file.originalname));
     }
-})
+});
 
-const upload = multer({storage: storage});
+// Init Upload
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: 1000000},
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('image');
+
+function checkFileType (file, cb) {
+    const filetypes = /jpeg|jpg|png|gif|pdf/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images Only!');
+    }
+}
+
 
 /**
  *@route    POST api/profiles/student
@@ -33,7 +51,6 @@ router.post('/student', [
         check('education', 'please include a education').notEmpty(),
         check('availability', 'please include a availability').notEmpty()
     ],
-    upload.single("picture"),
     async (req, res) => {
         // console.log(req.body);
         const errors = validationResult(req);
@@ -49,9 +66,9 @@ router.post('/student', [
             skills,
             description,
             availability,
-            certificateOfStudying
+            certificateOfStudying,
+            picture
         } = req.body;
-        const picture = req.file.originalname
 
         const profileFields = {
             user,
@@ -107,7 +124,6 @@ router.put('/student/:id', [
         check('education', 'please include a education').notEmpty(),
         check('availability', 'please include a availability').notEmpty()
     ],
-    upload.single("picture"),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -276,15 +292,14 @@ router.put('/employer/:id', [
  *@route    GET api/profiles/employer
  *@desc     get all Employer profile
  *@access   Public
- *///
+ */
+
 router.get('/employer',
     async (req, res) => {
-        try
-        {
-            const employer=await Employer.find();
+        try {
+            const employer = await Employer.find();
             res.json(employer);
-        }
-        catch (e) {
+        } catch (e) {
             console.error(e.message)
             res.status(500).send('server error')
         }
@@ -295,7 +310,8 @@ router.get('/employer',
  *@route    GET api/profiles/student
  *@desc     get all student profile
  *@access   Public
- *///
+ */
+
 router.get('/student',
     async (req, res) => {
         try {
@@ -311,7 +327,8 @@ router.get('/student',
  *@route    GET api/profiles/:id
  *@desc     get user profile
  *@access   Public
- *///
+ */
+
 router.get('/:id', auth, async (req, res) => {
     try {
         let profile = await Student.exists({user: mongoose.Types.ObjectId(req.params.id)})
@@ -336,7 +353,7 @@ router.get('/:id', auth, async (req, res) => {
  *@route    GET api/profiles/
  *@desc     get all user profile
  *@access   Public
- *///
+ */
 router.get('/',
     async (req, res) => {
         try {
@@ -351,6 +368,31 @@ router.get('/',
 
     })
 
+/**
+ *@route    POST api/profiles/students/certs/:id
+ *@desc     Upload student certificate of studying
+ *@access   Private
+ */
+router.post('/students/certs/:id', auth, async (req, res) => {
+    const profile = await Student.findOne({user: req.params.id});
+    if (!profile){
+        return res.status(404).json({errors:['Profile Not Found']});
+    }
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error(err)
+            res.json({errors:[err]});
+        } else {
+            if (req.file === undefined) {
+                res.json({errors: ['No File Selected!']});
+            } else {
+                profile.certificateOfStudying = '' + req.file.path;
+                await profile.save();
+                res.json({msg: 'File Uploaded!',});
+            }
+        }
+    });
+});
 
 
 module.exports = router;

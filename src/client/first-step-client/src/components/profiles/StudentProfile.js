@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { newStudentProfile } from "../../actions/profiles";
+import { newStudentProfile, uploadStudentCert } from "../../actions/profiles";
 import { useNavigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 
-const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
+const StudentProfile = ({ user, newStudentProfile, setAlert, uploadStudentCert}) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -18,7 +18,7 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
         availability: []
     })
     const { name, dateOfBirth, city, skills, description } = formData
-    const [filename, setFileName] = useState("");
+
     const [educationData, setEducation] = useState({
         school: '',
         degree: '',
@@ -39,6 +39,13 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
     })
     const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = availabilityData
 
+    const [fileName, setFileName] = useState("");
+
+    const onFileChange = event =>{
+        console.log(event.target.files)
+        setFileName(event.target.files[0])
+    }
+
     const onChange = event => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     }
@@ -48,9 +55,7 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
     const onChangeEducation = event => {
         setEducation({ ...educationData, [event.target.name]: event.target.value });
     }
-    const onChangeFile = e =>{
-        setFileName(e.target.files[0]);
-    }
+
     const skillsOnChange = e => {
         let skill = e.target.value.split(',');
         setFormData({ ...formData, skills: skill });
@@ -62,11 +67,14 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        const fileData = new FormData();
+        fileData.append('image', fileName)
         if (degree === ""){
             setAlert("Degree Must Be Selected", "danger")
             return;
         }
-        newStudentProfile(formData, educationData, availabilityData, user?._id, navigate);
+        await newStudentProfile(formData, educationData, availabilityData, user?._id, navigate);
+        uploadStudentCert(user?._id, fileData);
     }
     return (
         <Fragment>
@@ -214,6 +222,10 @@ const StudentProfile = ({ user, newStudentProfile, setAlert}) => {
                         onChange={event => onChange(event)}
                     />
                 </div>
+                <div className='form-group'>
+                    <h3 className='large text-primary'>Certificate of Studying</h3>
+                    <input type='file' onChange={e => onFileChange(e)}/>
+                </div>
                 <input type='submit' className='btn btn-primary my-1' />
             </form>
 
@@ -229,4 +241,4 @@ StudentProfile.propTypes = {
 const mapStateToProps = state => ({
     user: state.auth.user
 })
-export default connect(mapStateToProps, { newStudentProfile, setAlert })(StudentProfile);
+export default connect(mapStateToProps, { newStudentProfile, setAlert, uploadStudentCert })(StudentProfile);
