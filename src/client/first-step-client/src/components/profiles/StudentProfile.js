@@ -42,7 +42,6 @@ const StudentProfile = ({ user, newStudentProfile, setAlert, uploadStudentCert})
     const [fileName, setFileName] = useState("");
 
     const onFileChange = event =>{
-        console.log(event.target.files)
         setFileName(event.target.files[0])
     }
 
@@ -67,14 +66,19 @@ const StudentProfile = ({ user, newStudentProfile, setAlert, uploadStudentCert})
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        const fileData = new FormData();
-        fileData.append('image', fileName)
+        let fileData;
+        if (fileName) {
+            fileData = new FormData();
+            fileData.append('image', fileName)
+        }
         if (degree === ""){
             setAlert("Degree Must Be Selected", "danger")
             return;
         }
         await newStudentProfile(formData, educationData, availabilityData, user?._id, navigate);
-        uploadStudentCert(user?._id, fileData);
+        if (fileName) {
+            uploadStudentCert(user?._id, fileData);
+        }
     }
     return (
         <Fragment>

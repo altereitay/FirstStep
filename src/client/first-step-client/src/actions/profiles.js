@@ -185,7 +185,6 @@ export const uploadStudentCert = (userID, fileData) => async dispatch =>{
             }
         }
         const res = await axios.post(`/api/profiles/students/certs/${userID}`, fileData, config);
-        console.log(fileData)
         dispatch(setAlert('Certificate of Studying Upload Successfully', 'success'));
     } catch (err) {
         dispatch(setAlert('Certificate of Studying Did Not Uploaded', 'danger'));

@@ -1,11 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-// import {updateStudentProfile} from "../../actions/profiles";
-import { updateStudentProfile } from "../../actions/profiles";
+import { updateStudentProfile, uploadStudentCert } from "../../actions/profiles";
 import { setAlert } from "../../actions/alert";
 
-const EditStudentProfile = ({ profile, updateStudentProfile, setAlert }) => {
+const EditStudentProfile = ({ profile, updateStudentProfile, uploadStudentCert }) => {
     const navigate = useNavigate();
     const student = profile;
     const [formData, setFormData] = useState({
@@ -56,9 +55,22 @@ const EditStudentProfile = ({ profile, updateStudentProfile, setAlert }) => {
     const availabilityOnChange = e => {
         setAvailability({ ...availabilityData, [e.target.name]: e.target.checked });
     }
+
+    const [fileName, setFileName] = useState("");
+    const onFileChange = event =>{
+        setFileName(event.target.files[0])
+    }
     const onSubmit = async (event) => {
         event.preventDefault();
-        updateStudentProfile(formData, educationData, availabilityData, profile, navigate);
+        let fileData;
+        if (fileName) {
+            fileData = new FormData();
+            fileData.append('image', fileName)
+        }
+        await updateStudentProfile(formData, educationData, availabilityData, profile, navigate);
+        if (fileName) {
+            uploadStudentCert(profile.user, fileData);
+        }
     }
 
     return (
@@ -213,6 +225,10 @@ const EditStudentProfile = ({ profile, updateStudentProfile, setAlert }) => {
                         onChange={event => onChange(event)}
                     />
                 </div>
+                <div className='form-group'>
+                    <h3 className='large text-primary'>Certificate of Studying</h3>
+                    <input type='file' onChange={e => onFileChange(e)}/>
+                </div>
                 <input type='submit' className='btn btn-primary my-1' />
             </form>
 
@@ -223,4 +239,4 @@ const EditStudentProfile = ({ profile, updateStudentProfile, setAlert }) => {
 const mapStateToProps = state => ({
     profile: state.profiles.profile
 })
-export default connect(mapStateToProps, { updateStudentProfile, setAlert })(EditStudentProfile);
+export default connect(mapStateToProps, { updateStudentProfile, uploadStudentCert })(EditStudentProfile);

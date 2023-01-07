@@ -138,9 +138,9 @@ router.put('/student/:id', [
             skills,
             description,
             availability,
-            certificateOfStudying
+            certificateOfStudying,
+            picture
         } = req.body;
-        const picture = req.file.originalname
         const profileFields = {
             user,
             name,
@@ -387,6 +387,7 @@ router.post('/students/certs/:id', auth, async (req, res) => {
                 res.json({errors: ['No File Selected!']});
             } else {
                 profile.certificateOfStudying = '' + req.file.path;
+                profile.isApproved = true;
                 await profile.save();
                 res.json({msg: 'File Uploaded!',});
             }
