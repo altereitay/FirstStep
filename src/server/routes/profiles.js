@@ -20,19 +20,21 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: 1000000},
     fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
+        checkFileType(file,cb);
     }
+
 }).single('image');
 
 function checkFileType(file, cb) {
     const filetypes = /jpeg|jpg|png|gif|pdf/;
+
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb('Error: Images Only!');
+        cb(new Error('Error: Images Only!'),false);
     }
 }
 
@@ -406,10 +408,10 @@ router.post('/employers/certs/:id', auth, async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.error(err)
-            res.json({errors: [err]});
+            return res.status(400).json({errors: [err]});
         } else {
             if (req.file === undefined) {
-                res.json({errors: ['No File Selected!']});
+                return res.status(400).json({errors: ['No File Selected!']});
             } else {
                 profile.picture = '' + req.file.path;
                 await profile.save();
