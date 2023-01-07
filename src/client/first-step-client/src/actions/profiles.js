@@ -11,7 +11,6 @@ import {
     LOAD_JOBS, JOB_ERROR, LOAD_PROFILES
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
-import profiles from "../reducers/profiles";
 
 export const newStudentProfile = (formData,educationData ,availabilityData, user, navigate) => async (dispatch) =>{
     try {
