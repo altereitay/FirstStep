@@ -131,5 +131,5 @@ export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async 
             type: JOB_ERROR
         })
     }
-
 }
+

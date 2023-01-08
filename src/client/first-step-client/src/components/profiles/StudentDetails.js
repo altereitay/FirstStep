@@ -35,7 +35,6 @@ const StudnetDetails = ({profile,approveCert}) => {
             }
             {(profile.certificateOfStudying && profile.isApproved===false)&&
                 <button onClick={e=>approveCert(profile._id,"student")}>Approve</button>
-
             }
             <br></br>
         </div>

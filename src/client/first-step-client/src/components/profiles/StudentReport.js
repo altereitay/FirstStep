@@ -9,7 +9,6 @@ const StudentReport= ({profiles, loadStudent}) =>{
     }, [])
     return (
         <div>
-
             <h2 className='text-primary'>User Managment</h2>
             {profiles.profiles?.map((profile) => {
                 return <StudnetDetails key={profile._id} profile={profile} />
