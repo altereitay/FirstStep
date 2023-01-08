@@ -26,6 +26,8 @@ import StudentJobs from './components/jobs/StudentJobs';
 import EmployerReport from "./components/profiles/EmployerReport";
 import StudentReport from "./components/profiles/StudentReport";
 import EditAdmin from "./components/profiles/EditAdmin";
+import Homepage from './components/layout/Homepage';
+
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -40,9 +42,9 @@ function App () {
             <Router>
                 <Fragment>
                     <Navbar />
-                    <section className='container'>
                         <Alert/>
                         <Routes>
+                            <Route exact path='/' element={<Homepage/>}/>
                             <Route exact path='/register-select' element={<RegistrationSelector/>}/>
                             <Route exact path='/register' element={<Register/>}/>
                             <Route exact path='/student-signup' element={<StudentProfile/>}/>
@@ -64,7 +66,6 @@ function App () {
                             <Route exact path='/admin/employerReport' element={<EmployerReport/>}/>
                             <Route exact path='/admin/edit' element={<EditAdmin/>}/>
                         </Routes>
-                    </section>
                 </Fragment>
             </Router>
         </Provider>

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
-const Navbar = ({auth, logout}) => {
+const Navbar = ({ auth, logout }) => {
     const guestLinks = (
         <ul>
             <li><Link to="/register-select">Register</Link></li>
@@ -23,7 +23,7 @@ const Navbar = ({auth, logout}) => {
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/upload-job">Upload Job</Link></li>
             <li><Link onClick={logout} to="/">
-                <i className='fas fa-sign-out-alt'/> {' '}
+                <i className='fas fa-sign-out-alt' /> {' '}
                 <span className='hide-sm'>Logout</span>
             </Link></li>
         </ul>
@@ -32,7 +32,7 @@ const Navbar = ({auth, logout}) => {
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link onClick={logout} to="/">
-                <i className='fas fa-sign-out-alt'/> {' '}
+                <i className='fas fa-sign-out-alt' /> {' '}
                 <span className='hide-sm'>Logout</span>
             </Link></li>
         </ul>
@@ -41,24 +41,23 @@ const Navbar = ({auth, logout}) => {
         <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link onClick={logout} to="/">
-                <i className='fas fa-sign-out-alt'/> {' '}
+                <i className='fas fa-sign-out-alt' /> {' '}
                 <span className='hide-sm'>Logout</span>
             </Link></li>
         </ul>
     )
     return (
         <nav className="navbar bg-dark">
-            <h1>
-                <Link to="/">
-                    <i className="fas fa-code"/>FirstStep</Link>
-            </h1>
+            <div className="logo">
+                    <img src="Firststep.png" />
+            </div>
             {!auth.loading && (
                 <Fragment>
                     {indicator}
                     {auth.isAuthenticated && auth.user?.typeOfUser === 'employer' ? employerLinks :
                         auth.isAuthenticated && auth.user?.typeOfUser === 'admin' ? adminLinks :
-                        auth.isAuthenticated && auth.user?.typeOfUser === 'student' ? studentLinks :
-                        guestLinks}
+                            auth.isAuthenticated && auth.user?.typeOfUser === 'student' ? studentLinks :
+                                guestLinks}
                 </Fragment>
             )}
         </nav>
@@ -72,4 +71,4 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
     auth: state.auth
 });
-export default connect(mapStateToProps, {logout})(Navbar)
+export default connect(mapStateToProps, { logout })(Navbar)
