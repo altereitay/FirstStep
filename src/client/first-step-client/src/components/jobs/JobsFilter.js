@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
+import { jobFilter } from "../../actions/jobs";
+import ViewJobs from "./ViewJobs";
+import JobDetail from "./JobDetail";
 
-const JobsFilter = () => {
-    const [jobs, setJobs] = useState([]);
+const JobsFilter = ({jobs, jobFilter}) => {
+    const [showJobs, setShowJobs] = useState(false);
 
     const [formData, setFormData] = useState({
         business: '',
@@ -40,11 +44,18 @@ const JobsFilter = () => {
         setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
 
+    const onSubmit = event => {
+        event.preventDefault();
+        jobFilter(formData, availabilityData)
+        setShowJobs(true);
+
+    }
+
     return (
         <Fragment>
             <h1 className='text-primary'>Choose Parameters For Your Desired Job</h1>
             <form onSubmit={e => {
-                // onSubmit(e)
+                onSubmit(e)
             }}>
                 <Fragment>
                     <div className='form-group'>
@@ -54,7 +65,7 @@ const JobsFilter = () => {
                                name='business'
                                value={business}
                                onChange={event => onChange(event)}
-                               required/>
+                               />
                     </div>
                     <div className='form-group'>
                         <h3 style={{color: '#38a1f3'}}>Job Type</h3>
@@ -74,7 +85,7 @@ const JobsFilter = () => {
                                name='percentageOfJob'
                                value={percentageOfJob}
                                onChange={event => onChange(event)}
-                               required/>
+                               />
                     </div>
                     <div className='form-group'>
                         <h3 style={{color: '#38a1f3'}}>location</h3>
@@ -83,7 +94,7 @@ const JobsFilter = () => {
                                name='location'
                                value={location}
                                onChange={event => onChange(event)}
-                               required/>
+                               />
                     </div>
                     <div className="form-group">
                         <h3 style={{color: '#38a1f3'}}>Required Skills</h3>
@@ -152,12 +163,21 @@ const JobsFilter = () => {
                             Saturday
                         </label>
                     </div>
-                    <input type='submit' className='btn btn-primary my-1'/>
+                    <button className='btn btn-primary my-1' onClick={e => onSubmit(e)}>Filter</button>
                 </Fragment>
             </form>
+            { showJobs &&
+                jobs.jobs.map((job) => {
+                    return <JobDetail key={job._id} job={job} isStudent={true}/>
+
+                })
+            }
         </Fragment>
     )
-
 }
 
-export default JobsFilter
+const mapStateToProps = state => ({
+    jobs: state.jobs
+})
+
+export default connect(mapStateToProps, {jobFilter})(JobsFilter)
