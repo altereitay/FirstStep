@@ -250,7 +250,7 @@ router.get('/aplication/:id', [auth],
             }
            const newstudents=[]
             for(const aplication of job.appliedStudents) {
-                const student = await Student.findById(aplication)
+                const student = await Student.findOne({user:aplication})
                 if (student) {
                     newstudents.push(student)
                 }
