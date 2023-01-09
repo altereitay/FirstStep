@@ -1,15 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import {applyJob} from "../../actions/jobs"
 
 
-const JobDetail = ({job, deleteJob, auth, profile, isStudent = false}) => {
+const JobDetail = ({job, deleteJob, auth, profile, isStudent = false, applyJob}) => {
     const navigate = useNavigate()
     const onClick = (job) => {
         if (auth.user.typeOfUser === 'employer') {
             deleteJob(job?._id, navigate, profile?.profile._id, auth?.user._id)
-        } else {
+        }
+
+        else {
             deleteJob(job?._id, navigate)
+        }
+    }
+    const onApply = () => {
+        if(auth.user.typeOfUser === 'student'){
+            applyJob(job?._id, auth?.user._id)
         }
     }
     return (
@@ -29,9 +37,11 @@ const JobDetail = ({job, deleteJob, auth, profile, isStudent = false}) => {
             }
 
             {
-                !isStudent && <button className='btn btn-primary' onClick={() => onClick(job)}>delete</button>
+                !isStudent && <button className='btn btn-primary' onClick={() => onClick(job)}>Delete</button>
             }
-
+            {
+                isStudent && <button className='btn btn-primary' onClick={() => onApply()}>Apply</button>
+            }
 
         </div>
     )
@@ -41,4 +51,4 @@ const mapStateToProps = state => ({
     auth: state.auth,
     profile: state.profiles
 });
-export default connect(mapStateToProps, null)(JobDetail);
+export default connect(mapStateToProps, {applyJob})(JobDetail);

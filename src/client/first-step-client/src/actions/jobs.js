@@ -131,5 +131,14 @@ export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async 
             type: JOB_ERROR
         })
     }
-
 }
+export const applyJob = (jobId, userId) => async dispatch => {
+    try {
+        let body = {userId}
+        const res = await axios.put(`/api/jobs/apply/${jobId}`, body);
+        dispatch(setAlert(res.data.msg, 'success'))
+    }
+    catch (err) {
+        dispatch(setAlert("Could'nt applied to requested job", 'danger'))
+    }
+}   
