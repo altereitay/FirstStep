@@ -7,6 +7,7 @@ const auth = require('../middleware/auth')
 const mongoose = require('mongoose');
 const multer = require('multer')
 const path = require('path')
+const Job = require("../modules/JobOffer");
 
 const storage = multer.diskStorage({
     destination: '../client/first-step-client/public',
@@ -443,5 +444,28 @@ router.put(`/approve/:id`, async (req, res) => {
     }
     res.status(404).json({errors:["Profile not found"]})
 })
+/**
+ *@route    GET api/profiles/relevant/:id
+ *@desc     get all students that is  relevant for the job
+ *@access   Public
+ */
+router.get('/relevant/:id', [auth],
+    async (req, res) => {
+        try {
+            let jobs = await Job.findById(req.params.id);
+
+            if (!jobs) {
+                return res.status(404).json({
+                    errors: [{msg: 'No job found'}]
+                })
+            }
+            let field = jobs.jobType;
+            const students = await Student.find({'education.degree': field[0]});
+            res.json(students);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 
 module.exports = router;

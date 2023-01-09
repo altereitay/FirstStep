@@ -213,3 +213,14 @@ export const approveCert=(profileId,typeOfUser)=>async dispatch =>{
         dispatch(setAlert('Profile did not approved', 'danger'));
     }
 }
+export const relevantStudent=(jobId)=>async  dispatch =>{
+    try{
+        const student=await axios.get(`/api/profiles/relevant/${jobId}`)
+        dispatch({
+            type: LOAD_PROFILES,
+            payload: student.data
+        })
+    }catch(err){
+        dispatch(setAlert('No Student Found', 'danger'));
+    }
+}

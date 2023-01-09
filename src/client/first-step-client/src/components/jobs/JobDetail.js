@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-
 const JobDetail = ({job, deleteJob, auth, profile, isStudent = false}) => {
     const navigate = useNavigate()
     const onClick = (job) => {
@@ -29,7 +28,13 @@ const JobDetail = ({job, deleteJob, auth, profile, isStudent = false}) => {
             }
 
             {
-                !isStudent && <button className='btn btn-primary' onClick={() => onClick(job)}>delete</button>
+                !isStudent && <button className='btn btn-primary' onClick={() => onClick(job)}>Delete</button>
+            }
+            {
+                !isStudent && <button className='btn btn-primary' onClick={() => {
+                    return navigate(`/view/jobs/${job?._id}`)
+                }}>Relevent Students
+                </button>
             }
 
 
