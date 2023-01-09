@@ -233,7 +233,34 @@ router.get('/applied/:userId',[],
          res.status(500).send('server error')
      }
  })
+/**
+ *@route    GET api/jobs/aplication/:id
+ *@desc     get all students that apply to job
+ *@access   Private
+ */
+router.get('/aplication/:id', [auth],
+    async (req, res) => {
+        try {
+            let job= await Job.findById(req.params.id);
 
+            if (!job) {
+                return res.status(404).json({
+                    errors: [{msg: 'No job found'}]
+                })
+            }
+           const newstudents=[]
+            for(const aplication of job.appliedStudents) {
+                const student = await Student.findById(aplication)
+                if (student) {
+                    newstudents.push(student)
+                }
+            }
+            res.json(newstudents);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 
  /**
  *@route    PUT api/jobs/apply/:id
