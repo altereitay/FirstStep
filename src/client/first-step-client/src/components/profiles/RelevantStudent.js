@@ -7,7 +7,6 @@ const RelevantStudent = ({profiles,job,relevantStudent}) => {
     const url = window.location.href;
     const parts = url.split('/');
     const id = parts[parts.length - 1];
-    console.log(id)
     useEffect(()=>{
         relevantStudent(id)
     }, [])
