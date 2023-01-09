@@ -215,7 +215,6 @@ export const approveCert=(profileId,typeOfUser)=>async dispatch =>{
 }
 export const relevantStudent=(jobId)=>async  dispatch =>{
     try{
-        console.log('hello')
         const student=await axios.get(`/api/profiles/relevant/${jobId}`)
         dispatch({
             type: LOAD_PROFILES,
