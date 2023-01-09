@@ -262,4 +262,37 @@ router.get('/aplication/:id', [auth],
         }
     })
 
+ /**
+ *@route    PUT api/jobs/apply/:id
+ *@desc     adding a new student to applied students
+ *@access   Public
+ */
+router.put('/apply/:id', [
+    check('userId', '').exists(),
+],
+async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: [{msg: "user could not applied"}]})
+    }
+    try {
+        const exists = await Job.exists({_id: req.params.id})
+        if (!exists) {
+            return res.status(404).json({errors: ["job doesn't exists"]})
+        }
+        const student = await Student.exists({user: req.body.userId})
+        if (!student) {
+            return res.status(404).json({errors: ["student doesn't exists"]})
+        }
+        const job = await Job.findById(req.params.id)
+        job.appliedStudents.push(req.body.userId)
+        await job.save();
+        res.json({msg: "Applied successfully"});
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('server error')
+    }
+})
+
+
 module.exports = router;
