@@ -27,6 +27,12 @@ const JobDetail = ({job, deleteJob, auth, profile, isStudent = false}) => {
                 }}>Edit Job
                 </button>
             }
+            {
+                !isStudent && <button className='btn btn-primary' onClick={() => {
+                    return navigate(`/aplications/students/${job?._id}`)
+                }}>Get Aplications Report
+                </button>
+            }
 
             {
                 !isStudent && <button className='btn btn-primary' onClick={() => onClick(job)}>delete</button>

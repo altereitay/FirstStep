@@ -1,6 +1,6 @@
 import axios from "axios";
 import {setAlert} from "./alert";
-import {APPLIED_JOBS_REPORT, AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB} from "./types";
+import {APPLIED_JOBS_REPORT, AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB,LOAD_PROFILES} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -131,5 +131,16 @@ export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async 
             type: JOB_ERROR
         })
     }
-
+}
+export const aplicationStudent=(jobId)=>async  dispatch =>{
+    try{
+        const student=await axios.get(`/api/jobs/aplication/${jobId}`)
+        console.log(student)
+        dispatch({
+            type: LOAD_PROFILES,
+            payload: student.data
+        })
+    }catch(err){
+        dispatch(setAlert('No Student Found', 'danger'));
+    }
 }
