@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import {applyJob} from "../../actions/jobs"
 
-const JobDetail = ({job, deleteJob, auth, profile, isStudent = false, applyJob = ()=>{} ) => {
+const JobDetail = ({job, deleteJob, auth, profile,applyJob, isStudent = false }) => {
     const navigate = useNavigate()
     const onClick = (job) => {
         if (auth.user.typeOfUser === 'employer') {
