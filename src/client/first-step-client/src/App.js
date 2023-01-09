@@ -28,6 +28,7 @@ import StudentReport from "./components/profiles/StudentReport";
 import EditAdmin from "./components/profiles/EditAdmin";
 import AppliedStudents from "./components/profiles/AppliedStudents";
 import RelevantStudent from "./components/profiles/RelevantStudent";
+import JobsFilter from "./components/jobs/JobsFilter";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -67,6 +68,7 @@ function App () {
                             <Route exact path='/admin/edit' element={<EditAdmin/>}/>
                             <Route exact path='/aplications/students/:id' element={<AppliedStudents/>}/>
                             <Route exact path='/view/jobs/:id' element={<RelevantStudent/>}/>
+                            <Route exact path='/job-filter' element={<JobsFilter/>}/>
                         </Routes>
                     </section>
                 </Fragment>

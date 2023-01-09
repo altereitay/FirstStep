@@ -176,13 +176,50 @@ router.delete('/:id', [auth
 
 /**
  *@route    GET api/jobs/
- *@desc     get all jobs
+ *@desc     get all jobs based on params
  *@access   Public
  */
 router.get('/', [],
     async (req, res) => {
+        let {
+            business,
+            percentageOfJob,
+            location,
+            requiredSkills,
+            jobType,
+            requiredDays
+        } = req.query
         try {
-            const jobs = await Job.find();
+            let params = {}
+            if (business) {
+                params.business = business;
+            }
+
+            if (percentageOfJob) {
+                params.percentageOfJob = percentageOfJob;
+            }
+
+            if (location) {
+                params.location = location;
+            }
+
+            if (requiredSkills) {
+                params.requiredSkills = requiredSkills;
+            }
+
+            if (jobType) {
+                params.jobType = jobType;
+            }
+
+            if (requiredDays) {
+                let daysArray = JSON.parse(requiredDays)
+                for (const day of daysArray){
+                    let mongoFormat = `requiredDays.${day}`
+                    params[mongoFormat] = true;
+                }
+            }
+
+            const jobs = await Job.find(params);
             res.json(jobs);
         } catch (e) {
             console.error(e.message)
@@ -194,14 +231,14 @@ router.get('/', [],
  *@desc     get jobs report
  *@access   Public
  */
-router.get('/applied/:userId',[],
+router.get('/applied/:userId', [],
     async (req, res) => {
         try {
             const jobs = await Job.find();
             let appliedJobs = []
 
-            for (const job of jobs){
-                if(job.appliedStudents.find(element => element === req.params.userId )){
+            for (const job of jobs) {
+                if (job.appliedStudents.find(element => element === req.params.userId)) {
                     appliedJobs.push(job)
                 }
             }
@@ -216,23 +253,23 @@ router.get('/applied/:userId',[],
  *@desc     get all jobs if its relevant by id
  *@access   Private
  */
- router.get('/student/:id', [auth],
- async (req, res) => {
-     try {
-         let student = await Student.findById(req.params.id);
-         if (!student) {
-             return res.status(404).json({
-                 errors: [{msg: 'No student found'}]
-             })
-         }
-         let field = student.education[0].degree;
-         const jobs = await Job.find({jobType: field});   
-         res.json(jobs);
-     } catch (e) {
-         console.error(e.message)
-         res.status(500).send('server error')
-     }
- })
+router.get('/student/:id', [auth],
+    async (req, res) => {
+        try {
+            let student = await Student.findById(req.params.id);
+            if (!student) {
+                return res.status(404).json({
+                    errors: [{msg: 'No student found'}]
+                })
+            }
+            let field = student.education[0].degree;
+            const jobs = await Job.find({jobType: field});
+            res.json(jobs);
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
+        }
+    })
 /**
  *@route    GET api/jobs/aplication/:id
  *@desc     get all students that apply to job
@@ -241,16 +278,16 @@ router.get('/applied/:userId',[],
 router.get('/aplication/:id', [auth],
     async (req, res) => {
         try {
-            let job= await Job.findById(req.params.id);
+            let job = await Job.findById(req.params.id);
 
             if (!job) {
                 return res.status(404).json({
                     errors: [{msg: 'No job found'}]
                 })
             }
-           const newstudents=[]
-            for(const aplication of job.appliedStudents) {
-                const student = await Student.findOne({user:aplication})
+            const newstudents = []
+            for (const aplication of job.appliedStudents) {
+                const student = await Student.findOne({user: aplication})
                 if (student) {
                     newstudents.push(student)
                 }
@@ -262,37 +299,37 @@ router.get('/aplication/:id', [auth],
         }
     })
 
- /**
+/**
  *@route    PUT api/jobs/apply/:id
  *@desc     adding a new student to applied students
  *@access   Public
  */
 router.put('/apply/:id', [
-    check('userId', '').exists(),
-],
-async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({errors: [{msg: "user could not applied"}]})
-    }
-    try {
-        const exists = await Job.exists({_id: req.params.id})
-        if (!exists) {
-            return res.status(404).json({errors: ["job doesn't exists"]})
+        check('userId', '').exists(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: [{msg: "user could not applied"}]})
         }
-        const student = await Student.exists({user: req.body.userId})
-        if (!student) {
-            return res.status(404).json({errors: ["student doesn't exists"]})
+        try {
+            const exists = await Job.exists({_id: req.params.id})
+            if (!exists) {
+                return res.status(404).json({errors: ["job doesn't exists"]})
+            }
+            const student = await Student.exists({user: req.body.userId})
+            if (!student) {
+                return res.status(404).json({errors: ["student doesn't exists"]})
+            }
+            const job = await Job.findById(req.params.id)
+            job.appliedStudents.push(req.body.userId)
+            await job.save();
+            res.json({msg: "Applied successfully"});
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('server error')
         }
-        const job = await Job.findById(req.params.id)
-        job.appliedStudents.push(req.body.userId)
-        await job.save();
-        res.json({msg: "Applied successfully"});
-    } catch (e) {
-        console.error(e.message)
-        res.status(500).send('server error')
-    }
-})
+    })
 
 
 module.exports = router;
