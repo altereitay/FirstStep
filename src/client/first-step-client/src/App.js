@@ -29,6 +29,7 @@ import EditAdmin from "./components/profiles/EditAdmin";
 import AppliedStudents from "./components/profiles/AppliedStudents";
 import RelevantStudent from "./components/profiles/RelevantStudent";
 import JobsFilter from "./components/jobs/JobsFilter";
+import StudentsFilter from "./components/profiles/StudentsFilter";
 if (localStorage.token) {
     setAuthToken(localStorage.token);
 }
@@ -69,6 +70,7 @@ function App () {
                             <Route exact path='/aplications/students/:id' element={<AppliedStudents/>}/>
                             <Route exact path='/view/jobs/:id' element={<RelevantStudent/>}/>
                             <Route exact path='/job-filter' element={<JobsFilter/>}/>
+                            <Route exact path='/student-filter' element={<StudentsFilter/>}/>
                         </Routes>
                     </section>
                 </Fragment>
