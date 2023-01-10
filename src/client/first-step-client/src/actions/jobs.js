@@ -1,6 +1,15 @@
 import axios from "axios";
-import {setAlert} from "./alert";
-import {APPLIED_JOBS_REPORT, AUTH_ERROR, JOB_ERROR, LOAD_JOBS, NEW_JOB, PROFILE_LOADED, UPDATE_JOB,LOAD_PROFILES} from "./types";
+import { setAlert } from "./alert";
+import {
+    APPLIED_JOBS_REPORT,
+    AUTH_ERROR,
+    JOB_ERROR,
+    LOAD_JOBS,
+    NEW_JOB,
+    PROFILE_LOADED,
+    UPDATE_JOB,
+    LOAD_PROFILES
+} from "./types";
 
 export const newJob = (formData, availabilityData, profile, navigate) => async (dispatch) => {
     try {
@@ -20,7 +29,7 @@ export const newJob = (formData, availabilityData, profile, navigate) => async (
 
     } catch (e) {
         const errors = e.response.data.errors;
-        if (errors){
+        if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -72,7 +81,7 @@ export const loadJobsStudent = (id) => async dispatch => {
         })
     }
 }
-export const updateJob=(formData, availabilityData, id, navigate)=> async dispatch => {
+export const updateJob = (formData, availabilityData, id, navigate) => async dispatch => {
     try {
         const config = {
             headers: {
@@ -85,7 +94,7 @@ export const updateJob=(formData, availabilityData, id, navigate)=> async dispat
             type: UPDATE_JOB,
             payload: res.data
         })
-        dispatch(setAlert('Job Updated Successfully','success'))
+        dispatch(setAlert('Job Updated Successfully', 'success'))
         navigate('/dashboard')
     } catch (err) {
         dispatch({
@@ -119,7 +128,7 @@ export const getAppliedJob = (id, navigate) => async dispatch => {
     } catch (err) {
         console.log('error')
     }
-    }
+}
 export const deleteJobEmployer = (jobId, navigate, employerId, userId) => async dispatch => {
     try {
         const jobs = await axios.delete(`/api/jobs/${jobId}`)
@@ -137,20 +146,37 @@ export const applyJob = (jobId, userId) => async dispatch => {
         let body = {userId}
         const res = await axios.put(`/api/jobs/apply/${jobId}`, body);
         dispatch(setAlert(res.data.msg, 'success'))
-    }
-    catch (err) {
+    } catch (err) {
         dispatch(setAlert("Could'nt applied to requested job", 'danger'))
     }
-}   
-export const aplicationStudent=(jobId)=>async  dispatch =>{
-    try{
-        const student=await axios.get(`/api/jobs/aplication/${jobId}`)
+}
+export const aplicationStudent = (jobId) => async dispatch => {
+    try {
+        const student = await axios.get(`/api/jobs/aplication/${jobId}`)
         console.log(student)
         dispatch({
             type: LOAD_PROFILES,
             payload: student.data
         })
-    }catch(err){
+    } catch (err) {
         dispatch(setAlert('No Student Found', 'danger'));
+    }
+}
+
+export const jobFilter = (formData, availabilityData) => async dispatch => {
+    try {
+        let params = {...formData, requiredDays: []}
+        for (const [day, toAdd] of Object.entries(availabilityData)) {
+            if (toAdd) {
+                params.requiredDays.push(day);
+            }
+        }
+        const res = await axios.get('/api/jobs/', {params});
+        dispatch({
+            type: LOAD_JOBS,
+            payload: res.data
+        })
+    } catch (err) {
+        dispatch(setAlert("Couldn't Get Jobs"), 'danger');
     }
 }

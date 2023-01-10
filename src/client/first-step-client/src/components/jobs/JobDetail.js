@@ -29,6 +29,12 @@ const JobDetail = ({job, deleteJob, auth, profile,applyJob, isStudent = false })
                 <strong>location: </strong> {job?.location}
             </p>
             {
+                isStudent &&
+                <p>
+                    <strong>Type of Job: </strong> {job?.jobType[0]}
+                </p>
+            }
+            {
                 !isStudent && <button className='btn btn-primary' onClick={() => {
                     return navigate(`/jobs/${job?._id}`)
                 }}>Edit Job

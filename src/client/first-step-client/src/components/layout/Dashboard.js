@@ -46,6 +46,8 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                             </button>
                             <button className='btn btn-primary' onClick={() => navigate(`/student/jobs`)}>Find Jobs
                             </button>
+                            <button className='btn btn-primary' onClick={() => navigate(`/job-filter`)}>Filter Jobs
+                            </button>
                         </Fragment>
                     }
                 </Fragment>
