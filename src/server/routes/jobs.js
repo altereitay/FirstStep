@@ -212,8 +212,7 @@ router.get('/', [],
             }
 
             if (requiredDays) {
-                let daysArray = JSON.parse(requiredDays)
-                for (const day of daysArray){
+                for (const day of requiredDays){
                     let mongoFormat = `requiredDays.${day}`
                     params[mongoFormat] = true;
                 }

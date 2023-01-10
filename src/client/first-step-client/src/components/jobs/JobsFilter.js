@@ -70,7 +70,7 @@ const JobsFilter = ({jobs, jobFilter}) => {
                     <div className='form-group'>
                         <h3 style={{color: '#38a1f3'}}>Job Type</h3>
                         <select onChange={e => onJobChange(e)}>
-                            <option value="" disabled selected>Select Job Type</option>
+                            <option value="" >Select Job Type</option>
                             <option value="Software Engineering">Software Engineering</option>
                             <option value="Civil Engineering">Civil Engineering</option>
                             <option value="Electrical Engineering">Electrical Engineering</option>

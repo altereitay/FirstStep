@@ -171,7 +171,6 @@ export const jobFilter = (formData, availabilityData) => async dispatch => {
                 params.requiredDays.push(day);
             }
         }
-        console.log(params)
         const res = await axios.get('/api/jobs/', {params});
         dispatch({
             type: LOAD_JOBS,
