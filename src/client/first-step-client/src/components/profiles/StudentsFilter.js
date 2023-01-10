@@ -99,7 +99,6 @@ const StudentsFilter = ({profiles, studentFilter}) => {
                            name="skills"
                            value={skills}
                            onChange={(e) => skillsOnChange(e)} />
-                    <small className="form-text">Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)</small>
                 </div>
 
                 <div className="form-group">
