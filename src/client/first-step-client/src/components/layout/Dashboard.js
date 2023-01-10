@@ -26,6 +26,8 @@ const Dashboard = ({auth, jobs, profiles, loadJobs, loadJobsAdmin, deleteJob, de
                             <div>
                                 <button className='btn btn-primary' onClick={() => navigate(`/employer/${profiles.profile._id}`)}>Edit Profile
                                 </button>
+                                <button className='btn btn-primary' onClick={() => navigate(`/student-filter`)}>Filter Students
+                                </button>
                             </div>
                             <h2 className='text-primary'>My Jobs</h2>
                             {jobs.jobs.map((job) => {

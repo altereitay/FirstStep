@@ -317,8 +317,31 @@ router.get('/employer',
 
 router.get('/student',
     async (req, res) => {
-        try {
-            const student = await Student.find();
+            let {
+                city,
+                education,
+                skills,
+                availability
+            } = req.query
+            try {
+                let params = {}
+                if (city) {
+                    params.city = city;
+                }
+
+                if (education) {
+                    params.education = education;
+                }
+
+                if (skills) {
+                    params.skills = skills;
+                }
+
+                if (availability) {
+                    params.availability = availability;
+                }
+
+            const student = await Student.find(params);
             res.json(student);
         } catch (e) {
             console.error(e.message)
