@@ -21,12 +21,12 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: 1000000},
     fileFilter: function (req, file, cb) {
-        checkFileType(file,cb);
+        checkFileType(file, cb);
     }
 
 }).single('image');
 
-function checkFileType(file, cb) {
+function checkFileType (file, cb) {
     const filetypes = /jpeg|jpg|png|gif|pdf/;
 
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -35,7 +35,7 @@ function checkFileType(file, cb) {
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb(new Error('Error: Images Only!'),false);
+        cb(new Error('Error: Images Only!'), false);
     }
 }
 
@@ -317,31 +317,42 @@ router.get('/employer',
 
 router.get('/student',
     async (req, res) => {
-            let {
-                city,
-                education,
-                skills,
-                availability
-            } = req.query
-            try {
-                let params = {}
-                if (city) {
-                    params.city = city;
-                }
+        let {
+            city,
+            school,
+            degree,
+            skills,
+            availability
+        } = req.query
+        try {
+            let params = {}
+            if (city) {
+                params.city = city;
+            }
 
-                if (education) {
-                    params.education = education;
-                }
+            if (school) {
+                let mongoFormat = `education.school`;
+                params[mongoFormat] = school;
 
-                if (skills) {
-                    params.skills = skills;
-                }
+            }
+            if (degree) {
+                let mongoFormat = `education.degree`;
+                params[mongoFormat] = degree;
 
-                if (availability) {
-                    params.availability = availability;
-                }
+            }
 
+            if (skills) {
+                params.skills = skills;
+            }
+
+            if (availability) {
+                for (const day of availability){
+                    let mongoFormat = `availability.${day}`
+                    params[mongoFormat] = true;
+                }
+            }
             const student = await Student.find(params);
+            console.log(`params: ${JSON.stringify(params)} students: ${student}`)
             res.json(student);
         } catch (e) {
             console.error(e.message)
@@ -465,7 +476,7 @@ router.put(`/approve/:id`, async (req, res) => {
             return res.json({msg: 'Profile Approved'})
         }
     }
-    res.status(404).json({errors:["Profile not found"]})
+    res.status(404).json({errors: ["Profile not found"]})
 })
 /**
  *@route    GET api/profiles/relevant/:id

@@ -5,19 +5,13 @@ import StudentDetails from "./StudentDetails";
 const StudentsFilter = ({profiles, studentFilter}) => {
     const [showStudents, setShowStudents] = useState(false);
     const [formData, setFormData] = useState({
-        city: '',
-        education: [],
+        city: undefined,
+        school: undefined,
+        degree:undefined,
         skills: [],
         availability: []
     })
-    const {city, skills} = formData
-
-    const [educationData, setEducation] = useState({
-        school: '',
-        degree: '',
-        current: true
-    })
-    const {school} = educationData;
+    const {city, skills, school, degree} = formData
 
     const [availabilityData, setAvailability] = useState({
         sunday: false,
@@ -34,10 +28,7 @@ const StudentsFilter = ({profiles, studentFilter}) => {
         setFormData({...formData, [event.target.name]: event.target.value});
     }
     const onDegreeChange = e => {
-        setEducation({...educationData, degree: e.target.value})
-    }
-    const onChangeEducation = event => {
-        setEducation({...educationData, [event.target.name]: event.target.value});
+        setFormData({...formData, degree: e.target.value})
     }
 
     const skillsOnChange = e => {
@@ -49,16 +40,15 @@ const StudentsFilter = ({profiles, studentFilter}) => {
         setAvailability({...availabilityData, [e.target.name]: e.target.checked});
     }
 
-    const onSubmit = event => {
+    const onSubmit = async event => {
         event.preventDefault();
-        studentFilter(formData, availabilityData)
+        await studentFilter(formData, availabilityData)
         setShowStudents(true);
     }
 
 
     return(
         <Fragment>
-
             <h1 className='text-primary'>Choose Parameters For Your Desired Student</h1>
             <form onSubmit={e => {
                 onSubmit(e)
@@ -70,7 +60,7 @@ const StudentsFilter = ({profiles, studentFilter}) => {
                            placeholder='Enter City'
                            value={city}
                            onChange={event => onChange(event)}
-                           required />
+                    />
                 </div>
                 <div className='form-group'>
                     <h1 className='big text-dark'>Education</h1>
@@ -80,10 +70,10 @@ const StudentsFilter = ({profiles, studentFilter}) => {
                            name='school'
                            placeholder='Enter School'
                            value={school}
-                           onChange={event => onChangeEducation(event)}
-                           required />
+                           onChange={event => onChange(event)}
+                    />
                     <select onChange={e => onDegreeChange(e)}>
-                        <option value="" disabled selected>Select Your Degree</option>
+                        <option value="" selected>Select Your Degree</option>
                         <option value="Software Engineering">Software Engineering</option>
                         <option value="Civil Engineering">Civil Engineering</option>
                         <option value="Electrical Engineering">Electrical Engineering</option>
