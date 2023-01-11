@@ -431,7 +431,7 @@ router.post('/students/certs/:id', auth, async (req, res) => {
 });
 /**
  *@route    POST api/profiles/employers/certs/:id
- *@desc     Upload employer certificate of studying
+ *@desc     Upload employer certificate of job holding
  *@access   Private
  */
 router.post('/employers/certs/:id', auth, async (req, res) => {

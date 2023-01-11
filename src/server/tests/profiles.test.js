@@ -71,7 +71,6 @@ describe('GET api/profiles/:id', () => {
 
         Employer.findOne.mockReturnValue(employerObject)
         const userId = '639b6554fa63e7290b2b1e8b';
-        // const userId = '1';
 
         const payload = {
             user: {

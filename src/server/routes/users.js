@@ -63,7 +63,7 @@ router.post('/', [
 
 /**
  *@route    DELETE api/users/:id
- *@desc      delete user and his profile
+ *@desc     delete user and its profile
  *@access   Public
  */
 router.delete('/:id',

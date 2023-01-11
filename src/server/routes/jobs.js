@@ -3,6 +3,7 @@ const router = exprees.Router();
 const auth = require('../middleware/auth');
 const Employer = require('../modules/EmployerProfile');
 const Job = require('../modules/JobOffer');
+const Student = require('../modules/StudentProfile')
 const {check, validationResult} = require("express-validator");
 
 /**
@@ -217,7 +218,6 @@ router.get('/', [],
                     params[mongoFormat] = true;
                 }
             }
-
             const jobs = await Job.find(params);
             res.json(jobs);
         } catch (e) {
