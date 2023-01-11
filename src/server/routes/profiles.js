@@ -352,7 +352,6 @@ router.get('/student',
                 }
             }
             const student = await Student.find(params);
-            console.log(`params: ${JSON.stringify(params)} students: ${student}`)
             res.json(student);
         } catch (e) {
             console.error(e.message)
