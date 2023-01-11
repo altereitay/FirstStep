@@ -4,8 +4,9 @@ jest.mock('../modules/JobOffer')
 const Job = require('../modules/JobOffer')
 jest.mock('../modules/EmployerProfile')
 const Employer = require('../modules/EmployerProfile')
+jest.mock('../modules/StudentProfile');
+const Student = require('../modules/StudentProfile')
 const jwt = require("jsonwebtoken");
-const {text} = require("express");
 
 const jobObject = {
     "_id": "63a376b8640d2183e97cbdf1",
@@ -28,6 +29,7 @@ const jobObject = {
     },
     "appliedStudents": [],
 }
+
 
 const userObject = {
     "_id": "637e310e6e272c40bfe945e6",
@@ -227,3 +229,41 @@ describe('GET /api/jobs', ()=>{
         expect(response.body).toHaveProperty('jobs')
     })
 })
+
+describe('GET api/jobs/applied/:userId', ()=>{
+    test('a good request', async ()=>{
+        Job.mockImplementation(() => {
+            return {
+                find: jest.fn()
+            }
+        })
+        Job.find.mockReturnValue( [jobObject])
+        const response = await request(app).get('/api/jobs/applied/1')
+
+        expect(response.statusCode).toBe(200);
+    })
+})
+
+describe('GET api/jobs/aplication/:id', ()=>{
+    test('Job does not exist', async ()=>{
+        Job.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            }
+        })
+        Job.findById.mockReturnValue( false)
+
+        const payload = {
+            user: {
+                id: userObject._id
+            }
+        }
+
+        const tok = jwt.sign(payload, require('../configs/defualt.json').JWT_SECRET, {expiresIn: 360000})
+        const response = await request(app).get('/api/jobs/aplication/1').set('x-auth-token', tok)
+
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('errors');
+    })
+})
+

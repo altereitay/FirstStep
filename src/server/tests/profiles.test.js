@@ -5,6 +5,7 @@ const Employer = require('../modules/EmployerProfile')
 jest.mock('../modules/StudentProfile');
 const Student = require('../modules/StudentProfile')
 const jwt = require("jsonwebtoken");
+const Job = require("../modules/JobOffer");
 
 const employerObject = {
     "_id": "639b6582fa63e7290b2b1e92",
@@ -256,5 +257,35 @@ describe('PUT api/profiles/employer/:id', ()=>{
         expect(response.statusCode).toBe(200);
         expect(response.body.profile.profile).toMatchObject(employerObject);
 
+    })
+})
+
+describe('GET api/profiles/employer', () => {
+
+    test('a good request', async()=> {
+        Employer.mockImplementation(() => {
+            return {
+                find: jest.fn()
+            }
+        })
+        Employer.find.mockReturnValue({employerObject})
+        const response = await request(app).get('/api/profiles/employer')
+
+        expect(response.statusCode).toBe(200);
+    })
+})
+
+describe('GET api/profiles/student', () => {
+
+    test('a good request', async()=> {
+        Employer.mockImplementation(() => {
+            return {
+                find: jest.fn()
+            }
+        })
+        Student.find.mockReturnValue({studentObject})
+        const response = await request(app).get('/api/profiles/student')
+
+        expect(response.statusCode).toBe(200);
     })
 })
