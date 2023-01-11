@@ -226,18 +226,22 @@ export const relevantStudent=(jobId)=>async  dispatch =>{
 }
 export const studentFilter = (formData, availabilityData) => async dispatch => {
     try {
-        let params = {...formData, requiredDays: []}
+        let params = {...formData, availability: []}
         for (const [day, toAdd] of Object.entries(availabilityData)) {
             if (toAdd) {
-                params.requiredDays.push(day);
+                params.availability.push(day);
             }
         }
-        const res = await axios.get('/api/profiles/student', {params});
+        const res = await axios.get('/api/profiles/student/', {params});
         dispatch({
             type: LOAD_PROFILES,
             payload: res.data
         })
     } catch (err) {
-        dispatch(setAlert("Couldn't Get Student"), 'danger');
+        dispatch(setAlert("Couldn't Get Student", 'danger'));
+        dispatch({
+            type:LOAD_PROFILES,
+            payload:[]
+        })
     }
 }
