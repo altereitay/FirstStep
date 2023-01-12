@@ -417,10 +417,10 @@ router.post('/students/certs/:id', auth, async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.error(err)
-            res.json({errors: [err]});
+            return res.status(400).json({errors: [err]});
         } else {
             if (req.file === undefined) {
-                res.json({errors: ['No File Selected!']});
+                return res.status(415).json({errors: ['No File Selected!']});
             } else {
                 profile.certificateOfStudying = '' + req.file.path;
                 await profile.save();

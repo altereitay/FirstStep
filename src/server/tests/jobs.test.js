@@ -7,8 +7,7 @@ const Job = require('../modules/JobOffer')
 jest.mock('../modules/EmployerProfile')
 const Employer = require('../modules/EmployerProfile')
 const jwt = require("jsonwebtoken");
-const { validationResult } = require('express-validator');
-const { findById } = require('../modules/User');
+jest.mock('multer');
 
 const jobObject = {
     "_id": "63a376b8640d2183e97cbdf1",
@@ -319,6 +318,55 @@ describe('GET /api/jobs/student/:id', () => {
 
 })
 
+describe('POST /api/profiles/students/certs/:id', () => {
+    test('Should upload file', async () => {
+           multer.mockImplementation((options) => {
+               return (req, res, next) => {
+                   req.file = {
+                       originalname: 'test.jpg',
+                       mimetype: 'image/jpeg',
+                       buffer: Buffer.from('test')
+                   };
+                   next();
+               }
+           });
+   
+           const response = await request(app)
+               .post('/api/profiles/students/certs/1')
+               .attach('image', Buffer.from('test'), 'test.jpg')
+   
+           expect(response.status).toBe(200);
+           expect(response.body).toEqual({msg: 'File Uploaded!'});
+           expect(profile.certificateOfStudying).toEqual('undefinedtest.jpg');
+       });
+   
+   
+   test('Should return error if profile not found', async () => {
+           const response = await request(app)
+               .post('/students/certs/invalid-user-id')
+               .attach('image', Buffer.from('test'), 'test.jpg')
+   
+           expect(response.status).toBe(404);
+           expect(response.body).toEqual({errors: ['Profile Not Found']});
+       });
+   
+   
+   test('Should return error if no file is selected', async () => {
+           multer.mockImplementation((options) => {
+               return (req, res, next) => {
+                   req.file = undefined;
+                   next();
+               }
+           });
+   
+           const response = await request(app)
+               .post('/students/certs/test-user-id')
+   
+           expect(response.status).toBe(200);
+           expect(response.body).toEqual({errors: ['No File Selected!']});
+       });
+})
+
 describe('PUT /api/jobs/apply/:id', () => {
     test('user could not applied', async () => {
         const response = await request(app).put('/api/jobs/apply/1')
@@ -360,7 +408,7 @@ describe('PUT /api/jobs/apply/:id', () => {
         })
         Student.exists.mockReturnValue(true)
         Job.exists.mockReturnValue(true)
-        Job.findById.mockReturnValue(jobObject)
+        Job.findById.mockReturnValue({...jobObject, save: jest.fn()})
 
         const response = await request(app).put('/api/jobs/apply/1').send({userId: studentObject.user})
         expect(response.statusCode).toBe(200)
