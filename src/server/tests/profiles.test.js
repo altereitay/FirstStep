@@ -5,6 +5,30 @@ const Employer = require('../modules/EmployerProfile')
 jest.mock('../modules/StudentProfile');
 const Student = require('../modules/StudentProfile')
 const jwt = require("jsonwebtoken");
+jest.mock('../modules/JobOffer')
+const Job = require('../modules/JobOffer')
+
+const jobObject = {
+    "_id": "63a376b8640d2183e97cbdf1",
+    "profile": "639c4d9d5314b74b61906c40",
+    "jobTitle": "test2",
+    "business": "ew",
+    "description": "rer",
+    "percentageOfJob": "ewqe",
+    "location": "rwq",
+    "requiredSkills": ["ewq"],
+    "jobType": ["weq"],
+    "requiredDays": {
+        "sunday": false,
+        "monday": true,
+        "tuesday": false,
+        "wednesday": false,
+        "thursday": false,
+        "friday": false,
+        "saturday": false
+    },
+    "appliedStudents": [],
+}
 
 const employerObject = {
     "_id": "639b6582fa63e7290b2b1e92",
@@ -43,6 +67,13 @@ const studentObject = {
         "_id": "638f6bd5aaac83c3ff2cd901"
     }],
     "isApproved": false
+}
+const userObject = {
+    "_id": "637e310e6e272c40bfe945e6",
+    "email": "alter1eitai@gmail.com",
+    "password": "$2a$10$bJ6i/D7C7hHTI51Qqh6tpuUCamq6TMyD/nTTTc1KWJ99cIfH/E.PS",
+    "typeOfUser": "admin",
+    "date": "1669214478671",
 }
 
 describe('GET api/profiles/:id', () => {
@@ -258,3 +289,73 @@ describe('PUT api/profiles/employer/:id', ()=>{
 
     })
 })
+describe('POST api/profiles/approve/:id',()=>{
+    test('student profile  doesnt exists',async ()=>{
+        Student.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            };
+        });
+        Student.findById.mockReturnValue(false);
+        const response=await request(app).put('/api/profiles/approve/1').send({typeOfUser:'student'})
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('errors');
+    })
+    test('employer profile  doesnt exists',async ()=>{
+        Employer.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            };
+        });
+        Employer.findById.mockReturnValue(false);
+        const response=await request(app).put('/api/profiles/approve/1').send({typeOfUser:'employer'})
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('errors');
+    })
+    test('student profile  exists',async ()=>{
+        Student.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            };
+        });
+        Student.findById.mockReturnValue({studentObject,save:jest.fn()});
+        const response=await request(app).put('/api/profiles/approve/1').send({typeOfUser:'student'})
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toMatchObject({msg: 'Profile Approved'});
+    })
+    test('employer profile  exists',async ()=>{
+        Student.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            };
+        });
+        Employer.findById.mockReturnValue({employerObject,save:jest.fn()});
+        const response=await request(app).put('/api/profiles/approve/1').send({typeOfUser:'employer'})
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toMatchObject({msg: 'Profile Approved'});
+    })
+})
+describe('GET api/profiles/relevant/:id', ()=>{
+    test('Job does not exist', async ()=>{
+        Job.mockImplementation(() => {
+            return {
+                findById: jest.fn()
+            }
+        })
+        Job.findById.mockReturnValue( false)
+
+        const payload = {
+            user: {
+                id: userObject._id
+            }
+        }
+
+        const tok = jwt.sign(payload, require('../configs/defualt.json').JWT_SECRET, {expiresIn: 360000})
+        const response = await request(app).get('/api/profiles/relevant/1').set('x-auth-token', tok)
+
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toHaveProperty('errors');
+    })
+})
+
+
