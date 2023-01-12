@@ -227,7 +227,7 @@ router.get('/', [],
     })
 /**
  *@route    GET api/jobs/applied/:userId
- *@desc     get jobs report
+ *@desc     Student get all jobs that applied for
  *@access   Public
  */
 router.get('/applied/:userId', [],

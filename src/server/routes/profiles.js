@@ -306,12 +306,11 @@ router.get('/employer',
             console.error(e.message)
             res.status(500).send('server error')
         }
-
     })
 
 /**
  *@route    GET api/profiles/student
- *@desc     get all student profile
+ *@desc     get all student profile by params
  *@access   Public
  */
 

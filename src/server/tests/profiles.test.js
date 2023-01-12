@@ -5,8 +5,8 @@ const Employer = require('../modules/EmployerProfile')
 jest.mock('../modules/StudentProfile');
 const Student = require('../modules/StudentProfile')
 const jwt = require("jsonwebtoken");
+const Job = require("../modules/JobOffer");
 jest.mock('../modules/JobOffer')
-const Job = require('../modules/JobOffer')
 
 const jobObject = {
     "_id": "63a376b8640d2183e97cbdf1",
@@ -289,6 +289,37 @@ describe('PUT api/profiles/employer/:id', ()=>{
 
     })
 })
+
+describe('GET api/profiles/employer', () => {
+
+    test('a good request', async()=> {
+        Employer.mockImplementation(() => {
+            return {
+                find: jest.fn()
+            }
+        })
+        Employer.find.mockReturnValue({employerObject})
+        const response = await request(app).get('/api/profiles/employer')
+
+        expect(response.statusCode).toBe(200);
+    })
+})
+
+describe('GET api/profiles/student', () => {
+
+    test('a good request', async()=> {
+        Employer.mockImplementation(() => {
+            return {
+                find: jest.fn()
+            }
+        })
+        Student.find.mockReturnValue({studentObject})
+        const response = await request(app).get('/api/profiles/student')
+
+        expect(response.statusCode).toBe(200);
+    })
+})
+
 describe('POST api/profiles/approve/:id',()=>{
     test('student profile  doesnt exists',async ()=>{
         Student.mockImplementation(() => {
