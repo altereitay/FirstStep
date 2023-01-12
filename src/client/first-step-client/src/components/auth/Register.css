@@ -1,0 +1,13 @@
+.regist-box{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 100px;
+    width: 500px;
+    box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+    height: 300px;
+    border-radius: 25px;
+    backdrop-filter: blur(14px);
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 120px 30px 50px;
+    text-align: center;
+}
