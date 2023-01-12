@@ -454,7 +454,7 @@ router.post('/employers/certs/:id', auth, async (req, res) => {
     });
 });
 /**
- *@route    POST api/profiles/approve/:id
+ *@route    PUT api/profiles/approve/:id
  *@desc     Aprrove user certificate
  *@access   Private
  */

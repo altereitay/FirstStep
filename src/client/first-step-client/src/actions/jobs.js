@@ -153,7 +153,6 @@ export const applyJob = (jobId, userId) => async dispatch => {
 export const aplicationStudent = (jobId) => async dispatch => {
     try {
         const student = await axios.get(`/api/jobs/aplication/${jobId}`)
-        console.log(student)
         dispatch({
             type: LOAD_PROFILES,
             payload: student.data

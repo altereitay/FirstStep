@@ -11,7 +11,7 @@ const StudentReport= ({profiles, loadStudent}) =>{
         <div>
             <h2 className='text-primary'>User Managment</h2>
             {profiles.profiles?.map((profile) => {
-                return <StudnetDetails key={profile._id} profile={profile} />
+                return <StudnetDetails key={profile._id} profile={profile} isAdmin={true} />
             })}
         </div>
     );

@@ -56,7 +56,7 @@ const JobDetail = ({job, deleteJob, auth, profile,applyJob, isStudent = false })
                 {
                 !isStudent && <button className='btn btn-primary' onClick={() => {
                     return navigate(`/view/jobs/${job?._id}`)
-                }}>Relevent Students
+                }}>Relevant Students
                 </button>
             }
 

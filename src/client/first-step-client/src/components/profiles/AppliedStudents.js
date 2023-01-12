@@ -31,7 +31,7 @@ const AppliedStudents = ({ profiles, aplicationStudent }) => {
     return (
         <div>
             <h2 className='text-primary'>Relevant Students</h2>
-            {currentProfiles.length === 0 && <h4>No Students Found</h4>}
+            {currentProfiles?.length === 0 && <h4>No Students Found</h4>}
             {currentProfiles?.map((profile) => {
                 return (
                     <Fragment>
