@@ -7,7 +7,8 @@ const Job = require('../modules/JobOffer')
 jest.mock('../modules/EmployerProfile')
 const Employer = require('../modules/EmployerProfile')
 const jwt = require("jsonwebtoken");
-
+const { validationResult } = require('express-validator');
+const { findById } = require('../modules/User');
 
 const jobObject = {
     "_id": "63a376b8640d2183e97cbdf1",
@@ -316,4 +317,52 @@ describe('GET /api/jobs/student/:id', () => {
 
     })
 
+})
+
+describe('PUT /api/jobs/apply/:id', () => {
+    test('user could not applied', async () => {
+        const response = await request(app).put('/api/jobs/apply/1')
+
+        expect(response.statusCode).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+    })
+
+    test("job doesn't exists", async () => {
+
+        Job.mockImplementation(() => {
+            exists: jest.fn().mockReturnValue(false)
+        })
+        const response = await request(app).put('/api/jobs/apply/1').send({userId: studentObject.user})
+        expect(response.statusCode).toBe(404)
+        expect(response.body).toMatchObject({errors: ["job doesn't exists"]})
+    })
+
+    test("student doesn't exists", async () => {
+        Student.mockImplementation(() => {
+            exists: jest.fn().mockReturnValue(false)
+        })
+        Job.mockImplementation(() => {
+            exists: jest.fn()
+        })
+        Job.exists.mockReturnValue(true)
+        const response = await request(app).put('/api/jobs/apply/1').send({userId: studentObject.user})
+        expect(response.statusCode).toBe(404)
+        expect(response.body).toMatchObject({errors: ["student doesn't exists"]})
+    })
+
+    test("good request", async () => {
+        Student.mockImplementation(() => {
+            exists: jest.fn()
+        })
+        Job.mockImplementation(() => {
+            exists: jest.fn()
+            findById: jest.fn()
+        })
+        Student.exists.mockReturnValue(true)
+        Job.exists.mockReturnValue(true)
+        Job.findById.mockReturnValue(jobObject)
+
+        const response = await request(app).put('/api/jobs/apply/1').send({userId: studentObject.user})
+        expect(response.statusCode).toBe(200)
+    })
 })
