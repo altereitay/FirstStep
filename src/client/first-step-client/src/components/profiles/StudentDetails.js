@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {connect} from "react-redux";
 import {approveCert} from "../../actions/profiles";
-const StudnetDetails = ({profile,approveCert}) => {
+const StudnetDetails = ({profile,approveCert, isAdmin=false}) => {
     const [image, setImage] = useState('')
     useEffect(()=>{
         if (profile.certificateOfStudying){
@@ -29,11 +29,11 @@ const StudnetDetails = ({profile,approveCert}) => {
             <p>
                 <strong>user skills: </strong>{profile?.skills}
             </p>
-            {(profile.certificateOfStudying && profile.isApproved===false)&&
+            {(isAdmin && profile.certificateOfStudying && profile.isApproved===false)&&
                 <img src={image} alt='img'/>
 
             }
-            {(profile.certificateOfStudying && profile.isApproved===false)&&
+            {(isAdmin && profile.certificateOfStudying && profile.isApproved===false)&&
                 <button onClick={e=>approveCert(profile._id,"student")}>Approve</button>
             }
             <br></br>
