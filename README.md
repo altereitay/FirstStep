@@ -7,7 +7,8 @@ run ```npm install```
 ```npm start```
 4. In a second terminal enter to the server source folder
  ```cd src/server```
-5. run ```npm install```
-6. After the installation complete run
+5. Download ```defualt.json``` and put it in the ```server/config``` folder 
+6. run ```npm install```
+7. After the installation complete run
 ```npm run dev```
 
